@@ -2,7 +2,10 @@
   "name": "hawthorn",
   "version": "1.0.0",
   "description": "a cute back-end management system",
-  "main": "index.js",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "repository": "git@github.com:mintsweet/hawthorn.git",
   "author": "mintsweet <0x1304570@gmail.com>",
   "license": "MIT"
