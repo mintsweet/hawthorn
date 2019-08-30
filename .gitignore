@@ -1,5 +1,10 @@
 # dependencies
 node_modules
+.umi
+.umi-production
+packages/server/run
+packages/server/logs
+packages/server/typings
 
 # testing
 coverage
@@ -8,6 +13,7 @@ coverage
 dist
 
 # misc
+.vscode
 .DS_Store
 .env.local
 .env.development.local

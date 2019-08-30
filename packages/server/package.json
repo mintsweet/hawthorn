@@ -1,12 +1,7 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "",
   "private": true,
-  "egg": {
-    "typescript": true,
-    "declarations": true
-  },
   "scripts": {
     "start": "egg-scripts start --daemon --title=egg-server-server",
     "stop": "egg-scripts stop --title=egg-server-server",
@@ -42,14 +37,19 @@
   "engines": {
     "node": ">=8.9.0"
   },
+  "egg": {
+    "typescript": true,
+    "declarations": true
+  },
   "ci": {
     "version": "8"
   },
-  "repository": {
-    "type": "git",
-    "url": ""
-  },
-  "eslintIgnore": ["coverage"],
-  "author": "",
-  "license": "MIT"
+  "workspaces": {
+    "nohoist": [
+      "**/egg",
+      "**/egg/**",
+      "**/egg-*",
+      "**/egg-*/**"
+    ]
+  }
 }
