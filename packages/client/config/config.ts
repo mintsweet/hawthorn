@@ -3,6 +3,34 @@ import { IConfig } from 'umi-types';
 // ref: https://umijs.org/config/
 const config: IConfig =  {
   treeShaking: true,
+
+  routes: [
+    {
+      path: '/dashboard',
+      component: '../layouts/basic',
+      routes: [
+        {
+          path: '/dashboard',
+          component: './dashboard',
+        },
+      ],
+    },
+    {
+      path: '/auth',
+      component: '../layouts/basic',
+      routes: [
+        {
+          path: '/auth/user',
+          component: './auth-user',
+        },
+      ],
+    },
+  ],
+
+  theme: {
+    '@primary-color': '#f759ab',
+  },
+
   plugins: [
     // ref: https://umijs.org/plugin/umi-plugin-react.html
     ['umi-plugin-react', {

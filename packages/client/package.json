@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "umi dev",
+    "start": "umi dev --port=4255",
     "build": "umi build",
     "test": "umi test",
     "lint:es": "eslint --ext .js src mock tests",
