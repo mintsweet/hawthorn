@@ -6,6 +6,20 @@ const config: IConfig =  {
 
   routes: [
     {
+      path: '/user',
+      component: '../layout/user',
+      routes: [
+        {
+          path: '/user/login',
+          component: '../layout/login',
+        },
+        {
+          path: '/user/forget_pass',
+          component: '../layout/forget-pass',
+        },
+      ],
+    },
+    {
       path: '/dashboard',
       component: '../layouts/basic',
       routes: [
