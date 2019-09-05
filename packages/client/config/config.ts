@@ -7,15 +7,15 @@ const config: IConfig =  {
   routes: [
     {
       path: '/user',
-      component: '../layout/user',
+      component: '../layouts/user',
       routes: [
         {
           path: '/user/login',
-          component: '../layout/login',
+          component: './login',
         },
         {
           path: '/user/forget_pass',
-          component: '../layout/forget-pass',
+          component: './forget-pass',
         },
       ],
     },
