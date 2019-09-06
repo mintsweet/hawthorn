@@ -1,0 +1,44 @@
+.row {
+  display: flex;
+  align-items: center;
+  height: 32px;
+
+  &.large {
+    height: 40px;
+  }
+
+  &.small {
+    height: 24px;
+  }
+
+  .col {
+    flex: 1;
+
+    &:first-child {
+      flex: 3;
+      margin-right: 20px;
+    }
+  }
+}
+
+.captcha {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  color: #a1a1a1;
+  font-size: 16px;
+  letter-spacing: 2px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  box-sizing: border-box;
+  cursor: pointer;
+
+  &.large {
+    height: 40px;
+  }
+
+  &.small {
+    height: 24px;
+  }
+}

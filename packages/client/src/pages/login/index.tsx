@@ -3,6 +3,7 @@ import Link from 'umi/link';
 import { formatMessage } from 'umi-plugin-react/locale';
 import { Form, Input, Icon, Checkbox, Button } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
+import Captch from '@/components/Captcha';
 
 const { Item: FormItem } = Form;
 
@@ -23,7 +24,7 @@ class Login extends Component<FormComponentProps> {
               {
                 required: true,
                 message: formatMessage({ id: 'page.login.username.required' }),
-              }
+              },
             ],
           })(
             <Input
@@ -39,7 +40,7 @@ class Login extends Component<FormComponentProps> {
               {
                 required: true,
                 message: formatMessage({ id: 'page.login.password.required' })
-              }
+              },
             ],
           })(
             <Input
@@ -47,6 +48,22 @@ class Login extends Component<FormComponentProps> {
               size="large"
               prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
               placeholder={formatMessage({ id: 'page.login.password.placeholder' })}
+            />
+          )}
+        </FormItem>
+        <FormItem>
+          {getFieldDecorator('captcha', {
+            rules: [
+              {
+                required: true,
+                message: formatMessage({ id: 'page.login.captcha.required' }),
+              },
+            ],
+          })(
+            <Captch
+              size="large"
+              codeLength={4}
+              placeholder={formatMessage({ id: 'page.login.captcha.placeholder' })}
             />
           )}
         </FormItem>

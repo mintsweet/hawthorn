@@ -4,6 +4,8 @@ export default {
   'page.login.username.placeholder': '请输入用户名',
   'page.login.password.required': '请输入密码！',
   'page.login.password.placeholder': '请输入密码',
+  'page.login.captcha.required': '请输入验证码！',
+  'page.login.captcha.placeholder': '请输入验证码',
   'page.login.checkbox': '自动登录',
   'page.login.forget': '忘记密码',
   'page.login.submit': '登录',
