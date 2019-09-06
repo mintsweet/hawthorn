@@ -67,10 +67,10 @@ class Login extends Component<FormComponentProps> {
             />
           )}
         </FormItem>
-        <FormItem>
+        <div style={{ marginBottom: 15 }}>
           <Checkbox>{formatMessage({ id: 'page.login.checkbox' })}</Checkbox>
-          <Link to="/user/forget_pass" style={{ float: 'right' }}>{formatMessage({ id: 'page.login.forget' })}</Link>
-        </FormItem>
+          <Link to="/user/forget_pass" style={{ float: 'right' }}>{formatMessage({ id: 'page.login.forget.password' })}</Link>
+        </div>
         <FormItem>
           <Button
             size="large"
