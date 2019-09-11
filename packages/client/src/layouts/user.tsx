@@ -2,7 +2,7 @@ import React from 'react';
 import { Icon } from 'antd';
 import Link from 'umi/link'
 import { formatMessage } from 'umi-plugin-locale';
-import GlobalFooter from '@/components/GlobalFooter';
+import GlobalFooter from './components/GlobalFooter';
 import SelectLang from '@/components/SelectLang';
 import styles from './user.less';
 

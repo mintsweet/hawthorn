@@ -30,9 +30,9 @@ const GlobalFooter: React.SFC<GlobalFooterProps> = ({ className, links, copyrigh
               {link.title}
             </a>
           ))}
-          {copyright && <div className={styles.copyright}>{copyright}</div>}
         </div>
       )}
+      {copyright && <div className={styles.copyright}>{copyright}</div>}
     </footer>
   );
 }
