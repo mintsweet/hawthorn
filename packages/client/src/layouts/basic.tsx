@@ -1,11 +1,26 @@
 import React, { Component } from 'react';
+import { connect } from 'dva';
 import { Layout } from 'antd';
+import { ConnectProps } from '@/models/connect';
 import GlobalHeader from './components/GlobalHeader';
 import SiderMenu from './components/SiderMenu';
 
-const { Header, Content, Footer } = Layout;
+const { Header, Content } = Layout;
 
-export default class BasicLayout extends Component {
+interface BasicLayoutProps extends ConnectProps {
+};
+
+class BasicLayout extends Component<BasicLayoutProps> {
+  componentDidMount() {
+    this.getData();
+  }
+
+  async getData() {
+    this.props.dispatch({
+      type: 'global/fetchSiderbar',
+    });
+  }
+
   render() {
     return (
       <Layout style={{ height: '100%' }}>
@@ -29,3 +44,5 @@ export default class BasicLayout extends Component {
     );
   }
 }
+
+export default connect()(BasicLayout);
