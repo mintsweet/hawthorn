@@ -1,45 +1,11 @@
 import { IConfig } from 'umi-types';
+import routes from './router';
 
 // ref: https://umijs.org/config/
 const config: IConfig =  {
   treeShaking: true,
 
-  routes: [
-    {
-      path: '/user',
-      component: '../layouts/user',
-      routes: [
-        {
-          path: '/user/login',
-          component: './login',
-        },
-        {
-          path: '/user/forget_pass',
-          component: './forget-pass',
-        },
-      ],
-    },
-    {
-      path: '/dashboard',
-      component: '../layouts/basic',
-      routes: [
-        {
-          path: '/dashboard',
-          component: './dashboard',
-        },
-      ],
-    },
-    {
-      path: '/auth',
-      component: '../layouts/basic',
-      routes: [
-        {
-          path: '/auth/user',
-          component: './auth-user',
-        },
-      ],
-    },
-  ],
+  routes,
 
   theme: {
     '@primary-color': '#f759ab',
