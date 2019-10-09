@@ -8,6 +8,7 @@ export interface SiderbarItemProps {
   path: string;
   routes?: Array<SiderbarItemProps>;
   hideInMenu?: boolean;
+  target?: string;
 };
 
 export interface GlobalModelState {

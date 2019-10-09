@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Layout } from 'antd';
-import { ConnectProps } from '@/models/connect';
+import { ConnectState, ConnectProps } from '@/models/connect';
+import { SiderMenuWrapperProps } from './components/SiderMenu';
 import GlobalHeader from './components/GlobalHeader';
 import SiderMenu from './components/SiderMenu';
 
 const { Header, Content } = Layout;
 
-interface BasicLayoutProps extends ConnectProps {
+interface BasicLayoutProps extends ConnectProps, SiderMenuWrapperProps {
 };
 
 class BasicLayout extends Component<BasicLayoutProps> {
@@ -22,22 +23,21 @@ class BasicLayout extends Component<BasicLayoutProps> {
   }
 
   render() {
+    const { children, location, collapsed, siderbar } = this.props;
+
     return (
       <Layout style={{ height: '100%' }}>
-        <SiderMenu />
+        <SiderMenu
+          location={location}
+          collapsed={collapsed}
+          siderbar={siderbar}
+        />
         <Layout>
-          <Header style={{ background: '#fff', padding: 0 }}>
+          <Header style={{ padding: 0, background: '#fff' }}>
             <GlobalHeader />
           </Header>
-          <Content
-            style={{
-              margin: '24px 16px',
-              padding: 24,
-              background: '#fff',
-              minHeight: 280,
-            }}
-          >
-            Content
+          <Content style={{ margin: '24px 16px' }}>
+            {children}
           </Content>
         </Layout>
       </Layout>
@@ -45,4 +45,9 @@ class BasicLayout extends Component<BasicLayoutProps> {
   }
 }
 
-export default connect()(BasicLayout);
+export default connect(
+  ({ global }: ConnectState) => ({
+    collapsed: global.collapsed,
+    siderbar: global.siderbar,
+  })
+)(BasicLayout);
