@@ -1,11 +1,52 @@
-.trigger {
-  font-size: 18px;
-  line-height: 64px;
-  padding: 0 24px;
-  cursor: pointer;
-  transition: color 0.3s;
+@import '~antd/lib/style/themes/default.less';
+
+@header-hover-bg: rgba(0, 0, 0, 0.025);
+
+.menu {
+  :global(.anticon) {
+    margin-right: 8px;
+  }
+  :global(.ant-dropdown-menu-item) {
+    min-width: 160px;
+  }
 }
 
-.trigger:hover {
-  color: #1890ff;
+.trigger {
+  padding: ~'calc((@{layout-header-height} - 20px) / 2)' 24px;
+  height: @layout-header-height;
+  font-size: 20px;
+  transition: all 0.3s, padding 0s;
+  cursor: pointer;
+
+  &:hover {
+    background: @header-hover-bg;
+  }
+}
+
+.right {
+  float: right;
+  height: 100%;
+  overflow: hidden;
+
+  .action {
+    display: inline-block;
+    padding: 0 12px;
+    cursor: pointer;
+    transition: all 0.3s;
+
+    > i {
+      vertical-align: middle;
+      color: @text-color;
+    }
+
+    &:hover {
+      background: @header-hover-bg;
+    }
+  }
+
+  .avatar {
+    margin-right: 8px;
+    color: @primary-color;
+    background: rgba(255, 255, 255, 0.85);
+  }
 }

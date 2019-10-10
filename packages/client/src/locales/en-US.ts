@@ -1,3 +1,4 @@
+import component from './en-US/component';
 import page from './en-US/page';
 
 export default {
@@ -7,5 +8,6 @@ export default {
   'layout.user.link.help': 'help',
   'layout.user.link.home': 'home',
 
+  ...component,
   ...page,
 }

@@ -14,6 +14,7 @@ export interface SiderbarItemProps {
 export interface GlobalModelState {
   collapsed: boolean;
   siderbar: Array<SiderbarItemProps>;
+  user: any;
 }
 
 export interface GlobalModelType {
@@ -25,6 +26,7 @@ export interface GlobalModelType {
   };
   effects: {
     fetchSiderbar: Effect;
+    fetchUser: Effect;
   };
 }
 
@@ -34,15 +36,16 @@ const GlobalModel: GlobalModelType = {
   state: {
     collapsed: false,
     siderbar: [],
+    user: {},
   },
 
   reducers: {
-    changeLayoutCollapsed(state = { collapsed: false, siderbar: [] }, { payload }) {
+    changeLayoutCollapsed(state = { collapsed: false, siderbar: [], user: {} }, { payload }) {
       return { ...state, collapsed: payload };
     },
 
-    update(state = { collapsed: false, siderbar: [] }, { payload }) {
-      return { ...state, siderbar: payload };
+    update(state = { collapsed: false, siderbar: [], user: {} }, { payload }) {
+      return { ...state, ...payload };
     },
   },
 
@@ -51,9 +54,21 @@ const GlobalModel: GlobalModelType = {
       const { data } = yield call(AuthServices.getSiderbar);
       yield put({
         type: 'update',
-        payload: data,
+        payload: {
+          siderbar: data,
+        },
       });
     },
+
+    *fetchUser(_, { call, put }) {
+      const { data } = yield call(AuthServices.getUser);
+      yield put({
+        type: 'update',
+        payload: {
+          user: data,
+        },
+      });
+    }
   },
 }
 

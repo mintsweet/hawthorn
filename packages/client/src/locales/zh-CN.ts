@@ -1,3 +1,4 @@
+import component from './zh-CN/component';
 import page from './zh-CN/page';
 
 export default {
@@ -7,5 +8,6 @@ export default {
   'layout.user.link.help': '帮助',
   'layout.user.link.home': '主页',
 
+  ...component,
   ...page,
 }

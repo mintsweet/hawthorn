@@ -39,3 +39,12 @@ export const getSiderbar = () => {
     ]
   };
 }
+
+export const getUser = () => {
+  return {
+    data: {
+      nickname: '青湛',
+      avatar: 'http://iph.href.lu/200x200?text=avatar',
+    },
+  };
+}

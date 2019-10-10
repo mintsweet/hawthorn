@@ -10,13 +10,13 @@ export default {
   'page.login.forget.password': '忘记密码',
   'page.login.submit': '登录',
 
-    // forget-pass
-    'page.forget.password.username.required': '请输入用户名！',
-    'page.forget.password.username.placeholder': '请输入用户名',
-    'page.forget.password.email.required': '请输入邮箱！',
-    'page.forget.password.email.placeholder': '请输入邮箱',
-    'page.forget.password.captcha.required': '请输入验证码！',
-    'page.forget.password.captcha.placeholder': '请输入验证码',
-    'page.forget.password.login': '登录',
-    'page.forget.password.submit': '提交',
+  // forget-pass
+  'page.forget.password.username.required': '请输入用户名！',
+  'page.forget.password.username.placeholder': '请输入用户名',
+  'page.forget.password.email.required': '请输入邮箱！',
+  'page.forget.password.email.placeholder': '请输入邮箱',
+  'page.forget.password.captcha.required': '请输入验证码！',
+  'page.forget.password.captcha.placeholder': '请输入验证码',
+  'page.forget.password.login': '登录',
+  'page.forget.password.submit': '提交',
 }

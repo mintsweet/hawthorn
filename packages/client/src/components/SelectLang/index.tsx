@@ -1,10 +1,15 @@
 import React from 'react';
+import classNames from 'classnames';
 import { Dropdown, Menu, Icon } from 'antd';
 import { ClickParam } from 'antd/es/menu';
 import { formatMessage, getLocale, setLocale } from 'umi-plugin-react/locale';
 import styles from './index.less';
 
-const SelectLang: React.SFC = props => {
+interface SelectLangProps {
+  className: string;
+};
+
+const SelectLang = React.memo(({ className }: SelectLangProps) => {
   const selectedLang = getLocale();
 
   const changeLang = ({ key }: ClickParam): void => setLocale(key, false);
@@ -40,11 +45,11 @@ const SelectLang: React.SFC = props => {
 
   return (
     <Dropdown overlay={langMenu} placement="bottomRight">
-      <span className={styles.dropDown}>
+      <span className={classNames(styles.dropDown, className)}>
         <Icon type="global" title={formatMessage({ id: 'lang' })} />
       </span>
     </Dropdown>
   );
-}
+});
 
 export default SelectLang;

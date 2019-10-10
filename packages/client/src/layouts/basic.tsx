@@ -9,6 +9,7 @@ import SiderMenu from './components/SiderMenu';
 const { Header, Content } = Layout;
 
 interface BasicLayoutProps extends ConnectProps, SiderMenuWrapperProps {
+  user: any;
 };
 
 class BasicLayout extends Component<BasicLayoutProps> {
@@ -16,14 +17,25 @@ class BasicLayout extends Component<BasicLayoutProps> {
     this.getData();
   }
 
-  async getData() {
+  getData() {
     this.props.dispatch({
       type: 'global/fetchSiderbar',
+    });
+
+    this.props.dispatch({
+      type: 'global/fetchUser',
+    });
+  }
+
+  handleToggleCollapsed = () => {
+    this.props.dispatch({
+      type: 'global/changeLayoutCollapsed',
+      payload: !this.props.collapsed,
     });
   }
 
   render() {
-    const { children, location, collapsed, siderbar } = this.props;
+    const { children, location, collapsed, siderbar, user } = this.props;
 
     return (
       <Layout style={{ height: '100%' }}>
@@ -34,7 +46,11 @@ class BasicLayout extends Component<BasicLayoutProps> {
         />
         <Layout>
           <Header style={{ padding: 0, background: '#fff' }}>
-            <GlobalHeader />
+            <GlobalHeader
+              user={user}
+              collapsed={collapsed}
+              toggleCollapsed={this.handleToggleCollapsed}
+            />
           </Header>
           <Content style={{ margin: '24px 16px' }}>
             {children}
@@ -49,5 +65,6 @@ export default connect(
   ({ global }: ConnectState) => ({
     collapsed: global.collapsed,
     siderbar: global.siderbar,
+    user: global.user,
   })
 )(BasicLayout);
