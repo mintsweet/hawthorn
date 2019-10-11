@@ -6,7 +6,7 @@ import { formatMessage, getLocale, setLocale } from 'umi-plugin-react/locale';
 import styles from './index.less';
 
 interface SelectLangProps {
-  className: string;
+  className?: string;
 };
 
 const SelectLang = React.memo(({ className }: SelectLangProps) => {

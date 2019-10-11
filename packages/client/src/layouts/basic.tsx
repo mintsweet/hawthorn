@@ -2,15 +2,36 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Layout } from 'antd';
 import { ConnectState, ConnectProps } from '@/models/connect';
+import Exception from '@/components/Exception';
 import { SiderMenuWrapperProps } from './components/SiderMenu';
 import GlobalHeader from './components/GlobalHeader';
 import SiderMenu from './components/SiderMenu';
+import routes from '../../config/router';
 
 const { Header, Content } = Layout;
 
 interface BasicLayoutProps extends ConnectProps, SiderMenuWrapperProps {
   user: any;
 };
+
+/**
+ * Serialized routing menu configuration
+ * [{ path: '/xxx', routes: [{ path: '/bbb' }] }, { path: '/ccc' }] => ['/xxx', '/xxx/bbb', '/ccc']
+ * @param data
+ */
+const getFlatPaths = (data: any[]) => {
+  let keys: Array<string> = [];
+  data.forEach(item => {
+    if (!item.redirect) {
+      keys.push(item.path);
+    }
+
+    if (item.routes) {
+      keys = keys.concat(getFlatPaths(item.routes));
+    }
+  });
+  return keys;
+}
 
 class BasicLayout extends Component<BasicLayoutProps> {
   componentDidMount() {
@@ -36,6 +57,13 @@ class BasicLayout extends Component<BasicLayoutProps> {
 
   render() {
     const { children, location, collapsed, siderbar, user } = this.props;
+    const { pathname } = location;
+
+    const flatAuth = getFlatPaths(siderbar);
+    const flatRoutes = getFlatPaths(routes);
+    // Determine if there is routing authority
+    const noAuth = flatRoutes.includes(pathname) && !flatAuth.includes(pathname);
+    const content = !noAuth ? children : <Exception type={403} />;
 
     return (
       <Layout style={{ height: '100%' }}>
@@ -53,7 +81,7 @@ class BasicLayout extends Component<BasicLayoutProps> {
             />
           </Header>
           <Content style={{ margin: '24px 16px' }}>
-            {children}
+            {content}
           </Content>
         </Layout>
       </Layout>
