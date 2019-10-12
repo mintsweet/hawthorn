@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { Layout } from 'antd';
 import { ConnectState, ConnectProps } from '@/models/connect';
@@ -33,7 +33,7 @@ const getFlatPaths = (data: any[]) => {
   return keys;
 }
 
-class BasicLayout extends Component<BasicLayoutProps> {
+class BasicLayout extends PureComponent<BasicLayoutProps> {
   componentDidMount() {
     this.getData();
   }
@@ -80,7 +80,7 @@ class BasicLayout extends Component<BasicLayoutProps> {
               toggleCollapsed={this.handleToggleCollapsed}
             />
           </Header>
-          <Content style={{ margin: '24px 16px' }}>
+          <Content style={{ margin: '24px 16px', padding: '24px 16px', background: '#fff' }}>
             {content}
           </Content>
         </Layout>

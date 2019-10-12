@@ -9,7 +9,7 @@ interface SelectLangProps {
   className?: string;
 };
 
-const SelectLang = React.memo(({ className }: SelectLangProps) => {
+const SelectLang = ({ className }: SelectLangProps) => {
   const selectedLang = getLocale();
 
   const changeLang = ({ key }: ClickParam): void => setLocale(key, false);
@@ -50,6 +50,6 @@ const SelectLang = React.memo(({ className }: SelectLangProps) => {
       </span>
     </Dropdown>
   );
-});
+};
 
 export default SelectLang;
