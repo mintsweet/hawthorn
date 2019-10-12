@@ -2,7 +2,7 @@ import { Controller } from 'egg';
 import { pick } from 'lodash';
 import { createRule, updateRule } from '@/validate/auth/user';
 
-export default class UserController extends Controller {
+export default class AuthUserController extends Controller {
   async index(ctx) {
     const query = ctx.request;
 

@@ -23,7 +23,7 @@ export default class BaseService extends Service {
     return result;
   }
 
-  async getPage(page = 1, size = 10, query) {
+  async getPage(page = 1, size = 10, query = {}) {
     const total = await this.model.find(query).countDocuments();
     const list = await this.model
       .find(query)

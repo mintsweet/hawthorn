@@ -23,4 +23,13 @@ module.exports = {
       data,
     };
   },
+
+  notFound({ status = 404, code = 20001, msg = '', data = {} }): void {
+    this.status = status;
+    this.body = {
+      code,
+      msg,
+      data,
+    };
+  },
 };
