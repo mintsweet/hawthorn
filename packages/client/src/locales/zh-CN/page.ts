@@ -20,6 +20,25 @@ export default {
   'page.forget.password.login': '登录',
   'page.forget.password.submit': '提交',
 
+  // auth-user
+  'page.auth.user.columns.username': '登录名',
+  'page.auth.user.columns.nickname': '昵称',
+  'page.auth.user.columns.action': '操作',
+  'page.auth.user.action.btns.add': '新增',
+  'page.auth.user.action.btns.update': '修改',
+  'page.auth.user.action.btns.delete': '删除',
+  'page.auth.user.action.delete.confirm.message': '确认要删除这条信息吗？',
+  'page.auth.user.action.create.message': '新增用户成功！',
+  'page.auth.user.action.update.message': '删除用户成功！',
+  'page.auth.user.action.delete.message': '更新用户成功！',
+  'page.auth.user.form.modal.title': '用户',
+  'page.auth.user.form.modal.username': '登录名',
+  'page.auth.user.form.modal.password': '密码',
+  'page.auth.user.form.modal.nickname': '昵称',
+  'page.auth.user.form.modal.avatar': '头像',
+  'page.auth.user.query.form.username': '登录名',
+  'page.auth.user.query.form.nickname': '昵称',
+
   // auth-group
   'page.auth.group.columns.name': '名称',
   'page.auth.group.columns.remark': '备注',

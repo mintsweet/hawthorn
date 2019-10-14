@@ -12,6 +12,15 @@ export const getUser = () => http.get('/v1/user');
 export const getSystemTree = () => http.get('/api/v1/auth/system-tree');
 
 /**
+ * 用户
+ */
+export const createUser = (data: object) => http.post('/api/v1/auth/user', data);
+export const deleteUser = (id: string) => http.del(`/api/v1/auth/user/${id}`);
+export const updateUser = (id: string, data: object) => http.put(`/api/v1/auth/user/${id}`, data);
+export const getUsers = (params: object) => http.get('/api/v1/auth/users', params);
+export const getUserInfo = (id: string) => http.get(`/api/v1/auth/user/${id}`);
+
+/**
  * 权限组
  */
 export const createGroup = (data: object) => http.post('/api/v1/auth/group', data);

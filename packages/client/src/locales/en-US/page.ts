@@ -20,6 +20,25 @@ export default {
   'page.forget.password.login': 'Login',
   'page.forget.password.submit': 'Submit',
 
+  // auth-user
+  'page.auth.user.columns.username': 'Username',
+  'page.auth.user.columns.nickname': 'Nickname',
+  'page.auth.user.columns.action': 'Action',
+  'page.auth.user.action.btns.add': 'Create',
+  'page.auth.user.action.btns.update': 'Update',
+  'page.auth.user.action.btns.delete': 'Delete',
+  'page.auth.user.action.delete.confirm.message': 'Are you sure you want to delete this message?',
+  'page.auth.user.action.create.message': 'Added auth user successfully!',
+  'page.auth.user.action.update.message': 'Delete auth user successfully!',
+  'page.auth.user.action.delete.message': 'Update auth user successfully!',
+  'page.auth.user.form.modal.title': 'Auth User',
+  'page.auth.user.form.modal.username': 'Username',
+  'page.auth.user.form.modal.password': 'Password',
+  'page.auth.user.form.modal.nickname': 'Nickname',
+  'page.auth.user.form.modal.avatar': 'Avatar',
+  'page.auth.user.query.form.username': 'UserName',
+  'page.auth.user.query.form.nickname': 'Nickname',
+
   // auth-group
   'page.auth.group.columns.name': 'Name',
   'page.auth.group.columns.remark': 'Remark',

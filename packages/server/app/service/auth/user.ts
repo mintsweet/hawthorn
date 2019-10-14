@@ -5,13 +5,4 @@ export default class UserService extends Service {
     super(ctx);
     this.model = ctx.model.AuthUser;
   }
-
-  async search(name) {
-    const result = await this.model.find({
-      username: {
-        $regex: name,
-      },
-    });
-    return result;
-  }
 }

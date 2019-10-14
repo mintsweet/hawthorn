@@ -4,19 +4,16 @@ import { createRule, updateRule } from '@/validate/auth/user';
 
 export default class AuthUserController extends Controller {
   async index(ctx) {
-    const query = ctx.request;
+    const { page, size, ...condition } = ctx.query;
 
-    const where = pick(query, [ 'username' ]);
+    const result = await ctx.service.auth.user.getPage(
+      page,
+      size,
+      condition,
+    );
 
-    const result = await ctx.service.auth.user.getPage(query.page, query.size, where);
-
-    ctx.success({
-      data: {
-        ...result,
-        list: result.list.map(obj => {
-          return pick(obj, [ '_id', 'username' ]);
-        }),
-      },
+    return ctx.success({
+      data: result,
     });
   }
 
@@ -26,8 +23,7 @@ export default class AuthUserController extends Controller {
     try {
       ctx.validate(createRule);
     } catch (err) {
-      ctx.badRequest({ data: err.errors });
-      return;
+      return ctx.badRequest({ data: err.errors });
     }
 
     const userExist = await ctx.service.auth.user.getOne({
@@ -35,22 +31,19 @@ export default class AuthUserController extends Controller {
     });
 
     if (userExist) {
-      ctx.badRequest({
+      return ctx.badRequest({
         code: 10002,
         data: {
           username: body.username,
         },
       });
-      return;
     }
 
     const result = await ctx.service.auth.user.create(pick(body, Object.keys(createRule)));
 
     if (result) {
-      ctx.success({
-        data: {
-          id: result._id,
-        },
+      return ctx.success({
+        data: result._id,
       });
     }
   }
@@ -63,18 +56,14 @@ export default class AuthUserController extends Controller {
     if (!result) {
       ctx.notFound({
         code: 10003,
-        data: {
-          id,
-        },
+        data: id,
       });
 
       return;
     }
 
-    ctx.success({
-      data: {
-        id,
-      },
+    return ctx.success({
+      data: id,
     });
   }
 
@@ -85,26 +74,20 @@ export default class AuthUserController extends Controller {
     try {
       ctx.validate(updateRule);
     } catch (err) {
-      ctx.badRequest({ data: err.errors });
-      return;
+      return ctx.badRequest({ data: err.errors });
     }
 
     const result = await ctx.service.auth.user.update(id, pick(body, Object.keys(updateRule)));
 
     if (!result) {
-      ctx.notFound({
+      return ctx.notFound({
         code: 10003,
-        data: {
-          id,
-        },
+        data: id,
       });
-      return;
     }
 
-    ctx.success({
-      data: {
-        id: result._id,
-      },
+    return ctx.success({
+      data: result._id,
     });
   }
 
@@ -114,17 +97,13 @@ export default class AuthUserController extends Controller {
     const result = await ctx.service.auth.user.getById(id);
 
     if (!result) {
-      ctx.notFound({
+      return ctx.notFound({
         code: 10003,
-        data: {
-          id,
-        },
+        data: id,
       });
-
-      return;
     }
 
-    ctx.success({
+    return ctx.success({
       data: result,
     });
   }
@@ -134,12 +113,12 @@ export default class AuthUserController extends Controller {
 
     const result = await ctx.service.auth.user.search(name);
 
-    ctx.success({
+    return ctx.success({
       data: result.map(obj => {
-        const temp = pick(obj, [ '_id', 'username' ]);
+        const { _id, username } = pick(obj, [ '_id', 'username' ]);
         return {
-          _id: temp._id,
-          name: temp.username,
+          id: _id,
+          name: username,
         };
       }),
     });

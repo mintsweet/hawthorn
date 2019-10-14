@@ -12,7 +12,7 @@ export default class AuthGroupController extends Controller {
       condition,
     );
 
-    ctx.success({
+    return ctx.success({
       data: result,
     });
   }
@@ -56,16 +56,12 @@ export default class AuthGroupController extends Controller {
     if (!result) {
       return ctx.notFound({
         code: 10003,
-        data: {
-          id,
-        },
+        data: id,
       });
     }
 
     return ctx.success({
-      data: {
-        id,
-      },
+      data: id,
     });
   }
 
@@ -81,21 +77,15 @@ export default class AuthGroupController extends Controller {
 
     const result = await ctx.service.auth.group.update(id, pick(body, Object.keys(updateRule)));
 
-    console.log(result);
-
     if (!result) {
       return ctx.notFound({
         code: 10003,
-        data: {
-          id,
-        },
+        data: id,
       });
     }
 
     return ctx.success({
-      data: {
-        id: result._id,
-      },
+      data: result._id,
     });
   }
 }
