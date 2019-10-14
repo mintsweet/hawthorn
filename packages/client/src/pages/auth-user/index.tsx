@@ -32,7 +32,7 @@ export default class AuthUser extends Component {
         await AuthService.updateUser(updateObj._id, data);
         message.success(formatMessage({ id: 'page.auth.user.action.update.message' }));
       } else {
-        await AuthService.createGroup(data);
+        await AuthService.createUser(data);
         message.success(formatMessage({ id: 'page.auth.user.action.create.message' }));
       }
       this.Table.getData();
@@ -43,7 +43,7 @@ export default class AuthUser extends Component {
 
   handleDelete = async (id: string) => {
     try {
-      await AuthService.deleteGroup(id);
+      await AuthService.deleteUser(id);
       message.success(formatMessage({ id: 'page.auth.user.action.delete.message' }));
       this.Table.getData();
     } catch(err) {
@@ -144,6 +144,9 @@ export default class AuthUser extends Component {
           fetchData={AuthService.getUsers}
           showSearch
           queryForm={queryForm}
+          onRef={table => {
+            this.Table = table;
+          }}
         >
           <Button
             type="primary"

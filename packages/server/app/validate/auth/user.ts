@@ -7,10 +7,26 @@ export const createRule = {
     type: 'string',
     required: true,
   },
+  nickname: {
+    type: 'string',
+    required: true,
+  },
+  avatar: {
+    type: 'string',
+    required: false,
+  },
 };
 
 export const updateRule = {
-  username: {
+  password: {
+    type: 'string',
+    required: false,
+  },
+  nickname: {
+    type: 'string',
+    required: false,
+  },
+  avatar: {
     type: 'string',
     required: false,
   },
