@@ -6,7 +6,10 @@ export default (app: Application) => {
   /**
    * 基础权限
    */
-  app.get('/api/v1/auth/system-tree', 'auth.basic.systemTree');
+  app.get('/api/v1/auth/system-tree', 'auth.basic.systemTree'); // 获取权限树
+  app.get('/api/v1/auth/login', 'auth.basic.login'); // 登录
+  app.get('/api/v1/auth/logout', 'auth.basic.logout'); // 登出
+  app.get('/api/v1/auth/info', 'auth.basic.userInfo'); // 获取用户信息
 
   /**
    * 用户
