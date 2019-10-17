@@ -2,6 +2,7 @@ import { AnyAction } from 'redux';
 import { EffectsCommandMap } from 'dva';
 import { RouterTypes } from 'umi';
 import { GlobalModelState } from './global';
+import { UserModelState } from './user';
 
 export type Effect = (
   action: AnyAction,
@@ -17,6 +18,7 @@ export type Dispatch = <P = any, C = (payload: P) => void>(action: {
 
 export interface ConnectState {
   global: GlobalModelState;
+  user: UserModelState;
 }
 
 export interface ConnectProps<T extends { [key: string]: any } = {}>{

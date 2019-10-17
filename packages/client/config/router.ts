@@ -5,7 +5,6 @@ export default [
     routes: [
       { path: '/user', redirect: '/user/login' },
       { path: '/user/login', component: './login' },
-      { path: '/user/forget_pass', component: './forget-pass' },
     ],
   },
   {
@@ -21,8 +20,8 @@ export default [
         path: '/auth',
         routes: [
           { path: '/auth', redirect: '/auth/user' },
-          { path: '/auth/user', component: './auth-user' },
           { path: '/auth/group', component: './auth-group' },
+          { path: '/auth/user', component: './auth-user' },
         ],
       },
       {

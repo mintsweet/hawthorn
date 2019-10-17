@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
+import Redirect from 'umi/redirect';
 import { Layout } from 'antd';
 import { ConnectState, ConnectProps } from '@/models/connect';
 import Exception from '@/components/Exception';
@@ -12,6 +13,7 @@ const { Header, Content } = Layout;
 
 interface BasicLayoutProps extends ConnectProps, SiderMenuWrapperProps {
   user: any;
+  loginStatus: number;
 };
 
 /**
@@ -40,11 +42,11 @@ class BasicLayout extends PureComponent<BasicLayoutProps> {
 
   getData() {
     this.props.dispatch({
-      type: 'global/fetchSiderbar',
+      type: 'user/fetchUser',
     });
 
     this.props.dispatch({
-      type: 'global/fetchUser',
+      type: 'user/fetchSiderbar',
     });
   }
 
@@ -56,16 +58,21 @@ class BasicLayout extends PureComponent<BasicLayoutProps> {
   }
 
   render() {
-    const { children, location, collapsed, siderbar, user } = this.props;
+    const { children, location, collapsed, siderbar, user, loginStatus } = this.props;
     const { pathname } = location;
 
+    console.log(user);
+
+    // Determine if the user is logged in
+    const isLogin = loginStatus === 1;
+
+    // Determine if there is routing authority
     const flatAuth = getFlatPaths(siderbar);
     const flatRoutes = getFlatPaths(routes);
-    // Determine if there is routing authority
     const noAuth = flatRoutes.includes(pathname) && !flatAuth.includes(pathname);
     const content = !noAuth ? children : <Exception type={403} />;
 
-    return (
+    const layout = (
       <Layout style={{ height: '100%' }}>
         <SiderMenu
           location={location}
@@ -86,13 +93,16 @@ class BasicLayout extends PureComponent<BasicLayoutProps> {
         </Layout>
       </Layout>
     );
+
+    return isLogin ? layout : <Redirect to="/user/login" />;
   }
 }
 
 export default connect(
-  ({ global }: ConnectState) => ({
+  ({ global, user }: ConnectState) => ({
     collapsed: global.collapsed,
-    siderbar: global.siderbar,
-    user: global.user,
+    user,
+    siderbar: user.siderbar,
+    loginStatus: user.status,
   })
 )(BasicLayout);

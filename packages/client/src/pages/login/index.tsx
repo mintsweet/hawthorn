@@ -1,19 +1,61 @@
 import React, { Component } from 'react';
-import Link from 'umi/link';
+import { connect } from 'dva';
 import { formatMessage } from 'umi-plugin-react/locale';
 import { Form, Input, Icon, Checkbox, Button } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
+import { CheckboxChangeEvent } from 'antd/lib/checkbox';
+import { ConnectState, ConnectProps } from '@/models/connect';
 import Captch from '@/components/Captcha';
 
 const { Item: FormItem } = Form;
 
-class Login extends Component<FormComponentProps> {
-  handleSubmit = (e: React.FormEvent) => {
+interface LoginProps extends FormComponentProps, ConnectProps {
+  autoLogin: boolean;
+};
 
+class Login extends Component<LoginProps> {
+  state = {
+    loginCode: '',
+  };
+
+  handleCodeChange = (val: string) => {
+    this.setState({
+      loginCode: val,
+    });
+  }
+
+  handleChangeAutoLogin = (e: CheckboxChangeEvent) => {
+    this.props.dispatch({
+      type: 'global/changeAutoLogin',
+      payload: e.target.checked,
+    });
+  }
+
+  handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        this.props.dispatch({
+          type: 'user/login',
+          payload: values,
+        });
+      }
+    });
+  }
+
+  handleVlidatorCaptcha = (rule: any, value: any, callback: any) => {
+    const { loginCode } = this.state;
+
+    if (value && value.toLowerCase() !== loginCode.toLowerCase()) {
+      callback(formatMessage({ id: 'page.login.captcha.error' }));
+    }
+
+    callback();
   }
 
   render() {
-    const { form } = this.props;
+    const { loginCode } = this.state;
+    const { form, autoLogin, } = this.props;
     const { getFieldDecorator } = form;
 
     return (
@@ -58,18 +100,26 @@ class Login extends Component<FormComponentProps> {
                 required: true,
                 message: formatMessage({ id: 'page.login.captcha.required' }),
               },
+              {
+                validator: this.handleVlidatorCaptcha,
+              },
             ],
           })(
             <Captch
               size="large"
-              codeLength={4}
               placeholder={formatMessage({ id: 'page.login.captcha.placeholder' })}
+              code={loginCode}
+              codeChange={this.handleCodeChange}
             />
           )}
         </FormItem>
         <div style={{ marginBottom: 15 }}>
-          <Checkbox>{formatMessage({ id: 'page.login.checkbox' })}</Checkbox>
-          <Link to="/user/forget_pass" style={{ float: 'right' }}>{formatMessage({ id: 'page.login.forget.password' })}</Link>
+          <Checkbox
+            checked={autoLogin}
+            onChange={this.handleChangeAutoLogin}
+          >
+            {formatMessage({ id: 'page.login.checkbox' })}
+          </Checkbox>
         </div>
         <FormItem>
           <Button
@@ -86,4 +136,10 @@ class Login extends Component<FormComponentProps> {
   }
 }
 
-export default Form.create()(Login);
+export default connect(
+  ({ global }: ConnectState) => ({
+    autoLogin: global.autoLogin,
+  })
+)(
+  Form.create()(Login)
+);

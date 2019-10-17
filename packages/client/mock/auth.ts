@@ -1,4 +1,19 @@
 export default {
+  'POST /api/v1/login': (req: any, res: any) => {
+    res.send({
+      data: 1,
+    });
+  },
+
+  'GET /api/v1/info': {
+    data: {
+      id: 2000001,
+      username: 'qingzhan',
+      nickname: '青湛',
+      avatar: 'http://iph.href.lu/200x200?text=avatar',
+    },
+  },
+
   'GET /api/v1/siderbar': {
     data: [
       {
@@ -38,11 +53,4 @@ export default {
       },
     ]
   },
-
-  'GET /api/v1/user': {
-    data: {
-      nickname: '青湛',
-      avatar: 'http://iph.href.lu/200x200?text=avatar',
-    },
-  },
-}
+};

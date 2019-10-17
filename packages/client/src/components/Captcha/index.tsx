@@ -4,19 +4,26 @@ import classNames from 'classnames';
 import styles from './index.less';
 
 interface CaptchaProps {
+  code: string;
+  codeLength: number;
   size?: 'large' | 'default' | 'small';
-  codeLength?: number;
   placeholder?: string;
   color?: string;
   value?: string;
   onChange?: (val: string) => void;
+  codeChange?: (val: string) => void;
 };
 
-export default class Captcha extends Component<CaptchaProps> {
+class Captcha extends Component<CaptchaProps> {
+  static defaultProps = {
+    codeLength: 4,
+  };
+
   static getDerivedStateFromProps(nextProps: CaptchaProps) {
     if ('value' in nextProps) {
       return {
-        code: nextProps.value,
+        value: nextProps.value,
+        code: nextProps.code || '',
       };
     }
     return null;
@@ -24,6 +31,7 @@ export default class Captcha extends Component<CaptchaProps> {
 
   state = {
     code: '',
+    value: '',
   };
 
   componentDidMount() {
@@ -45,13 +53,32 @@ export default class Captcha extends Component<CaptchaProps> {
       code += selectChar[charIndex];
     }
 
-    if (!('value' in this.props)) {
+    if (!('code' in this.props)) {
       this.setState({
         code,
       });
     }
 
-    this.triggerChange(code);
+    this.triggerCodeChange(code);
+  }
+
+  triggerCodeChange = (changeValue: string) => {
+    const { codeChange } = this.props;
+    if (codeChange) {
+      codeChange(changeValue);
+    }
+  }
+
+  handleChangeCode = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+
+    if (!('value' in this.props)) {
+      this.setState({
+        value,
+      });
+    }
+
+    this.triggerChange(value);
   }
 
   triggerChange = (changeValue: string) => {
@@ -63,7 +90,7 @@ export default class Captcha extends Component<CaptchaProps> {
 
   render() {
     const { size, placeholder, color } = this.props;
-    const { code } = this.state;
+    const { code, value } = this.state;
 
     const rowCls = classNames(styles.row, {
       [`${styles.large}`]: size === 'large',
@@ -81,6 +108,8 @@ export default class Captcha extends Component<CaptchaProps> {
           <Input
             size={size}
             placeholder={placeholder}
+            value={value}
+            onChange={this.handleChangeCode}
           />
         </div>
         <div className={styles.col}>
@@ -96,3 +125,5 @@ export default class Captcha extends Component<CaptchaProps> {
     );
   }
 }
+
+export default Captcha;
