@@ -37,7 +37,10 @@ const getFlatPaths = (data: any[]) => {
 
 class BasicLayout extends PureComponent<BasicLayoutProps> {
   componentDidMount() {
-    this.getData();
+    const { loginStatus, user } = this.props;
+    if (loginStatus === 1 && !user.id) {
+      this.getData();
+    }
   }
 
   getData() {
@@ -57,11 +60,18 @@ class BasicLayout extends PureComponent<BasicLayoutProps> {
     });
   }
 
+  handleClickUserMenu = (key: string) => {
+    if (key === 'logout') {
+      this.props.dispatch({
+        type: 'user/logout',
+        payload: true,
+      });
+    }
+  }
+
   render() {
     const { children, location, collapsed, siderbar, user, loginStatus } = this.props;
     const { pathname } = location;
-
-    console.log(user);
 
     // Determine if the user is logged in
     const isLogin = loginStatus === 1;
@@ -85,6 +95,7 @@ class BasicLayout extends PureComponent<BasicLayoutProps> {
               user={user}
               collapsed={collapsed}
               toggleCollapsed={this.handleToggleCollapsed}
+              onClickMenu={this.handleClickUserMenu}
             />
           </Header>
           <Content style={{ margin: '24px 16px', padding: '24px 16px', background: '#fff' }}>

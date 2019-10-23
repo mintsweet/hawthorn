@@ -1,4 +1,5 @@
 import { Reducer } from 'redux';
+import { storage } from 'mints-utils';
 
 export interface GlobalModelState {
   collapsed: boolean;
@@ -16,7 +17,7 @@ export interface GlobalModelType {
 
 const StateDefault = {
   collapsed: false,
-  autoLogin: false,
+  autoLogin: storage.get('autoLogin') === 'ON' ? true : false,
   siderbar: [],
 };
 
@@ -31,6 +32,7 @@ const GlobalModel: GlobalModelType = {
     },
 
     changeAutoLogin(state = StateDefault, { payload }) {
+      storage.set('autoLogin', payload ? 'ON' : 'OFF');
       return { ...state, autoLogin: payload };
     },
   },

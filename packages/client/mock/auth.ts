@@ -5,6 +5,12 @@ export default {
     });
   },
 
+  'POST /api/v1/logout': (req: any, res: any) => {
+    res.send({
+      data: 1,
+    });
+  },
+
   'GET /api/v1/info': {
     data: {
       id: 2000001,
@@ -13,6 +19,10 @@ export default {
       avatar: 'http://iph.href.lu/200x200?text=avatar',
     },
   },
+
+  // 'GET /api/v1/info': (req: any, res: any) => {
+  //   res.status(401).send('无权访问！');
+  // },
 
   'GET /api/v1/siderbar': {
     data: [

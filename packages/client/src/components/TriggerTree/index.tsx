@@ -17,7 +17,6 @@ interface TriggerTreeProps {
 export default class TriggerTree extends Component<TriggerTreeProps> {
   static getDerivedStateFromProps(nextProps: any) {
     if ('value' in nextProps) {
-      console.log(nextProps.value);
       return {
         checkedKeys: nextProps.value || [],
       };

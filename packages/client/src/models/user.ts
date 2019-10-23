@@ -1,5 +1,6 @@
 import { Reducer } from 'redux';
-import { routerRedux } from 'dva/router';
+import { routerRedux } from 'dva';
+import { storage } from 'mints-utils';
 import { Effect } from './connect';
 import * as AuthServices from '@/services/auth';
 
@@ -29,22 +30,25 @@ export interface UserModelType {
   },
   effects: {
     login: Effect;
+    logout: Effect;
     fetchUser: Effect;
     fetchSiderbar: Effect;
   },
 };
 
+const StateDefault = {
+  id: '',
+  username: '',
+  nickname: '',
+  avatar: '',
+  siderbar: [],
+  status: storage.get('loginStatus') === 'OK' ? 1 : 0,
+};
+
 const UserModel: UserModelType = {
   namespce: 'user',
 
-  state: {
-    id: '',
-    username: '',
-    nickname: '',
-    avatar: '',
-    siderbar: [],
-    status: 0,
-  },
+  state: StateDefault,
 
   reducers: {
     update(state, { payload }) {
@@ -55,6 +59,10 @@ const UserModel: UserModelType = {
   effects: {
     *login({ payload }, { call, put }) {
       const { data } = yield call(AuthServices.login, payload);
+
+      // Login status persistence
+      storage.set('loginStatus', +data === 1 ? 'OK' : 'FAILED');
+
       yield put({
         type: 'update',
         payload: {
@@ -65,6 +73,23 @@ const UserModel: UserModelType = {
       if (data === 1) {
         yield put(routerRedux.replace('/'));
       }
+    },
+
+    *logout({ payload }, { call, put }) {
+      if (payload) {
+        yield call(AuthServices.logout);
+      }
+
+      storage.del('loginStatus');
+
+      yield put({
+        type: 'update',
+        payload: {
+          status: 0,
+        },
+      });
+
+      yield put(routerRedux.replace('/user/login'));
     },
 
     *fetchUser(_, { call, put }) {

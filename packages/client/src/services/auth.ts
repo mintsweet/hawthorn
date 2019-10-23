@@ -4,6 +4,7 @@ import http from './utils';
  * 基础权限
  */
 export const login = (data: object) => http.post('/v1/login', data);
+export const logout = () => http.post('/v1/logout');
 export const getUserInfo = () => http.get('/v1/info');
 export const getSiderbar = () => http.get('/v1/siderbar');
 export const getSystemTree = () => http.get('/v1/auth/system-tree');

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
+import router from 'umi/router';
 import { formatMessage } from 'umi-plugin-react/locale';
 import { Form, Input, Icon, Checkbox, Button } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
@@ -11,12 +12,20 @@ const { Item: FormItem } = Form;
 
 interface LoginProps extends FormComponentProps, ConnectProps {
   autoLogin: boolean;
+  loginStatus: number;
 };
 
 class Login extends Component<LoginProps> {
   state = {
     loginCode: '',
   };
+
+  componentDidMount() {
+    const { autoLogin, loginStatus } = this.props;
+    if (autoLogin && loginStatus === 1) {
+      router.push('/');
+    }
+  }
 
   handleCodeChange = (val: string) => {
     this.setState({
@@ -137,8 +146,9 @@ class Login extends Component<LoginProps> {
 }
 
 export default connect(
-  ({ global }: ConnectState) => ({
+  ({ global, user }: ConnectState) => ({
     autoLogin: global.autoLogin,
+    loginStatus: user.status,
   })
 )(
   Form.create()(Login)

@@ -8,14 +8,15 @@ interface GlobalHeaderProps {
   collapsed: boolean;
   user: any;
   toggleCollapsed: () => void;
+  onClickMenu: (key: string) => void;
 };
 
 class GlobalHeader extends Component<GlobalHeaderProps> {
   render() {
-    const { collapsed, user, toggleCollapsed } = this.props;
+    const { collapsed, user, toggleCollapsed, onClickMenu } = this.props;
 
     const menu = (
-      <Menu>
+      <Menu onClick={param => onClickMenu(param.key)}>
         <Menu.Item key="user-info">
           <Icon type="setting" />
           {formatMessage({ id: 'component.globalHeader.dropMenu.accountSetting' })}
