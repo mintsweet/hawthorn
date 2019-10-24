@@ -19,7 +19,7 @@ export default [
       {
         path: '/auth',
         routes: [
-          { path: '/auth', redirect: '/auth/user' },
+          { path: '/auth', redirect: '/auth/group' },
           { path: '/auth/group', component: './auth-group' },
           { path: '/auth/user', component: './auth-user' },
         ],

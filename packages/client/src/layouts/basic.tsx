@@ -13,7 +13,7 @@ const { Header, Content } = Layout;
 
 interface BasicLayoutProps extends ConnectProps, SiderMenuWrapperProps {
   user: any;
-  loginStatus: number;
+  loginStatus: 'OK' | 'FAILED';
 };
 
 /**
@@ -38,7 +38,7 @@ const getFlatPaths = (data: any[]) => {
 class BasicLayout extends PureComponent<BasicLayoutProps> {
   componentDidMount() {
     const { loginStatus, user } = this.props;
-    if (loginStatus === 1 && !user.id) {
+    if (loginStatus === 'OK' && !user.id) {
       this.getData();
     }
   }
@@ -74,7 +74,7 @@ class BasicLayout extends PureComponent<BasicLayoutProps> {
     const { pathname } = location;
 
     // Determine if the user is logged in
-    const isLogin = loginStatus === 1;
+    const isLogin = loginStatus === 'OK';
 
     // Determine if there is routing authority
     const flatAuth = getFlatPaths(siderbar);

@@ -19,7 +19,7 @@ export interface UserModelState {
   nickname: string;
   avatar: string;
   siderbar: Array<SiderbarItemProps>; // Record siderbar
-  status: number; // Record login status
+  status: 'OK' | 'FAILED'; // Record login status
 };
 
 export interface UserModelType {
@@ -42,7 +42,7 @@ const StateDefault = {
   nickname: '',
   avatar: '',
   siderbar: [],
-  status: storage.get('loginStatus') === 'OK' ? 1 : 0,
+  status: storage.get('loginStatus'),
 };
 
 const UserModel: UserModelType = {
@@ -58,20 +58,22 @@ const UserModel: UserModelType = {
 
   effects: {
     *login({ payload }, { call, put }) {
-      const { data } = yield call(AuthServices.login, payload);
+      const { code, data: { uri } } = yield call(AuthServices.login, payload);
+      const loginStatus = code === 0 ? 'OK' : 'FAILED';
 
       // Login status persistence
-      storage.set('loginStatus', +data === 1 ? 'OK' : 'FAILED');
+      storage.set('loginStatus', loginStatus);
 
       yield put({
         type: 'update',
         payload: {
-          status: data,
+          status: loginStatus,
         },
       });
 
-      if (data === 1) {
-        yield put(routerRedux.replace('/'));
+      if (code === 0) {
+        const redirect = uri || '/';
+        yield put(routerRedux.replace(redirect));
       }
     },
 
