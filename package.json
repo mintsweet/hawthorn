@@ -5,7 +5,8 @@
   "description": "a cute back-end management system",
   "scripts": {
     "start:client": "cd packages/client && yarn start",
-    "start:server": "cd packages/server && yarn dev"
+    "start:server": "cd packages/server && yarn dev",
+    "init:db": "cd scripts/db && mongo hawthorn index.js"
   },
   "repository": "git@github.com:mintsweet/hawthorn.git",
   "author": "mintsweet <0x1304570@gmail.com>",

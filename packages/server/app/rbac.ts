@@ -10,15 +10,12 @@ export default [
     icon: 'safety',
     routes: [
       {
-        name: '用户列表',
-        path: '/auth/user',
-        api: [
-          'GET /api/v1/auth/users',
-        ],
-      },
-      {
         name: '权限组',
         path: '/auth/group',
+      },
+      {
+        name: '用户列表',
+        path: '/auth/user',
       },
     ],
   },

@@ -12,6 +12,15 @@ export default (appInfo: EggAppInfo) => {
       url: 'mongodb://localhost:27017/hawthorn',
     },
 
+    redis: {
+      client: {
+        port: 6379,
+        host: '127.0.0.1',
+        password: 'auth',
+        db: 3,
+      },
+    },
+
     security: {
       csrf: {
         enable: false,

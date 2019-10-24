@@ -9,6 +9,8 @@ module.exports = app => {
 
     nickname: { type: String, required: true },
     avatar: { type: String, default: '' },
+
+    role: { type: Schema.Types.ObjectId, ref: 'auth_group', required: true },
   });
 
   return mongoose.model('auth_user', AuthUserSchema);

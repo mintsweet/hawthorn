@@ -3,6 +3,21 @@ import * as md5 from 'md5';
 import rbac from '@/rbac';
 import { loginRule } from '@/validate/auth/basic';
 
+const filterRBAC = (data: any, has: string[]) => {
+  const result: any = [];
+
+  data.forEach(item => {
+    if (has.includes(item.path)) {
+      if (item.routes) {
+        item.routes = filterRBAC(item.routes, has);
+      }
+      result.push(item);
+    }
+  });
+
+  return result;
+};
+
 export default class AuthBasicController extends Controller {
   async systemTree(ctx) {
     ctx.success({
@@ -21,25 +36,46 @@ export default class AuthBasicController extends Controller {
 
     const { saltPassword } = ctx.app.config;
 
-    const { _id: id, nickname } = await ctx.model.AuthUser.findOne({
-      account: username,
-      password: md5(`${saltPassword}${password}`),
-    });
+    const [ user ] = await ctx.model.AuthUser
+      .aggregate([])
+      .match({
+        username,
+        password: md5(`${saltPassword}${password}`),
+      })
+      .lookup({
+        from: 'auth_groups',
+        localField: 'role',
+        foreignField: '_id',
+        as: 'role',
+      })
+      .unwind({
+        path: '$role',
+        preserveNullAndEmptyArrays: true,
+      })
+      .addFields({
+        permissions: '$role.permissions',
+      })
+      .project({
+        role: 0,
+      });
 
-    if (!id) {
+    if (!user || !user._id) {
       return ctx.badRequest({
-        code: 10001,
+        code: 10000,
       });
     }
 
     ctx.login({
-      id,
-      username,
-      nickname,
+      id: user._id,
+      username: user.username,
+      permissions: user.permissions,
     });
 
     return ctx.success({
-      data: id,
+      data: {
+        userId: user._id,
+        uri: user.permissions[0],
+      },
     });
   }
 
@@ -50,20 +86,51 @@ export default class AuthBasicController extends Controller {
 
   async userInfo(ctx) {
     if (!ctx.isAuthenticated()) {
-      return ctx.unauthorized({
-        data: ctx.user,
+      return ctx.unAuthorized({
+        data: ctx.user ? ctx.user._id : '',
       });
     }
 
-    const { id } = ctx.user;
-
-    const result = await ctx.model.AuthUser.findById(id, '-_id -createdAt -updateAt password');
+    const [ user ] = await ctx.model.AuthUser
+      .aggregate([])
+      .match({
+        username: ctx.user.username,
+      })
+      .lookup({
+        from: 'auth_groups',
+        localField: 'role',
+        foreignField: '_id',
+        as: 'role',
+      })
+      .unwind({
+        path: '$role',
+        preserveNullAndEmptyArrays: true,
+      })
+      .addFields({
+        permissions: '$role.permissions',
+        roleName: '$role.name',
+        roleRemark: '$role.remark',
+      })
+      .project({
+        role: 0,
+      });
 
     return ctx.success({
-      data: {
-        ...result,
-        id: ctx.user.id,
-      },
+      data: user,
+    });
+  }
+
+  async siderbar(ctx) {
+    if (!ctx.isAuthenticated()) {
+      return ctx.unAuthorized({
+        data: ctx.user ? ctx.user._id : '',
+      });
+    }
+
+    const siderbar = filterRBAC(rbac, ctx.user.permissions);
+
+    return ctx.success({
+      data: siderbar,
     });
   }
 }
