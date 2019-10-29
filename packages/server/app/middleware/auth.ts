@@ -17,20 +17,11 @@ export default (key: string | string[]) => async (ctx, next) => {
  }
 
   const { permissions } = ctx.user;
+  const hasAuth = Array.isArray(key)
+    ? key.find(item => permissions.includes(`/${item.split('.').join('/')}`))
+    : permissions.includes(`/${key.split('.').join('/')}`);
 
-  if (typeof key !== 'string' || Array.isArray(key)) {
-    return ctx.badRequest({
-      data,
-    });
-  }
-
-  if (typeof key === 'string' && !permissions.includes(`/${key.split('.').join('/')}`)) {
-    return ctx.forbidden({
-      data,
-    });
-  }
-
-  if (Array.isArray(key) && !key.find(item => permissions.includes(`/${item.split('.').join('/')}`))) {
+  if (!hasAuth) {
     return ctx.forbidden({
       data,
     });

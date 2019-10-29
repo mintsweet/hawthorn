@@ -50,7 +50,7 @@ export default [
   },
   {
     name: '日志管理',
-    path: '/logs',
+    path: '/audit-logs',
     icon: 'tags',
     menu: true,
   },

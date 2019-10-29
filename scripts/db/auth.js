@@ -12,7 +12,7 @@ db.auth_groups.insert({
     '/auth/group/query',
     '/auth/group/create',
     '/auth/group/delete',
-    '/auth/group/updaye',
+    '/auth/group/update',
     '/auth/user',
     '/auth/user/query',
     '/auth/user/create',
@@ -20,7 +20,7 @@ db.auth_groups.insert({
     '/auth/user/update',
     '/system',
     '/system/config',
-    '/logs',
+    '/audit-logs',
   ],
 });
 
