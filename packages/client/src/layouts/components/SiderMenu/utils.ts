@@ -1,22 +1,24 @@
 import pathToRegexp from 'path-to-regexp';
-import { SiderbarItemProps } from '@/models/global';
 import { SiderMenuProps } from './SiderMenu';
 
 /**
- * Recursively flatten the data
- * [{ path: string }, { path: string }] => [ path, path2 ]
+ * Serialized routing menu configuration
+ * [{ path: '/xxx', routes: [{ path: '/bbb' }] }, { path: '/ccc' }] => ['/xxx', '/xxx/bbb', '/ccc']
  * @param data
  */
-export const getFlatMenuKeys = (data: SiderbarItemProps[]) => {
+export const getFlatPaths = (data: any[]) => {
   let keys: Array<string> = [];
   data.forEach(item => {
-    keys.push(item.path);
+    if (!item.redirect) {
+      keys.push(item.path);
+    }
+
     if (item.routes) {
-      keys = keys.concat(getFlatMenuKeys(item.routes));
+      keys = keys.concat(getFlatPaths(item.routes));
     }
   });
   return keys;
-;}
+}
 
 /**
  * Split pathname

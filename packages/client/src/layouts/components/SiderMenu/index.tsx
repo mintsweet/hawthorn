@@ -1,8 +1,8 @@
 import React from 'react';
 import { Location } from 'history';
-import { SiderbarItemProps } from '@/models/global';
-import { getFlatMenuKeys } from './utils';
+import { SiderbarItemProps } from '@/models/user';
 import SiderMenu from './SiderMenu';
+import { getFlatPaths } from './utils';
 
 export interface SiderMenuWrapperProps {
   location: Location;
@@ -12,7 +12,7 @@ export interface SiderMenuWrapperProps {
 
 const SiderMenuWrapper = (props: SiderMenuWrapperProps) => {
   const { location, collapsed, siderbar } = props;
-  const flatMenuKeys = getFlatMenuKeys(siderbar);
+  const flatMenuKeys = getFlatPaths(siderbar);
 
   return (
     <SiderMenu

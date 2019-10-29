@@ -6,11 +6,13 @@ const { TreeNode } = Tree;
 interface TreeItem {
   name: string;
   path: string;
+  menu?: boolean;
   routes?: TreeItem[];
 }
 
 interface TriggerTreeProps {
   data: TreeItem[];
+  disabled?: boolean;
   onChange?: (val: string[]) => void;
 }
 
@@ -31,13 +33,18 @@ export default class TriggerTree extends Component<TriggerTreeProps> {
     data.map(item => {
       if (item.routes) {
         return (
-          <TreeNode title={item.name} key={item.path} dataRef={item}>
+          <TreeNode
+            title={item.name}
+            key={item.path}
+            dataRef={item}
+            className="hawthorn-rbac-tree-parent"
+          >
             {this.renderTreeNodes(item.routes)}
           </TreeNode>
         );
       }
 
-      return <TreeNode title={item.name} key={item.path} {...item} />;
+      return <TreeNode title={item.name} key={item.path} {...item} className={item.menu ? 'hawthorn-rbac-tree-parent' : 'hawthorn-rbac-tree-child'} />;
     });
 
   handleOnCheck = (checkedKeys: any) => {
@@ -56,12 +63,14 @@ export default class TriggerTree extends Component<TriggerTreeProps> {
 
   render() {
     const { checkedKeys } = this.state;
-    const { data } = this.props;
+    const { data, disabled } = this.props;
 
     return (
       <Tree
         checkable
+        className="hawthorn-rbac-tree"
         autoExpandParent={true}
+        disabled={disabled}
         checkedKeys={checkedKeys}
         onCheck={this.handleOnCheck}
       >

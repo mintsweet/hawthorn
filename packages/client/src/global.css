@@ -10,3 +10,29 @@ body {
   margin: 0;
 }
 
+.hawthorn-rbac-tree.ant-tree {
+  line-height: 24px;
+}
+
+.hawthorn-rbac-tree.ant-tree li,
+.hawthorn-rbac-tree.ant-tree li .ant-tree-node-content-wrapper {
+  padding: 0;
+}
+
+.hawthorn-rbac-tree.ant-tree .ant-tree-child-tree > li:first-child {
+  padding-top: 0;
+}
+
+.hawthorn-rbac-tree-parent::before,
+.hawthorn-rbac-tree-parent::after {
+  content: '';
+  display: table;
+}
+
+.hawthorn-rbac-tree-parent::after {
+  clear: both;
+}
+
+.hawthorn-rbac-tree-child {
+  float: left;
+}

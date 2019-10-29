@@ -36,10 +36,10 @@ const config: IConfig =  {
   ],
 
   proxy: {
-    '/api': {
+    '/server': {
       target: 'http://localhost:7001',
       changeOrigin: true,
-      pathRewrite: { '^/api' : '' }
+      pathRewrite: { '^/server' : '' }
     },
   },
 }

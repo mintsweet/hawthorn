@@ -173,7 +173,7 @@ class BaseManagePage extends Component<BaseManagePageProps, BaseManagePageState>
             </div>
           )}
         </div>
-        {showSearch && (
+        {showSearch && Object.keys(filter).length > 0 && (
           <div className={styles.filter}>
             {Object.keys(filter).map((key, i) => {
               if (!filter[key]) return;

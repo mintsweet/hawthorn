@@ -1,4 +1,4 @@
-import http from './utils';
+import http from '@/utils/http';
 
 /**
  * 基础权限

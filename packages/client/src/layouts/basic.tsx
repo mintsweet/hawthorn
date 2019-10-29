@@ -5,6 +5,7 @@ import { Layout } from 'antd';
 import { ConnectState, ConnectProps } from '@/models/connect';
 import Exception from '@/components/Exception';
 import { SiderMenuWrapperProps } from './components/SiderMenu';
+import { getFlatPaths } from './components/SiderMenu/utils';
 import GlobalHeader from './components/GlobalHeader';
 import SiderMenu from './components/SiderMenu';
 import routes from '../../config/router';
@@ -15,25 +16,6 @@ interface BasicLayoutProps extends ConnectProps, SiderMenuWrapperProps {
   user: any;
   loginStatus: 'OK' | 'FAILED';
 };
-
-/**
- * Serialized routing menu configuration
- * [{ path: '/xxx', routes: [{ path: '/bbb' }] }, { path: '/ccc' }] => ['/xxx', '/xxx/bbb', '/ccc']
- * @param data
- */
-const getFlatPaths = (data: any[]) => {
-  let keys: Array<string> = [];
-  data.forEach(item => {
-    if (!item.redirect) {
-      keys.push(item.path);
-    }
-
-    if (item.routes) {
-      keys = keys.concat(getFlatPaths(item.routes));
-    }
-  });
-  return keys;
-}
 
 class BasicLayout extends PureComponent<BasicLayoutProps> {
   componentDidMount() {

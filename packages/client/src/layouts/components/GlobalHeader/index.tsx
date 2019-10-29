@@ -53,8 +53,8 @@ class GlobalHeader extends Component<GlobalHeaderProps> {
                 <Avatar
                   size="small"
                   className={styles.avatar}
+                  icon="user"
                   src={user.avatar}
-                  alt="avatar"
                 />
                 <span className={styles.name}>{user.nickname}</span>
               </span>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Link from 'umi/link';
 import { Layout, Menu, Icon } from 'antd';
-import { SiderbarItemProps } from '@/models/global';
+import { SiderbarItemProps } from '@/models/user';
 import { getDefaultCollapsedSubMenus, getMenuMatches, urlToList } from './utils';
 import { SiderMenuWrapperProps } from './index';
 import styles from './index.less';
