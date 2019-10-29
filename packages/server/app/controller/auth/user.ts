@@ -3,7 +3,7 @@ import { pick } from 'lodash';
 import { createRule, updateRule } from '@/validate/auth/user';
 
 export default class AuthUserController extends Controller {
-  async index(ctx) {
+  async query(ctx) {
     const { page, size, ...condition } = ctx.query;
 
     const result = await ctx.service.auth.user.getPage(

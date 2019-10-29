@@ -1,9 +1,16 @@
 import { Controller } from 'egg';
 import { pick } from 'lodash';
+import rbac from '@/rbac';
 import { createRule, updateRule } from '@/validate/auth/group';
 
 export default class AuthGroupController extends Controller {
-  async index(ctx) {
+  async systemTree(ctx) {
+    ctx.success({
+      data: rbac,
+    });
+  }
+
+  async query(ctx) {
     const { page, size, ...condition } = ctx.query;
 
     const result = await ctx.service.auth.group.getPage(
@@ -75,14 +82,23 @@ export default class AuthGroupController extends Controller {
       return ctx.badRequest({ data: err.errors });
     }
 
-    const result = await ctx.service.auth.group.update(id, pick(body, Object.keys(updateRule)));
+    const group = await ctx.service.auth.group.getById(id);
 
-    if (!result) {
+    if (!group) {
       return ctx.notFound({
         code: 10003,
         data: id,
       });
     }
+
+    if (!group.modifiable) {
+      return ctx.badRequest({
+        code: 10003,
+        data: id,
+      });
+    }
+
+    const result = await ctx.service.auth.group.update(id, pick(body, Object.keys(updateRule)));
 
     return ctx.success({
       data: result._id,

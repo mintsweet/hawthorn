@@ -1,4 +1,4 @@
-export default key => async (ctx, next) => {
+export default (key: string | string[]) => async (ctx, next) => {
   // 开发模式跳过权限检查
   const { config } = ctx.app;
   if (config.skipAuthentication) {
@@ -18,7 +18,19 @@ export default key => async (ctx, next) => {
 
   const { permissions } = ctx.user;
 
-  if (!permissions.includes(key)) {
+  if (typeof key !== 'string' || Array.isArray(key)) {
+    return ctx.badRequest({
+      data,
+    });
+  }
+
+  if (typeof key === 'string' && !permissions.includes(`/${key.split('.').join('/')}`)) {
+    return ctx.forbidden({
+      data,
+    });
+  }
+
+  if (Array.isArray(key) && !key.find(item => permissions.includes(`/${item.split('.').join('/')}`))) {
     return ctx.forbidden({
       data,
     });

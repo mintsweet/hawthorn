@@ -1,13 +1,14 @@
 import { Controller } from 'egg';
 import * as md5 from 'md5';
+import { cloneDeep, flattenDeep, uniq } from 'lodash';
 import rbac from '@/rbac';
 import { loginRule } from '@/validate/auth/basic';
 
-const filterRBAC = (data: any, has: string[]) => {
+const filterRBAC = (data: any, has: any[]) => {
   const result: any = [];
 
   data.forEach(item => {
-    if (has.includes(item.path)) {
+    if (has.includes(item.path) && item.menu) {
       if (item.routes) {
         item.routes = filterRBAC(item.routes, has);
       }
@@ -19,12 +20,6 @@ const filterRBAC = (data: any, has: string[]) => {
 };
 
 export default class AuthBasicController extends Controller {
-  async systemTree(ctx) {
-    ctx.success({
-      data: rbac,
-    });
-  }
-
   async login(ctx) {
     const { username, password } = ctx.request.body;
 
@@ -86,9 +81,7 @@ export default class AuthBasicController extends Controller {
 
   async userInfo(ctx) {
     if (!ctx.isAuthenticated()) {
-      return ctx.unAuthorized({
-        data: ctx.user ? ctx.user._id : '',
-      });
+      return ctx.unAuthorized();
     }
 
     const [ user ] = await ctx.model.AuthUser
@@ -122,15 +115,20 @@ export default class AuthBasicController extends Controller {
 
   async siderbar(ctx) {
     if (!ctx.isAuthenticated()) {
-      return ctx.unAuthorized({
-        data: ctx.user ? ctx.user._id : '',
-      });
+      return ctx.unAuthorized();
     }
 
-    const siderbar = filterRBAC(rbac, ctx.user.permissions);
+    const flatAuth = uniq(
+      flattenDeep(
+        ctx.user.permissions.map(item => {
+          const urlList = item.split('/').filter(Boolean);
+          return urlList.map((_, index) => `/${urlList.slice(0, index + 1).join('/')}`);
+        }),
+      ),
+    );
 
     return ctx.success({
-      data: siderbar,
+      data: filterRBAC(cloneDeep(rbac), flatAuth),
     });
   }
 }

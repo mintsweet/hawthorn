@@ -6,6 +6,7 @@ module.exports = app => {
     name: { type: String, unique: true },
     remark: { type: String, default: '' },
     permissions: { type: Array, default: [] },
+    modifiable: { type: Boolean, default: true },
   });
 
   return mongoose.model('auth_group', AuthGroupSchema);
