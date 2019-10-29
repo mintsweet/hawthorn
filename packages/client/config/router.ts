@@ -25,12 +25,15 @@ export default [
         ],
       },
       {
-        path: '/setting',
+        path: '/system',
         routes: [
-          { path: '/setting', redirect: '/setting/basic' },
-          { path: '/setting/basic', component: './setting-basic' },
-          { path: '/setting/email', component: './setting-email' },
+          { path: '/system', redirect: '/system/config' },
+          { path: '/system/config', component: './system-config' },
         ],
+      },
+      {
+        path: '/audit-logs',
+        component: './audit-logs',
       },
     ],
   },

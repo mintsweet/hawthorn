@@ -18,6 +18,7 @@ export interface UserModelState {
   username: string;
   nickname: string;
   avatar: string;
+  permissions: string[];
   siderbar: Array<SiderbarItemProps>; // Record siderbar
   status: 'OK' | 'FAILED'; // Record login status
 };
@@ -41,6 +42,7 @@ const StateDefault = {
   username: '',
   nickname: '',
   avatar: '',
+  permissions: [],
   siderbar: [],
   status: storage.get('loginStatus'),
 };

@@ -4,6 +4,7 @@ import { formatMessage } from 'umi-plugin-react/locale';
 import BaseManagePage from '@/components/BaseManagePage';
 import FormModal from '@/components/FormModal';
 import TriggerTree from '@/components/TriggerTree';
+import Authorized from '@/components/Authorized';
 import * as AuthService from '@/services/auth';
 
 const { TextArea } = Input;
@@ -17,6 +18,7 @@ export default class AuthGroup extends Component {
     modalType: 'add',
     updateObj: {
       _id: '',
+      modifiable: true,
     },
   };
 
@@ -77,6 +79,8 @@ export default class AuthGroup extends Component {
   render() {
     const { treeData, visible, modalType, updateObj } = this.state;
 
+    console.log(updateObj);
+
     const columns: any = [
       {
         title: formatMessage({ id: 'page.auth.group.columns.name' }),
@@ -92,20 +96,24 @@ export default class AuthGroup extends Component {
         title: formatMessage({ id: 'page.auth.group.columns.action' }),
         key: 'action',
         render: (_: any, record: any) => (
-          <>
-            <Button size="small" onClick={() => this.handleUpdate(record)}>
-              {formatMessage({ id: 'page.auth.group.action.btns.config' })}
-            </Button>
-            <Divider type="vertical" />
-            <Popconfirm
-              title={formatMessage({ id: 'page.auth.group.action.delete.confirm.message' })}
-              onConfirm={() => this.handleDelete(record._id)}
-            >
-              <Button size="small" type="danger">
-                {formatMessage({ id: 'page.auth.group.action.btns.delete' })}
+          <Authorized has={['/auth/group/update', '/auth/group/delete']}>
+            <Authorized has="/auth/group/update">
+              <Button size="small" onClick={() => this.handleUpdate(record)}>
+                {formatMessage({ id: 'page.auth.group.action.btns.config' })}
               </Button>
-            </Popconfirm>
-          </>
+              <Divider type="vertical" />
+            </Authorized>
+            <Authorized has="/auth/group/delete">
+              <Popconfirm
+                title={formatMessage({ id: 'page.auth.group.action.delete.confirm.message' })}
+                onConfirm={() => this.handleDelete(record._id)}
+              >
+                <Button size="small" type="danger">
+                  {formatMessage({ id: 'page.auth.group.action.btns.delete' })}
+                </Button>
+              </Popconfirm>
+            </Authorized>
+          </Authorized>
         ),
       },
     ];
@@ -126,7 +134,7 @@ export default class AuthGroup extends Component {
         {
           label: formatMessage({ id: 'page.auth.group.form.modal.permissions' }),
           props: 'permissions',
-          component: <TriggerTree data={treeData} />
+          component: <TriggerTree disabled={!updateObj.modifiable} data={treeData} />
         },
       ],
     };
@@ -140,10 +148,14 @@ export default class AuthGroup extends Component {
             this.Table = table;
           }}
         >
-          <Button
-            type="primary"
-            onClick={this.handleToggleVisible}
-          >{formatMessage({ id: 'page.auth.group.action.btns.add' })}</Button>
+          <Authorized has="/auth/group/create">
+            <Button
+              type="primary"
+              onClick={this.handleToggleVisible}
+            >
+              {formatMessage({ id: 'page.auth.group.action.btns.add' })}
+            </Button>
+          </Authorized>
         </BaseManagePage>
         <FormModal
           config={config}

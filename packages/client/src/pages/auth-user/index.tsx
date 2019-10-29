@@ -3,6 +3,7 @@ import { Button, Divider, Popconfirm, Input, message } from 'antd';
 import { formatMessage } from 'umi-plugin-react/locale';
 import BaseManagePage from '@/components/BaseManagePage';
 import FormModal from '@/components/FormModal';
+import Authorized from '@/components/Authorized';
 import * as AuthService from '@/services/auth';
 
 export default class AuthUser extends Component {
@@ -77,20 +78,24 @@ export default class AuthUser extends Component {
         title: formatMessage({ id: 'page.auth.user.columns.action' }),
         key: 'action',
         render: (_: any, record: any) => (
-          <>
-            <Button size="small" onClick={() => this.handleUpdate(record)}>
-              {formatMessage({ id: 'page.auth.user.action.btns.update' })}
-            </Button>
-            <Divider type="vertical" />
-            <Popconfirm
-              title={formatMessage({ id: 'page.auth.user.action.delete.confirm.message' })}
-              onConfirm={() => this.handleDelete(record._id)}
-            >
-              <Button size="small" type="danger">
-                {formatMessage({ id: 'page.auth.user.action.btns.delete' })}
+          <Authorized has={['/auth/user/update', '/auth/user/delete']}>
+            <Authorized has="/auth/user/update">
+              <Button size="small" onClick={() => this.handleUpdate(record)}>
+                {formatMessage({ id: 'page.auth.user.action.btns.update' })}
               </Button>
-            </Popconfirm>
-          </>
+            </Authorized>
+            <Divider type="vertical" />
+            <Authorized has="/auth/user/delete">
+              <Popconfirm
+                title={formatMessage({ id: 'page.auth.user.action.delete.confirm.message' })}
+                onConfirm={() => this.handleDelete(record._id)}
+              >
+                <Button size="small" type="danger">
+                  {formatMessage({ id: 'page.auth.user.action.btns.delete' })}
+                </Button>
+              </Popconfirm>
+            </Authorized>
+          </Authorized>
         ),
       },
     ];
@@ -148,10 +153,15 @@ export default class AuthUser extends Component {
             this.Table = table;
           }}
         >
-          <Button
-            type="primary"
-            onClick={this.handleToggleVisible}
-          >{formatMessage({ id: 'page.auth.user.action.btns.add' })}</Button>
+          <Authorized has="/auth/user/create">
+            <Button
+              type="primary"
+              style={{ marginRight: 10 }}
+              onClick={this.handleToggleVisible}
+            >
+              {formatMessage({ id: 'page.auth.user.action.btns.add' })}
+            </Button>
+          </Authorized>
         </BaseManagePage>
         <FormModal
           config={formModalConfig}
