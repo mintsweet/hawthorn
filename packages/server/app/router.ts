@@ -12,7 +12,7 @@ export default (app: Application) => {
   app.get('/api/v1/siderbar', 'auth.basic.siderbar'); // 获取用户菜单信息
 
   /**
-   * 权限组
+   * 权限 - 权限组
    */
   app.get('/api/v1/auth/groups', auth('auth.group.query'), 'auth.group.query');
   app.post('/api/v1/auth/group', auth('auth.group.create'), 'auth.group.create');
@@ -21,7 +21,7 @@ export default (app: Application) => {
   app.get('/api/v1/auth/system-tree', auth([ 'auth.group.create', 'auth.group.update' ]), 'auth.group.systemTree'); // 获取权限树
 
   /**
-   * 用户
+   * 权限 - 用户
    */
   app.get('/api/v1/auth/users', auth('auth.user.query'), 'auth.user.query');
   app.post('/api/v1/auth/user', auth('auth.user.create'), 'auth.user.create');
@@ -29,4 +29,11 @@ export default (app: Application) => {
   app.put('/api/v1/auth/user/:id', auth('auth.user.update'), 'auth.user.update');
   app.get('/api/v1/auth/user/:id', auth('auth.user.get'), 'auth.user.get');
   app.get('/api/v1/auth/users/search', auth('auth.user.search'), 'auth.user.search');
+
+  /**
+   * 设置 - 字典
+   */
+  app.get('/api/v1/setting/dicts', auth('setting.dict'), 'setting.dict.query');
+  app.get('/api/v1/setting/dict/:key', auth('setting.dict'), 'setting.dict.get');
+  app.put('/api/v1/setting/dict/:key', auth('setting.dict'), 'setting.dict.update');
 };

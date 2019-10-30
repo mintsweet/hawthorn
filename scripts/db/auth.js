@@ -18,8 +18,8 @@ db.auth_groups.insert({
     '/auth/user/create',
     '/auth/user/delete',
     '/auth/user/update',
-    '/system',
-    '/system/config',
+    '/setting',
+    '/setting/dict',
     '/audit-logs',
   ],
 });
@@ -32,8 +32,8 @@ db.auth_groups.insert({
     '/dashboard',
     '/auth/group/query',
     '/auth/user/query',
-    '/system',
-    '/system/config',
+    '/setting',
+    '/setting/dict',
   ],
 });
 

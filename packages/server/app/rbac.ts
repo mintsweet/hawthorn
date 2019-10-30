@@ -37,13 +37,13 @@ export default [
   },
   {
     name: '系统设置',
-    path: '/system',
+    path: '/setting',
     icon: 'setting',
     menu: true,
     routes: [
       {
         name: '参数配置',
-        path: '/system/config',
+        path: '/setting/dict',
         menu: true,
       },
     ],

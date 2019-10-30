@@ -19,7 +19,12 @@ export default class BaseService extends Service {
   }
 
   async update(id, data) {
-    const result = await this.model.findByIdAndUpdate(id, data);
+    const result = await this.model.findByIdAndUpdate(id, data, { new: true });
+    return result;
+  }
+
+  async updateOne(query, data) {
+    const result = await this.model.findOneAndUpdate(query, data, { new: true });
     return result;
   }
 
