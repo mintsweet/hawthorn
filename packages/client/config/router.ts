@@ -25,10 +25,10 @@ export default [
         ],
       },
       {
-        path: '/system',
+        path: '/setting',
         routes: [
-          { path: '/system', redirect: '/system/config' },
-          { path: '/system/config', component: './system-config' },
+          { path: '/setting', redirect: '/setting/dict' },
+          { path: '/setting/dict', component: './setting-dict' },
         ],
       },
       {

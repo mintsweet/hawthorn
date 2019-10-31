@@ -44,4 +44,15 @@ export default {
   'page.auth.group.form.modal.name': 'Name',
   'page.auth.group.form.modal.remark': 'Remark',
   'page.auth.group.form.modal.permissions': 'Permissions',
+
+  // setting-dict
+  'page.setting.dict.update.message': 'Update dict successfully!',
+  'page.setting.dict.operate.submit': 'Save',
+  'page.setting.dict.operate.cancel': 'Cancel',
+  'page.setting.dict.operate.cancel.tip': 'Are you sure you want not save?',
+  'page.setting.dict.operate.update': 'Updaye',
+  'page.setting.dict.tag.columns': 'Tag(count)',
+  'page.setting.dict.dict.columns.key': 'Key',
+  'page.setting.dict.dict.columns.value': 'Value',
+  'page.setting.dict.dict.columns.operate': 'Operate',
 }

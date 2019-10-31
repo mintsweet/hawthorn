@@ -44,4 +44,15 @@ export default {
   'page.auth.group.form.modal.name': '名称',
   'page.auth.group.form.modal.remark': '备注',
   'page.auth.group.form.modal.permissions': '权限列表',
+
+  // setting-dict
+  'page.setting.dict.update.message': '更新成功！',
+  'page.setting.dict.operate.submit': '保存',
+  'page.setting.dict.operate.cancel': '取消',
+  'page.setting.dict.operate.cancel.tip': '确定不保存吗？',
+  'page.setting.dict.operate.update': '编辑',
+  'page.setting.dict.tag.columns': '分类 (配置项数量)',
+  'page.setting.dict.dict.columns.key': '配置项',
+  'page.setting.dict.dict.columns.value': '值',
+  'page.setting.dict.dict.columns.operate': '操作',
 }
