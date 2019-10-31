@@ -12,7 +12,8 @@ const { Item: FormItem } = Form;
 
 interface LoginProps extends FormComponentProps, ConnectProps {
   autoLogin: boolean;
-  loginStatus: number;
+  loginStatus: 'OK' | 'FAILED';
+  loading: boolean;
 };
 
 class Login extends Component<LoginProps> {
@@ -22,7 +23,7 @@ class Login extends Component<LoginProps> {
 
   componentDidMount() {
     const { autoLogin, loginStatus } = this.props;
-    if (autoLogin && loginStatus === 1) {
+    if (autoLogin && loginStatus === 'OK') {
       router.push('/');
     }
   }
@@ -45,7 +46,7 @@ class Login extends Component<LoginProps> {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         this.props.dispatch({
-          type: 'user/login',
+          type: 'login/login',
           payload: values,
         });
       }
@@ -64,7 +65,7 @@ class Login extends Component<LoginProps> {
 
   render() {
     const { loginCode } = this.state;
-    const { form, autoLogin, } = this.props;
+    const { form, autoLogin, loading } = this.props;
     const { getFieldDecorator } = form;
 
     return (
@@ -136,6 +137,7 @@ class Login extends Component<LoginProps> {
             block
             type="primary"
             htmlType="submit"
+            loading={loading}
           >
             {formatMessage({ id: 'page.login.submit' })}
           </Button>
@@ -146,9 +148,10 @@ class Login extends Component<LoginProps> {
 }
 
 export default connect(
-  ({ global, user }: ConnectState) => ({
+  ({ global, login }: ConnectState) => ({
     autoLogin: global.autoLogin,
-    loginStatus: user.status,
+    loginStatus: login.status,
+    loading: login.loading,
   })
 )(
   Form.create()(Login)

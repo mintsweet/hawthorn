@@ -1,8 +1,6 @@
 import { Reducer } from 'redux';
-import { routerRedux } from 'dva';
-import { storage } from 'mints-utils';
-import { Effect } from './connect';
 import * as AuthServices from '@/services/auth';
+import { Effect } from './connect';
 
 export interface SiderbarItemProps {
   name: string;
@@ -20,7 +18,6 @@ export interface UserModelState {
   avatar: string;
   permissions: string[];
   siderbar: Array<SiderbarItemProps>; // Record siderbar
-  status: 'OK' | 'FAILED'; // Record login status
 };
 
 export interface UserModelType {
@@ -30,8 +27,6 @@ export interface UserModelType {
     update: Reducer<UserModelState>;
   },
   effects: {
-    login: Effect;
-    logout: Effect;
     fetchUser: Effect;
     fetchSiderbar: Effect;
   },
@@ -44,7 +39,6 @@ const StateDefault = {
   avatar: '',
   permissions: [],
   siderbar: [],
-  status: storage.get('loginStatus'),
 };
 
 const UserModel: UserModelType = {
@@ -59,43 +53,6 @@ const UserModel: UserModelType = {
   },
 
   effects: {
-    *login({ payload }, { call, put }) {
-      const { code, data: { uri } } = yield call(AuthServices.login, payload);
-      const loginStatus = code === 0 ? 'OK' : 'FAILED';
-
-      // Login status persistence
-      storage.set('loginStatus', loginStatus);
-
-      yield put({
-        type: 'update',
-        payload: {
-          status: loginStatus,
-        },
-      });
-
-      if (code === 0) {
-        const redirect = uri || '/';
-        yield put(routerRedux.replace(redirect));
-      }
-    },
-
-    *logout({ payload }, { call, put }) {
-      if (payload) {
-        yield call(AuthServices.logout);
-      }
-
-      storage.del('loginStatus');
-
-      yield put({
-        type: 'update',
-        payload: {
-          status: 0,
-        },
-      });
-
-      yield put(routerRedux.replace('/user/login'));
-    },
-
     *fetchUser(_, { call, put }) {
       const { data } = yield call(AuthServices.getUserInfo);
       yield put({

@@ -28,28 +28,20 @@ export default class AuthUser extends Component {
   handleSubmit = async (data: object) => {
     const { updateObj, modalType } = this.state;
 
-    try {
-      if (modalType === 'update') {
-        await AuthService.updateUser(updateObj._id, data);
-        message.success(formatMessage({ id: 'page.auth.user.action.update.message' }));
-      } else {
-        await AuthService.createUser(data);
-        message.success(formatMessage({ id: 'page.auth.user.action.create.message' }));
-      }
-      this.Table.getData();
-    } catch(err) {
-      message.error(err.message);
+    if (modalType === 'update') {
+      await AuthService.updateUser(updateObj._id, data);
+      message.success(formatMessage({ id: 'page.auth.user.action.update.message' }));
+    } else {
+      await AuthService.createUser(data);
+      message.success(formatMessage({ id: 'page.auth.user.action.create.message' }));
     }
+    this.Table.getData();
   }
 
   handleDelete = async (id: string) => {
-    try {
-      await AuthService.deleteUser(id);
-      message.success(formatMessage({ id: 'page.auth.user.action.delete.message' }));
-      this.Table.getData();
-    } catch(err) {
-      message.error(err.message);
-    }
+    await AuthService.deleteUser(id);
+    message.success(formatMessage({ id: 'page.auth.user.action.delete.message' }));
+    this.Table.getData();
   }
 
   handleUpdate = (data: any) => {
@@ -123,21 +115,19 @@ export default class AuthUser extends Component {
           label: formatMessage({ id: 'page.auth.user.form.modal.username' }),
           props: 'username',
           component: <Input disabled={modalType === 'update'} />,
+          required: true,
         },
         {
           label: formatMessage({ id: 'page.auth.user.form.modal.password' }),
           props: 'password',
-          component: <Input type="password" />
+          component: <Input type="password" />,
+          required: true,
         },
         {
           label: formatMessage({ id: 'page.auth.user.form.modal.nickname' }),
           props: 'nickname',
           component: <Input />,
-        },
-        {
-          label: formatMessage({ id: 'page.auth.user.form.modal.avatar' }),
-          props: 'avatar',
-          component: <Input />,
+          required: true,
         },
       ],
     };

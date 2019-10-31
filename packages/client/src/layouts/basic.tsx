@@ -45,7 +45,7 @@ class BasicLayout extends PureComponent<BasicLayoutProps> {
   handleClickUserMenu = (key: string) => {
     if (key === 'logout') {
       this.props.dispatch({
-        type: 'user/logout',
+        type: 'login/logout',
         payload: true,
       });
     }
@@ -92,10 +92,10 @@ class BasicLayout extends PureComponent<BasicLayoutProps> {
 }
 
 export default connect(
-  ({ global, user }: ConnectState) => ({
+  ({ global, login, user }: ConnectState) => ({
     collapsed: global.collapsed,
+    loginStatus: login.status,
     user,
     siderbar: user.siderbar,
-    loginStatus: user.status,
   })
 )(BasicLayout);

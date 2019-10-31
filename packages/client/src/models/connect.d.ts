@@ -3,6 +3,7 @@ import { EffectsCommandMap } from 'dva';
 import { RouterTypes } from 'umi';
 import { GlobalModelState } from './global';
 import { UserModelState } from './user';
+import { LoginModelState } from './login';
 
 export type Effect = (
   action: AnyAction,
@@ -18,6 +19,7 @@ export type Dispatch = <P = any, C = (payload: P) => void>(action: {
 
 export interface ConnectState {
   global: GlobalModelState;
+  login: LoginModelState;
   user: UserModelState;
 }
 

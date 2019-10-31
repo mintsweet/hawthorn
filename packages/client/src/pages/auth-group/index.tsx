@@ -37,35 +37,29 @@ export default class AuthGroup extends Component {
     this.setState({
       visible: !this.state.visible,
       modalType: 'add',
-      updateObj: {},
+      updateObj: {
+        _id: '',
+        modifiable: true,
+      },
     });
   }
 
   handleSubmit = async (data: any) => {
     const { updateObj, modalType } = this.state;
-
-    try {
-      if (modalType === 'update') {
-        await AuthService.updateGroup(updateObj._id, data);
-        message.success(formatMessage({ id: 'page.auth.group.action.update.message' }));
-      } else {
-        await AuthService.createGroup(data);
-        message.success(formatMessage({ id: 'page.auth.group.action.create.message' }));
-      }
-      this.Table.getData();
-    } catch(err) {
-      message.error(err.message);
+    if (modalType === 'update') {
+      await AuthService.updateGroup(updateObj._id, data);
+      message.success(formatMessage({ id: 'page.auth.group.action.update.message' }));
+    } else {
+      await AuthService.createGroup(data);
+      message.success(formatMessage({ id: 'page.auth.group.action.create.message' }));
     }
+    this.Table.getData();
   }
 
   handleDelete = async (id: string) => {
-    try {
-      await AuthService.deleteGroup(id);
-      message.success(formatMessage({ id: 'page.auth.group.action.delete.message' }));
-      this.Table.getData();
-    } catch(err) {
-      message.error(err.message);
-    }
+    await AuthService.deleteGroup(id);
+    message.success(formatMessage({ id: 'page.auth.group.action.delete.message' }));
+    this.Table.getData();
   }
 
   handleUpdate = (data: any) => {
@@ -78,8 +72,6 @@ export default class AuthGroup extends Component {
 
   render() {
     const { treeData, visible, modalType, updateObj } = this.state;
-
-    console.log(updateObj);
 
     const columns: any = [
       {
@@ -125,16 +117,18 @@ export default class AuthGroup extends Component {
           label: formatMessage({ id: 'page.auth.group.form.modal.name' }),
           props: 'name',
           component: <Input disabled={modalType === 'update'} />,
+          required: true,
         },
         {
           label: formatMessage({ id: 'page.auth.group.form.modal.remark' }),
           props: 'remark',
-          component: <TextArea rows={3} />
+          component: <TextArea rows={3} />,
         },
         {
           label: formatMessage({ id: 'page.auth.group.form.modal.permissions' }),
           props: 'permissions',
-          component: <TriggerTree disabled={!updateObj.modifiable} data={treeData} />
+          component: <TriggerTree disabled={!updateObj.modifiable} data={treeData} />,
+          required: true,
         },
       ],
     };

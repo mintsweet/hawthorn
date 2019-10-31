@@ -47,13 +47,9 @@ export default class SystemConfig extends Component {
     this.setState({
       updateStatus: 'doing',
     }, async () => {
-      try {
-        await SettingService.updateDict(updateKey, { value: updateValue });
-        await this.getData();
-        message.success(formatMessage({ id: 'page.setting.dict.update.message' }));
-      } catch(err) {
-        message.error(err.message);
-      }
+      await SettingService.updateDict(updateKey, { value: updateValue });
+      await this.getData();
+      message.success(formatMessage({ id: 'page.setting.dict.update.message' }));
       this.handleCancel();
     });
   }

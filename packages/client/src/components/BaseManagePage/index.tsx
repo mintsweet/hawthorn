@@ -59,7 +59,7 @@ class BaseManagePage extends Component<BaseManagePageProps, BaseManagePageState>
   constructor(props: BaseManagePageProps) {
     super(props);
     this.state = {
-      loading: false,
+      loading: true,
       page: 1,
       size: 10,
       list: [],
@@ -83,6 +83,7 @@ class BaseManagePage extends Component<BaseManagePageProps, BaseManagePageState>
     const { data } = await this.props.fetchData({ page, size, ...condition });
     this.setState({
       ...data,
+      loading: false,
     });
   }
 
@@ -139,7 +140,7 @@ class BaseManagePage extends Component<BaseManagePageProps, BaseManagePageState>
   }
 
   render() {
-    const { list, filterVisible, filter } = this.state;
+    const { loading, list, filterVisible, filter } = this.state;
     const {
       children,
       columns,
@@ -193,6 +194,7 @@ class BaseManagePage extends Component<BaseManagePageProps, BaseManagePageState>
           rowKey="_id"
           columns={columns}
           dataSource={list}
+          loading={loading}
         />
         {showSearch && (
           <Drawer
