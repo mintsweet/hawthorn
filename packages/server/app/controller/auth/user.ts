@@ -32,7 +32,7 @@ export default class AuthUserController extends Controller {
 
     if (userExist) {
       return ctx.badRequest({
-        code: 10002,
+        code: 10003,
         data: {
           username: body.username,
         },
@@ -55,7 +55,6 @@ export default class AuthUserController extends Controller {
 
     if (!result) {
       ctx.notFound({
-        code: 10003,
         data: id,
       });
 
@@ -81,7 +80,6 @@ export default class AuthUserController extends Controller {
 
     if (!result) {
       return ctx.notFound({
-        code: 10003,
         data: id,
       });
     }
@@ -98,7 +96,6 @@ export default class AuthUserController extends Controller {
 
     if (!result) {
       return ctx.notFound({
-        code: 10003,
         data: id,
       });
     }

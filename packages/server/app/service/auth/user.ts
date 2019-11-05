@@ -1,4 +1,4 @@
-import Service from '@/core/base_service';
+import Service from '@/core/baseService';
 
 export default class UserService extends Service {
   constructor(ctx) {

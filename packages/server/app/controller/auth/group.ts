@@ -39,7 +39,7 @@ export default class AuthGroupController extends Controller {
 
     if (groupExist) {
       return ctx.badRequest({
-        code: 10002,
+        code: 10001,
         data: {
           name: body.name,
         },
@@ -62,7 +62,6 @@ export default class AuthGroupController extends Controller {
 
     if (!result) {
       return ctx.notFound({
-        code: 10003,
         data: id,
       });
     }
@@ -86,14 +85,13 @@ export default class AuthGroupController extends Controller {
 
     if (!group) {
       return ctx.notFound({
-        code: 10003,
         data: id,
       });
     }
 
     if (!group.modifiable) {
       return ctx.badRequest({
-        code: 10003,
+        code: 10002,
         data: id,
       });
     }

@@ -1,4 +1,4 @@
-import Service from '@/core/base_service';
+import Service from '@/core/baseService';
 import Cache from '@/utils/cache';
 
 export default class SettingDict extends Service {

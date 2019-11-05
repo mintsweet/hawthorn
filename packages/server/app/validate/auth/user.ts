@@ -11,10 +11,6 @@ export const createRule = {
     type: 'string',
     required: true,
   },
-  avatar: {
-    type: 'string',
-    required: false,
-  },
 };
 
 export const updateRule = {
@@ -23,10 +19,6 @@ export const updateRule = {
     required: false,
   },
   nickname: {
-    type: 'string',
-    required: false,
-  },
-  avatar: {
     type: 'string',
     required: false,
   },

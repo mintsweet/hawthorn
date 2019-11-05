@@ -5,17 +5,21 @@ export const createRule = {
   },
   remark: {
     type: 'string',
+    required: false,
   },
   permissions: {
     type: 'array',
+    required: true,
   },
 };
 
 export const updateRule = {
   remark: {
     type: 'string',
+    required: false,
   },
   permissions: {
     type: 'array',
+    required: false,
   },
 };
