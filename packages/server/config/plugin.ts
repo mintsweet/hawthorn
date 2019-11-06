@@ -22,6 +22,10 @@ const plugin: EggPlugin = {
     enable: true,
     package: 'egg-session-redis',
   },
+  auditLog: {
+    enable: true,
+    package: 'egg-audit-log',
+  },
 };
 
 export default plugin;

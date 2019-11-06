@@ -60,6 +60,12 @@ export default class AuthBasicController extends Controller {
       });
     }
 
+    // Record login audit log
+    await this.app.auditLog.log(ctx, {
+      operationType: '消息',
+      operationContent: `用户登录-${username}`,
+    });
+
     ctx.login({
       id: user._id,
       username: user.username,

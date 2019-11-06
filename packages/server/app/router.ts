@@ -36,4 +36,9 @@ export default (app: Application) => {
   app.get('/api/v1/setting/dicts', auth('setting.dict'), 'setting.dict.query');
   app.get('/api/v1/setting/dict/:key', auth('setting.dict'), 'setting.dict.get');
   app.put('/api/v1/setting/dict/:key', auth('setting.dict'), 'setting.dict.update');
+
+  /**
+   * 日志
+   */
+  app.get('/api/v1/audit-logs', auth('audit-logs'), 'auditLog.query');
 };
