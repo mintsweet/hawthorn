@@ -1,8 +1,11 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
+import DocumentTitle from 'react-document-title';
 import Redirect from 'umi/redirect';
 import { Layout } from 'antd';
+import pathToRegexp from 'path-to-regexp';
 import { ConnectState, ConnectProps } from '@/models/connect';
+import { SiderbarItemProps } from '@/models/user';
 import Exception from '@/components/Exception';
 import GlobalHeader from '@/components/GlobalHeader';
 import SiderMenu, { SiderMenuWrapperProps } from '@/components/SiderMenu';
@@ -15,6 +18,24 @@ interface BasicLayoutProps extends ConnectProps, SiderMenuWrapperProps {
   user: any;
   loginStatus: 'OK' | 'FAILED';
 };
+
+/**
+ * Get Breadcrumb Map
+ * @param siderbar
+ */
+const getBreadcrumbNameMap = (siderbar: SiderbarItemProps[]) => {
+  const routerMap: any = {};
+  const flattenMenuData = (data: SiderbarItemProps[]) => {
+    data.forEach((item: SiderbarItemProps) => {
+      if (item.routes) {
+        flattenMenuData(item.routes);
+      }
+      routerMap[item.path] = item;
+    });
+  }
+  flattenMenuData(siderbar);
+  return routerMap;
+}
 
 class BasicLayout extends PureComponent<BasicLayoutProps> {
   componentDidMount() {
@@ -32,6 +53,21 @@ class BasicLayout extends PureComponent<BasicLayoutProps> {
     this.props.dispatch({
       type: 'user/fetchSiderbar',
     });
+  }
+
+  getPageTitle = (pathname: string, breadcrumbNameMap: any) => {
+    const defaultTitle = 'Hawthorn';
+    const pathKey = Object.keys(breadcrumbNameMap).find(key => pathToRegexp(key).test(pathname));
+    if (!pathKey) {
+      return defaultTitle;
+    }
+
+    const current = breadcrumbNameMap[pathKey];
+    if (!current) {
+      return defaultTitle;
+    }
+
+    return `${current.name} - ${defaultTitle}`;
   }
 
   handleToggleCollapsed = () => {
@@ -53,6 +89,10 @@ class BasicLayout extends PureComponent<BasicLayoutProps> {
   render() {
     const { children, location, collapsed, siderbar, user, loginStatus } = this.props;
     const { pathname } = location;
+
+    // Breadcrumb name map
+    const breadcrumbNameMap = getBreadcrumbNameMap(siderbar);
+    console.log(breadcrumbNameMap);
 
     // Determine if the user is logged in
     const isLogin = loginStatus === 'OK';
@@ -86,7 +126,7 @@ class BasicLayout extends PureComponent<BasicLayoutProps> {
       </Layout>
     );
 
-    return isLogin ? layout : <Redirect to="/user/login" />;
+    return isLogin ? <DocumentTitle title={this.getPageTitle(pathname, breadcrumbNameMap)}>{layout}</DocumentTitle> : <Redirect to="/user/login" />;
   }
 }
 
