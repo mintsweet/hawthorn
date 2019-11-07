@@ -4,10 +4,9 @@ import Redirect from 'umi/redirect';
 import { Layout } from 'antd';
 import { ConnectState, ConnectProps } from '@/models/connect';
 import Exception from '@/components/Exception';
-import { SiderMenuWrapperProps } from './components/SiderMenu';
-import { getFlatPaths } from './components/SiderMenu/utils';
-import GlobalHeader from './components/GlobalHeader';
-import SiderMenu from './components/SiderMenu';
+import GlobalHeader from '@/components/GlobalHeader';
+import SiderMenu, { SiderMenuWrapperProps } from '@/components/SiderMenu';
+import { getFlatPaths } from '@/components/SiderMenu/utils';
 import routes from '../../config/router';
 
 const { Header, Content } = Layout;
