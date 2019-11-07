@@ -55,4 +55,22 @@ export default {
   'page.setting.dict.dict.columns.key': '配置项',
   'page.setting.dict.dict.columns.value': '值',
   'page.setting.dict.dict.columns.operate': '操作',
+
+  // audit-log
+  'page.audit.log.columns.ip': 'IP地址',
+  'page.audit.log.columns.url': '请求路径',
+  'page.audit.log.columns.method': '请求方法',
+  'page.audit.log.columns.ua': '代理',
+  'page.audit.log.columns.userId': '用户ID',
+  'page.audit.log.columns.userName': '用户名',
+  'page.audit.log.columns.recordTime': '记录产生时间',
+  'page.audit.log.columns.operationType': '操作类型',
+  'page.audit.log.columns.operationContent': '操作内容',
+  'page.audit.log.columns.customData': '自定义内容',
+  'page.audit.log.query.form.ip': 'IP地址',
+  'page.audit.log.query.form.url': '请求路径',
+  'page.audit.log.query.form.method': '请求方法',
+  'page.audit.log.query.form.userId': '用户ID',
+  'page.audit.log.query.form.userName': '用户名',
+  'page.audit.log.query.form.recordTime': '记录时间',
 }

@@ -55,4 +55,22 @@ export default {
   'page.setting.dict.dict.columns.key': 'Key',
   'page.setting.dict.dict.columns.value': 'Value',
   'page.setting.dict.dict.columns.operate': 'Operate',
+
+  // audit-log
+  'page.audit.log.columns.ip': 'IP',
+  'page.audit.log.columns.url': 'Url',
+  'page.audit.log.columns.method': 'Method',
+  'page.audit.log.columns.ua': 'UA',
+  'page.audit.log.columns.userId': 'User ID',
+  'page.audit.log.columns.userName': 'User Name',
+  'page.audit.log.columns.recordTime': 'Time',
+  'page.audit.log.columns.operationType': 'Operate Type',
+  'page.audit.log.columns.operationContent': 'Operate Content',
+  'page.audit.log.columns.customData': 'Custom Data',
+  'page.audit.log.query.form.ip': 'IP',
+  'page.audit.log.query.form.url': 'Url',
+  'page.audit.log.query.form.method': 'Method',
+  'page.audit.log.query.form.userId': 'UserId',
+  'page.audit.log.query.form.userName': 'Username',
+  'page.audit.log.query.form.recordTime': 'Time',
 }

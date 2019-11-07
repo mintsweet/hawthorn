@@ -6,7 +6,7 @@ export default new Http('/server/api', {
     const { status, data: { msg } } = err.response;
     if (status === 401) {
       (window as any).g_app._store.dispatch({
-        type: 'user/logout',
+        type: 'login/logout',
       });
     }
     message.error(msg);
