@@ -10,4 +10,7 @@ export default {
   'component.baseManagePage.filter.title': 'Search Panel',
   'component.baseManagePage.filter.btns.cancel': 'Cancel',
   'component.baseManagePage.filter.btns.submit': 'Submit',
+
+  // Breadcrumb
+  'component.breadcrumb.home': 'Home',
 }

@@ -17,11 +17,11 @@ const config: IConfig =  {
       antd: true,
       dva: true,
       dynamicImport: { webpackChunkName: true },
-      title: 'client',
+      title: 'Hawthorn',
       dll: true,
       locale: {
         enable: true,
-        default: 'en-US',
+        default: 'zh-CN',
       },
       routes: {
         exclude: [

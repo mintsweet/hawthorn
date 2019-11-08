@@ -6,10 +6,11 @@ import { Layout } from 'antd';
 import pathToRegexp from 'path-to-regexp';
 import { ConnectState, ConnectProps } from '@/models/connect';
 import { SiderbarItemProps } from '@/models/user';
-import Exception from '@/components/Exception';
 import GlobalHeader from '@/components/GlobalHeader';
 import SiderMenu, { SiderMenuWrapperProps } from '@/components/SiderMenu';
-import { getFlatPaths } from '@/components/SiderMenu/utils';
+import { getFlatPaths } from '@/components/utils';
+import Breadcrumb from '@/components/Breadcrumb';
+import Exception from '@/components/Exception';
 import routes from '../../config/router';
 
 const { Header, Content } = Layout;
@@ -92,7 +93,6 @@ class BasicLayout extends PureComponent<BasicLayoutProps> {
 
     // Breadcrumb name map
     const breadcrumbNameMap = getBreadcrumbNameMap(siderbar);
-    console.log(breadcrumbNameMap);
 
     // Determine if the user is logged in
     const isLogin = loginStatus === 'OK';
@@ -111,7 +111,7 @@ class BasicLayout extends PureComponent<BasicLayoutProps> {
           siderbar={siderbar}
         />
         <Layout>
-          <Header style={{ padding: 0, background: '#fff' }}>
+          <Header style={{ padding: 0, background: '#fff', zIndex: 2 }}>
             <GlobalHeader
               user={user}
               collapsed={collapsed}
@@ -119,6 +119,10 @@ class BasicLayout extends PureComponent<BasicLayoutProps> {
               onClickMenu={this.handleClickUserMenu}
             />
           </Header>
+          <Breadcrumb
+            location={location}
+            breadcrumbNameMap={breadcrumbNameMap}
+          />
           <Content style={{ margin: '24px 16px', padding: '24px 16px', background: '#fff' }}>
             {content}
           </Content>

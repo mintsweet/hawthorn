@@ -10,4 +10,7 @@ export default {
   'component.baseManagePage.filter.title': '搜索面板',
   'component.baseManagePage.filter.btns.cancel': '取消',
   'component.baseManagePage.filter.btns.submit': '确定',
+
+  // Breadcrumb
+  'component.breadcrumb.home': '主页',
 }

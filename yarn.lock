@@ -11925,8 +11925,10 @@ minizlib@^1.2.1:
   dependencies:
     minipass "^2.2.1"
 
-"mints-utils@file:../mints/packages/mints-utils":
-  version "1.0.0"
+mints-utils@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/mints-utils/-/mints-utils-1.0.1.tgz#c8e98e8571883ea7a0fe147e6c9e81966f25cd95"
+  integrity sha512-xDjOqASGY1/xXLYk+l0rsKHobiWp2tgYiO8URDMdAPeH3bol6tTS6sGmePcgiuY2Mwn18y0upahUCRF4xlMnYw==
   dependencies:
     axios "^0.19.0"
 
