@@ -15,7 +15,7 @@ module.exports = {
     this.status = status;
     this.body = {
       code,
-      msg: msg || this.helper.errorMsg(code),
+      msg: msg || this.__(`errorCode.${code}`),
       data,
     };
   },
@@ -29,7 +29,7 @@ module.exports = {
     this.status = status;
     this.body = {
       code,
-      msg: msg || this.helper.errorMsg(code),
+      msg: msg || this.__(`errorCode.${code}`),
       data,
     };
   },
@@ -43,7 +43,7 @@ module.exports = {
     this.status = status;
     this.body = {
       code,
-      msg: msg || this.helper.errorMsg(code),
+      msg: msg || this.__(`errorCode.${code}`),
       data,
     };
   },
@@ -57,7 +57,7 @@ module.exports = {
     this.status = status;
     this.body = {
       code,
-      msg: msg || this.helper.errorMsg(code),
+      msg: msg || this.__(`errorCode.${code}`),
       data,
     };
   },
@@ -71,7 +71,7 @@ module.exports = {
     this.status = status;
     this.body = {
       code,
-      msg: msg || this.helper.errorMsg(code),
+      msg: msg || this.__(`errorCode.${code}`),
       data,
     };
   },
@@ -85,7 +85,7 @@ module.exports = {
     this.status = status;
     this.body = {
       code,
-      msg: msg || this.helper.errorMsg(code),
+      msg: msg || this.__(`errorCode.${code}`),
       data,
     };
   },

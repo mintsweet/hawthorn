@@ -3,15 +3,14 @@ import { EggAppConfig, EggAppInfo, PowerPartial } from 'egg';
 export default (appInfo: EggAppInfo) => {
   const config = {
     keys: `${appInfo.name}__1567071459644_5288`,
-
     saltPassword: 'hawthorn',
-
     middleware: [],
-
     mongoose: {
       url: 'mongodb://localhost:27017/hawthorn',
     },
-
+    i18n: {
+      defaultLocale: 'zh-CN',
+    },
     auditLog: {
       model: {
         expansion: {
@@ -26,7 +25,6 @@ export default (appInfo: EggAppInfo) => {
         },
       },
     },
-
     redis: {
       client: {
         port: 6379,
@@ -35,7 +33,6 @@ export default (appInfo: EggAppInfo) => {
         db: 3,
       },
     },
-
     security: {
       csrf: {
         enable: false,
