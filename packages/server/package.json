@@ -19,7 +19,7 @@
   "dependencies": {
     "bluebird": "^3.7.1",
     "egg": "^2.6.1",
-    "egg-audit-log": "file:../../../egg-audit-log",
+    "egg-audit-log": "^1.0.0",
     "egg-mongoose": "^3.2.0",
     "egg-passport": "^2.1.0",
     "egg-redis": "^2.4.0",
