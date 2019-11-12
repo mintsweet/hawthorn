@@ -54,11 +54,15 @@ export default class BaseService extends Service {
   }
 
   async search(name) {
-    const result = await this.model.find({
-      name: {
-        $regex: name,
+    const result = await this.model.find(
+      {
+        name: {
+          $regex: name,
+        },
       },
-    });
+      '_id name',
+    );
+
     return result;
   }
 }

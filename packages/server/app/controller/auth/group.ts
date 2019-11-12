@@ -102,4 +102,14 @@ export default class AuthGroupController extends Controller {
       data: result._id,
     });
   }
+
+  async search(ctx) {
+    const { name = '' } = ctx.query;
+
+    const result = await ctx.service.auth.group.search(name);
+
+    return ctx.success({
+      data: result,
+    });
+  }
 }

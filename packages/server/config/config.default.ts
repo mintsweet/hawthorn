@@ -7,6 +7,9 @@ export default (appInfo: EggAppInfo) => {
     middleware: [],
     mongoose: {
       url: 'mongodb://localhost:27017/hawthorn',
+      options: {
+        useUnifiedTopology: true,
+      },
     },
     i18n: {
       defaultLocale: 'zh-CN',

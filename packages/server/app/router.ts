@@ -18,6 +18,7 @@ export default (app: Application) => {
   app.post('/api/v1/auth/group', auth('auth.group.create'), 'auth.group.create');
   app.delete('/api/v1/auth/group/:id', auth('auth.group.delete'), 'auth.group.delete');
   app.put('/api/v1/auth/group/:id', auth('auth.group.update'), 'auth.group.update');
+  app.get('/api/v1/auth/groups/search', auth('auth.group.query'), 'auth.group.search');
   app.get('/api/v1/auth/system-tree', auth([ 'auth.group.create', 'auth.group.update' ]), 'auth.group.systemTree'); // 获取权限树
 
   /**
@@ -28,7 +29,7 @@ export default (app: Application) => {
   app.delete('/api/v1/auth/user/:id', auth('auth.user.delete'), 'auth.user.delete');
   app.put('/api/v1/auth/user/:id', auth('auth.user.update'), 'auth.user.update');
   app.get('/api/v1/auth/user/:id', auth('auth.user.get'), 'auth.user.get');
-  app.get('/api/v1/auth/users/search', auth('auth.user.search'), 'auth.user.search');
+  app.get('/api/v1/auth/users/search', auth('auth.user.query'), 'auth.user.search');
 
   /**
    * 设置 - 字典
