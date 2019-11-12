@@ -11,6 +11,10 @@ export const createRule = {
     type: 'string',
     required: true,
   },
+  role: {
+    type: 'string',
+    required: true,
+  },
 };
 
 export const updateRule = {
@@ -19,6 +23,10 @@ export const updateRule = {
     required: false,
   },
   nickname: {
+    type: 'string',
+    required: false,
+  },
+  role: {
     type: 'string',
     required: false,
   },

@@ -90,32 +90,13 @@ export default class AuthBasicController extends Controller {
       return ctx.unAuthorized();
     }
 
-    const [ user ] = await ctx.model.AuthUser
-      .aggregate([])
-      .match({
-        username: ctx.user.username,
-      })
-      .lookup({
-        from: 'auth_groups',
-        localField: 'role',
-        foreignField: '_id',
-        as: 'role',
-      })
-      .unwind({
-        path: '$role',
-        preserveNullAndEmptyArrays: true,
-      })
-      .addFields({
-        permissions: '$role.permissions',
-        roleName: '$role.name',
-        roleRemark: '$role.remark',
-      })
-      .project({
-        role: 0,
-      });
+    const user = await ctx.model.AuthUser.findById(ctx.user.id, 'nickname avatar');
 
     return ctx.success({
-      data: user,
+      data: {
+        ...user,
+        ...ctx.user,
+      },
     });
   }
 

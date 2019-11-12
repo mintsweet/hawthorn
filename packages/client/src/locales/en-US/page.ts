@@ -13,6 +13,7 @@ export default {
   // auth-user
   'page.auth.user.columns.username': 'Username',
   'page.auth.user.columns.nickname': 'Nickname',
+  "page.auth.user.columns.role": 'Role',
   'page.auth.user.columns.action': 'Action',
   'page.auth.user.action.btns.add': 'Create',
   'page.auth.user.action.btns.update': 'Update',
@@ -25,7 +26,7 @@ export default {
   'page.auth.user.form.modal.username': 'Username',
   'page.auth.user.form.modal.password': 'Password',
   'page.auth.user.form.modal.nickname': 'Nickname',
-  'page.auth.user.form.modal.avatar': 'Avatar',
+  'page.auth.user.form.modal.role': 'Role',
   'page.auth.user.query.form.username': 'UserName',
   'page.auth.user.query.form.nickname': 'Nickname',
 

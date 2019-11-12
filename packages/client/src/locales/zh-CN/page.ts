@@ -13,6 +13,7 @@ export default {
   // auth-user
   'page.auth.user.columns.username': '登录名',
   'page.auth.user.columns.nickname': '昵称',
+  "page.auth.user.columns.role": '权限组',
   'page.auth.user.columns.action': '操作',
   'page.auth.user.action.btns.add': '新增',
   'page.auth.user.action.btns.update': '修改',
@@ -25,7 +26,7 @@ export default {
   'page.auth.user.form.modal.username': '登录名',
   'page.auth.user.form.modal.password': '密码',
   'page.auth.user.form.modal.nickname': '昵称',
-  'page.auth.user.form.modal.avatar': '头像',
+  'page.auth.user.form.modal.role': '权限组',
   'page.auth.user.query.form.username': '登录名',
   'page.auth.user.query.form.nickname': '昵称',
 

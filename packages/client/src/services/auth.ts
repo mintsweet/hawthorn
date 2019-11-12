@@ -24,5 +24,5 @@ export const createGroup = (data: object) => http.post('/v1/auth/group', data);
 export const deleteGroup = (id: string) => http.del(`/v1/auth/group/${id}`);
 export const updateGroup = (id: string, data: object) => http.put(`/v1/auth/group/${id}`, data);
 export const getGroups = (param: object) => http.get('/v1/auth/groups', param);
-export const getGroup = (id: string) => http.get(`/v1/auth/group/${id}`);
+export const searchGroup = (param?: object) => http.get('/v1/auth/groups/search', param);
 export const getSystemTree = () => http.get('/v1/auth/system-tree');

@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { Button, Divider, Popconfirm, Input, message } from 'antd';
+import { Button, Divider, Popconfirm, Input, Select, Tag, message } from 'antd';
 import { formatMessage } from 'umi-plugin-react/locale';
 import BaseManagePage from '@/components/BaseManagePage';
 import FormModal from '@/components/FormModal';
 import Authorized from '@/components/Authorized';
 import * as AuthService from '@/services/auth';
+
+const { Option } = Select;
 
 export default class AuthUser extends Component {
   Table: any;
@@ -15,7 +17,19 @@ export default class AuthUser extends Component {
     updateObj: {
       _id: '',
     },
+    groups: [],
   };
+
+  componentDidMount() {
+    this.getAuthGroup();
+  }
+
+  async getAuthGroup() {
+    const { data } = await AuthService.searchGroup();
+    this.setState({
+      groups: data,
+    });
+  }
 
   handleToggleVisible = () => {
     this.setState({
@@ -53,7 +67,7 @@ export default class AuthUser extends Component {
   }
 
   render() {
-    const { visible, modalType, updateObj } = this.state;
+    const { visible, modalType, updateObj, groups } = this.state;
 
     const columns: any = [
       {
@@ -65,6 +79,12 @@ export default class AuthUser extends Component {
         title: formatMessage({ id: 'page.auth.user.columns.nickname' }),
         dataIndex: 'nickname',
         key: 'nickname',
+      },
+      {
+        title: formatMessage({ id: 'page.auth.user.columns.role' }),
+        dataIndex: 'roleName',
+        key: 'roleName',
+        render: (roleName: string) => <Tag>{roleName}</Tag>,
       },
       {
         title: formatMessage({ id: 'page.auth.user.columns.action' }),
@@ -127,6 +147,18 @@ export default class AuthUser extends Component {
           label: formatMessage({ id: 'page.auth.user.form.modal.nickname' }),
           props: 'nickname',
           component: <Input />,
+          required: true,
+        },
+        {
+          label: formatMessage({ id: 'page.auth.user.form.modal.role' }),
+          props: 'role',
+          component: (
+            <Select>
+              {groups.map((item: any) => (
+                <Option key={item._id} value={item._id}>{item.name}</Option>
+              ))}
+            </Select>
+          ),
           required: true,
         },
       ],
