@@ -39,8 +39,6 @@ const LoginModel: LoginModelType = {
 
   effects: {
     *login({ payload }, { call, put }) {
-      console.log(1);
-
       yield put({
         type: 'update',
         payload: {

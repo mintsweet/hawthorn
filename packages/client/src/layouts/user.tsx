@@ -15,11 +15,13 @@ const UserLayout: React.SFC = props => {
       key: 'help',
       title: formatMessage({ id: 'layout.user.link.help' }),
       href: 'https://github.com/mintsweet/hawthorn',
+      blankTarget: true,
     },
     {
       key: 'home',
       title: formatMessage({ id: 'layout.user.link.home' }),
       href: 'https://github.com/mintsweet/hawthorn',
+      blankTarget: true,
     },
   ];
 
