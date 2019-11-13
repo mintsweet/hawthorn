@@ -28,7 +28,6 @@ export interface UserModelType {
   },
   effects: {
     fetchUser: Effect;
-    fetchSiderbar: Effect;
   },
 };
 
@@ -59,16 +58,6 @@ const UserModel: UserModelType = {
         type: 'update',
         payload: {
           ...data,
-        },
-      });
-    },
-
-    *fetchSiderbar(_, { call, put }) {
-      const { data } = yield call(AuthServices.getSiderbar);
-      yield put({
-        type: 'update',
-        payload: {
-          siderbar: data,
         },
       });
     },

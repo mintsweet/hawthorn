@@ -90,20 +90,7 @@ export default class AuthBasicController extends Controller {
       return ctx.unAuthorized();
     }
 
-    const user = await ctx.model.AuthUser.findById(ctx.user.id, 'nickname avatar');
-
-    return ctx.success({
-      data: {
-        ...user,
-        ...ctx.user,
-      },
-    });
-  }
-
-  async siderbar(ctx) {
-    if (!ctx.isAuthenticated()) {
-      return ctx.unAuthorized();
-    }
+    const user = await ctx.model.AuthUser.findById(ctx.user.id, '-_id nickname avatar');
 
     const flatAuth = uniq(
       flattenDeep(
@@ -115,7 +102,11 @@ export default class AuthBasicController extends Controller {
     );
 
     return ctx.success({
-      data: filterRBAC(cloneDeep(rbac), flatAuth),
+      data: {
+        ...user.toObject(),
+        ...ctx.user,
+        siderbar: filterRBAC(cloneDeep(rbac), flatAuth),
+      },
     });
   }
 }

@@ -50,10 +50,6 @@ class BasicLayout extends PureComponent<BasicLayoutProps> {
     this.props.dispatch({
       type: 'user/fetchUser',
     });
-
-    this.props.dispatch({
-      type: 'user/fetchSiderbar',
-    });
   }
 
   getPageTitle = (pathname: string, breadcrumbNameMap: any) => {
