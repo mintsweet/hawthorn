@@ -2,6 +2,7 @@ import React from 'react';
 import { Input, Select, DatePicker } from 'antd';
 import { formatMessage } from 'umi-plugin-react/locale';
 import moment from 'moment';
+import PageHeader from '@/components/PageHeader';
 import BaseManagePage from '@/components/BaseManagePage';
 import * as AuditLogService from '@/services/audit-log';
 
@@ -105,11 +106,13 @@ export default () => {
   };
 
   return (
-    <BaseManagePage
-      columns={columns}
-      fetchData={AuditLogService.getAuditLogs}
-      showSearch
-      queryForm={queryForm}
-    />
+    <PageHeader>
+      <BaseManagePage
+        columns={columns}
+        fetchData={AuditLogService.getAuditLogs}
+        showSearch
+        queryForm={queryForm}
+      />
+    </PageHeader>
   );
 }

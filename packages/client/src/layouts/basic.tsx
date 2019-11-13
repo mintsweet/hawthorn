@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, createContext } from 'react';
 import { connect } from 'dva';
 import DocumentTitle from 'react-document-title';
 import Redirect from 'umi/redirect';
@@ -37,6 +37,8 @@ const getBreadcrumbNameMap = (siderbar: SiderbarItemProps[]) => {
   flattenMenuData(siderbar);
   return routerMap;
 }
+
+export const Context = createContext({});
 
 class BasicLayout extends PureComponent<BasicLayoutProps> {
   componentDidMount() {
@@ -107,7 +109,7 @@ class BasicLayout extends PureComponent<BasicLayoutProps> {
           siderbar={siderbar}
         />
         <Layout>
-          <Header style={{ padding: 0, background: '#fff', zIndex: 2 }}>
+          <Header style={{ padding: 0, background: '#fff', zIndex: 2, boxShadow: '0 1px 4px rgba(0, 21, 41, 0.08)' }}>
             <GlobalHeader
               user={user}
               collapsed={collapsed}
@@ -115,12 +117,10 @@ class BasicLayout extends PureComponent<BasicLayoutProps> {
               onClickMenu={this.handleClickUserMenu}
             />
           </Header>
-          <Breadcrumb
-            location={location}
-            breadcrumbNameMap={breadcrumbNameMap}
-          />
-          <Content style={{ margin: '24px 16px', padding: '24px 16px', background: '#fff' }}>
-            {content}
+          <Content>
+            <Context.Provider value={{location, breadcrumbNameMap}}>
+              {content}
+            </Context.Provider>
           </Content>
         </Layout>
       </Layout>

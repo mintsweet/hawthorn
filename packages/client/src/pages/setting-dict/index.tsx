@@ -10,6 +10,7 @@ import {
   message,
 } from 'antd';
 import { formatMessage } from 'umi-plugin-react/locale';
+import PageHeader from '@/components/PageHeader';
 import * as SettingService from '@/services/setting';
 import styles from './index.less';
 
@@ -187,7 +188,7 @@ export default class SystemConfig extends Component {
     const { dict, loading } = this.state;
 
     return (
-      <div className={styles.dict}>
+      <PageHeader hiddenBreadcrumb className={styles.dict}>
         <Table
           rowKey={record => record._id}
           size="middle"
@@ -205,7 +206,7 @@ export default class SystemConfig extends Component {
           )}
           pagination={false}
         />
-      </div>
+      </PageHeader>
     );
   }
 }

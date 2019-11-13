@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Divider, Popconfirm, Input, Select, Tag, message } from 'antd';
 import { formatMessage } from 'umi-plugin-react/locale';
+import PageHeader from '@/components/PageHeader';
 import BaseManagePage from '@/components/BaseManagePage';
 import FormModal from '@/components/FormModal';
 import Authorized from '@/components/Authorized';
@@ -165,7 +166,7 @@ export default class AuthUser extends Component {
     };
 
     return (
-      <>
+      <PageHeader>
         <BaseManagePage
           columns={columns}
           fetchData={AuthService.getUsers}
@@ -193,7 +194,7 @@ export default class AuthUser extends Component {
           onCancel={this.handleToggleVisible}
           onSubmit={this.handleSubmit}
         />
-      </>
+      </PageHeader>
     );
   }
 }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Input, message, Divider, Popconfirm } from 'antd';
 import { formatMessage } from 'umi-plugin-react/locale';
+import PageHeader from '@/components/PageHeader';
 import BaseManagePage from '@/components/BaseManagePage';
 import FormModal from '@/components/FormModal';
 import TriggerTree from '@/components/TriggerTree';
@@ -134,7 +135,7 @@ export default class AuthGroup extends Component {
     };
 
     return (
-      <>
+      <PageHeader>
         <BaseManagePage
           columns={columns}
           fetchData={AuthService.getGroups}
@@ -159,7 +160,7 @@ export default class AuthGroup extends Component {
           onCancel={this.handleToggleVisible}
           onSubmit={this.handleSubmit}
         />
-      </>
+      </PageHeader>
     );
   }
 }
