@@ -19,6 +19,7 @@ db.auth_groups.insert({
     '/auth/user/delete',
     '/auth/user/update',
     '/setting',
+    '/setting/info',
     '/setting/dict',
     '/audit-logs',
   ],
@@ -33,6 +34,7 @@ db.auth_groups.insert({
     '/auth/group/query',
     '/auth/user/query',
     '/setting',
+    '/setting/info',
     '/setting/dict',
   ],
 });
@@ -43,6 +45,8 @@ db.auth_groups.insert({
   remark: '游客',
   permissions: [
     '/dashboard',
+    '/setting',
+    '/setting/info',
   ],
 });
 

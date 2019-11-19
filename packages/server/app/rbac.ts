@@ -42,6 +42,11 @@ export default [
     menu: true,
     routes: [
       {
+        name: '账户设置',
+        path: '/setting/info',
+        menu: true,
+      },
+      {
         name: '参数配置',
         path: '/setting/dict',
         menu: true,
