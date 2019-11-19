@@ -28,6 +28,7 @@ export interface UserModelType {
   },
   effects: {
     fetchUser: Effect;
+    updateUser: Effect;
   },
 };
 
@@ -54,6 +55,15 @@ const UserModel: UserModelType = {
   effects: {
     *fetchUser(_, { call, put }) {
       const { data } = yield call(AuthServices.getUserInfo);
+      yield put({
+        type: 'update',
+        payload: {
+          ...data,
+        },
+      });
+    },
+    *updateUser(_, { call, put }) {
+      const { data } = yield call(AuthServices.updateUserInfo);
       yield put({
         type: 'update',
         payload: {

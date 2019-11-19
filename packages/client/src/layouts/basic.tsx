@@ -2,22 +2,23 @@ import React, { PureComponent, createContext } from 'react';
 import { connect } from 'dva';
 import DocumentTitle from 'react-document-title';
 import Redirect from 'umi/redirect';
+import router from 'umi/router';
 import { Layout } from 'antd';
 import pathToRegexp from 'path-to-regexp';
 import { ConnectState, ConnectProps } from '@/models/connect';
-import { SiderbarItemProps } from '@/models/user';
+import { UserModelState, SiderbarItemProps } from '@/models/user';
 import GlobalHeader from '@/components/GlobalHeader';
 import SiderMenu, { SiderMenuWrapperProps } from '@/components/SiderMenu';
 import { getFlatPaths } from '@/components/utils';
-import Breadcrumb from '@/components/Breadcrumb';
 import Exception from '@/components/Exception';
 import routes from '../../config/router';
 
 const { Header, Content } = Layout;
 
 interface BasicLayoutProps extends ConnectProps, SiderMenuWrapperProps {
-  user: any;
   loginStatus: 'OK' | 'FAILED';
+  user: UserModelState;
+  permissions: string[];
 };
 
 /**
@@ -82,11 +83,13 @@ class BasicLayout extends PureComponent<BasicLayoutProps> {
         type: 'login/logout',
         payload: true,
       });
+    } else if (key === 'setting-info') {
+      router.push('/setting/info');
     }
   }
 
   render() {
-    const { children, location, collapsed, siderbar, user, loginStatus } = this.props;
+    const { children, location, collapsed, loginStatus, user, siderbar, permissions } = this.props;
     const { pathname } = location;
 
     // Breadcrumb name map
@@ -96,9 +99,8 @@ class BasicLayout extends PureComponent<BasicLayoutProps> {
     const isLogin = loginStatus === 'OK';
 
     // Determine if there is routing authority
-    const flatAuth = getFlatPaths(siderbar);
     const flatRoutes = getFlatPaths(routes);
-    const noAuth = flatRoutes.includes(pathname) && !flatAuth.includes(pathname);
+    const noAuth = flatRoutes.includes(pathname) && !permissions.includes(pathname);
     const content = !noAuth ? children : <Exception type={403} />;
 
     const layout = (
@@ -118,7 +120,7 @@ class BasicLayout extends PureComponent<BasicLayoutProps> {
             />
           </Header>
           <Content>
-            <Context.Provider value={{location, breadcrumbNameMap}}>
+            <Context.Provider value={{ location, breadcrumbNameMap }}>
               {content}
             </Context.Provider>
           </Content>
@@ -136,5 +138,6 @@ export default connect(
     loginStatus: login.status,
     user,
     siderbar: user.siderbar,
+    permissions: user.permissions,
   })
 )(BasicLayout);

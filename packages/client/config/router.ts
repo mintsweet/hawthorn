@@ -28,6 +28,7 @@ export default [
         path: '/setting',
         routes: [
           { path: '/setting', redirect: '/setting/dict' },
+          { path: '/setting/info', component: './setting-info' },
           { path: '/setting/dict', component: './setting-dict' },
         ],
       },

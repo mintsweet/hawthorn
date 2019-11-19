@@ -6,7 +6,7 @@ import http from '@/utils/http';
 export const login = (data: object) => http.post('/v1/login', data);
 export const logout = () => http.post('/v1/logout');
 export const getUserInfo = () => http.get('/v1/info');
-export const getSiderbar = () => http.get('/v1/siderbar');
+export const updateUserInfo = (data: object) => http.put('/v1/info');
 
 /**
  * 用户

@@ -17,7 +17,7 @@ class GlobalHeader extends Component<GlobalHeaderProps> {
 
     const menu = (
       <Menu onClick={param => onClickMenu(param.key)}>
-        <Menu.Item key="user-info">
+        <Menu.Item key="setting-info">
           <Icon type="setting" />
           {formatMessage({ id: 'component.globalHeader.dropMenu.accountSetting' })}
         </Menu.Item>

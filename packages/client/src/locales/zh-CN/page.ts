@@ -46,6 +46,18 @@ export default {
   'page.auth.group.form.modal.remark': '备注',
   'page.auth.group.form.modal.permissions': '权限列表',
 
+  // setting-info
+  'page.setting.info.menu.base': '基本设置',
+  'page.setting.info.menu.security': '安全设置',
+  'page.setting.info.base.form.username': '登录名',
+  'page.setting.info.base.form.nickname': '昵称',
+  'page.setting.info.base.form.submit': '更新基本信息',
+  'page.setting.info.base.form.avatar': '头像',
+  'page.setting.info.base.form.avatar.update': '更换头像',
+  'page.setting.info.security.password.title': '账户密码',
+  'page.setting.info.security.password.description': '当前密码强度',
+  'page.setting.info.security.actions.update': '修改',
+
   // setting-dict
   'page.setting.dict.update.message': '更新成功！',
   'page.setting.dict.operate.submit': '保存',

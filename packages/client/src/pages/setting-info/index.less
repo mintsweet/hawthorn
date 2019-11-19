@@ -1,0 +1,67 @@
+@import '~antd/lib/style/themes/default.less';
+
+.wrapper {
+  display: flex;
+
+  .menu {
+    width: 224px;
+    border-right: @border-width-base @border-style-base @border-color-split;
+
+    :global {
+      .ant-menu-inline {
+        border: none;
+      }
+
+      .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+        font-weight: bold;
+      }
+    }
+  }
+
+  .content {
+    flex: 1;
+    padding: 8px 40px;
+
+    .title {
+      margin-bottom: 12px;
+      line-height: 28px;
+      color: @heading-color;
+      font-size: 20px;
+      font-weight: 500;
+    }
+  }
+}
+
+
+.base {
+  display: flex;
+  padding-top: 12px;
+
+  .left {
+    max-width: 448px;
+    min-width: 224px;
+  }
+
+  .right {
+    flex: 1;
+    padding-left: 100px;
+
+    .avatar_title {
+      margin-bottom: 8px;
+      height: 22px;
+      line-height: 22px;
+      font-size: @font-size-base;
+      color: @heading-color;
+    }
+
+    .avatar {
+      display: block;
+      margin-bottom: 12px;
+      overflow: hidden;
+
+      img {
+        width: 100%;
+      }
+    }
+  }
+}

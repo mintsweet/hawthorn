@@ -46,6 +46,18 @@ export default {
   'page.auth.group.form.modal.remark': 'Remark',
   'page.auth.group.form.modal.permissions': 'Permissions',
 
+  // setting-info
+  'page.setting.info.menu.base': 'Base Settings',
+  'page.setting.info.menu.security': 'Security Settings',
+  'page.setting.info.base.form.username': 'Username',
+  'page.setting.info.base.form.nickname': 'Nickname',
+  'page.setting.info.base.form.submit': 'Update Information',
+  'page.setting.info.base.form.avatar': 'Avatar',
+  'page.setting.info.base.form.avatar.update': 'Change Avatar',
+  'page.setting.info.security.password.title': 'Account Password',
+  'page.setting.info.security.password.description': 'Current password strength',
+  'page.setting.info.security.actions.update': 'Modify',
+
   // setting-dict
   'page.setting.dict.update.message': 'Update dict successfully!',
   'page.setting.dict.operate.submit': 'Save',
