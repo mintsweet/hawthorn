@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import classNames from 'classnames';
-import { Context } from '@/layouts/basic'
+import { Context } from '@/layouts/BasicLayout'
 import Breadcrumb from '../Breadcrumb';
 import styles from './index.less';
 

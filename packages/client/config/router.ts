@@ -1,7 +1,7 @@
 export default [
   {
     path: '/user',
-    component: '../layouts/user',
+    component: '../layouts/UserLayout',
     routes: [
       { path: '/user', redirect: '/user/login' },
       { path: '/user/login', component: './login' },
@@ -9,7 +9,7 @@ export default [
   },
   {
     path: '/',
-    component: '../layouts/basic',
+    component: '../layouts/BasicLayout',
     routes: [
       { path: '/', redirect: '/dashboard' },
       {
