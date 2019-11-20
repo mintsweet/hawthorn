@@ -1,46 +1,35 @@
 import React, { Component } from 'react';
-import { Table, Button, Drawer, Form, Row, Col, Tag } from 'antd';
-import { ColumnProps } from 'antd/lib/table';
+import { Table, Button, Form, Tag } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import { formatMessage } from 'umi-plugin-react/locale';
-import { chunk, find } from 'lodash';
+import { find } from 'lodash';
+import DataFilter from './components/DataFilter';
+import ColumnFilter from './components/ColumnFilter';
 import styles from './index.less';
-import { __values } from 'tslib';
-
-interface FormItem {
-  label: string;
-  props: string;
-  component?: React.ReactNode;
-  render?: any;
-};
-
-interface QueryFormProps {
-  row: number;
-  form: FormItem[];
-  layout?: any;
-};
 
 interface BaseManagePageState {
   loading: boolean;
   page: number;
   size: number;
   list: any[];
-  filterVisible: boolean;
-  filter: any;
+  dataFilterVisible: boolean,
+  dataFilter: any,
+  columnFilterVisible: boolean,
+  columnChecked: any[],
 };
 
 interface BaseManagePageProps extends FormComponentProps {
-  columns: ColumnProps<any>[];
+  columns: any[];
   fetchData: (param: object) => any;
 
-  // 是否显示搜索选项
   showSearch?: boolean;
-  // 搜索表单
   queryForm?: any;
-  // 搜索表单标题
-  filterTitle?: string;
-  // 搜索表单宽度
-  filterWidth?: number;
+  dataFilterTitle?: string;
+  dataFilterWidth?: number;
+
+  showColumnFilter?: boolean;
+  columnFilterTitle?: string;
+  columnFilterWidth?: number;
 
   onRef?: (target: any) => void;
 };
@@ -48,12 +37,11 @@ interface BaseManagePageProps extends FormComponentProps {
 class BaseManagePage extends Component<BaseManagePageProps, BaseManagePageState> {
   static defaultProps = {
     showSearch: false,
+    showColumnFilter: false,
     queryForm: {
       row: 1,
       form: [],
     },
-    filterTitle: formatMessage({ id: 'component.baseManagePage.filter.title' }),
-    filterWidth: 360,
   };
 
   constructor(props: BaseManagePageProps) {
@@ -63,19 +51,32 @@ class BaseManagePage extends Component<BaseManagePageProps, BaseManagePageState>
       page: 1,
       size: 10,
       list: [],
-      filterVisible: false,
-      filter: {},
+
+      dataFilterVisible: false,
+      dataFilter: {},
+
+      columnFilterVisible: false,
+      columnChecked: [],
     };
   }
 
+  static getDerivedStateFromProps(props: BaseManagePageProps, state: any) {
+    if (state.columnChecked.length === 0) {
+      return {
+        columnChecked: props.columns.map(item => item.dataIndex || item.key),
+      };
+    }
+    return null;
+  }
+
   componentDidMount() {
-    this.getData();
+    this._getData();
     if (this.props.onRef) {
       this.props.onRef(this);
     }
   }
 
-  async getData(
+  async _getData(
     page: number = this.state.page,
     size: number = this.state.size,
     condition: object = {},
@@ -87,79 +88,99 @@ class BaseManagePage extends Component<BaseManagePageProps, BaseManagePageState>
     });
   }
 
-  _handleToggleFilterDrawer = () => {
+  // Data Filter Controller
+  _handleToggleDataFilter = () => {
     this.props.form.resetFields();
     this.setState({
-      filterVisible: !this.state.filterVisible,
+      dataFilterVisible: !this.state.dataFilterVisible,
     });
   }
 
+  // Column Filter Controller
+  _handleToggleColumnFilter = () => {
+    this.setState({
+      columnFilterVisible: !this.state.columnFilterVisible,
+    });
+  }
+
+  // Column Filter Change
+  _handleChangeColumnFilter = (checkList: any[]) => {
+    this._handleToggleColumnFilter();
+    this.setState({
+      columnChecked: checkList,
+    });
+  }
+
+  // Search
   _handleSearch = () => {
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        this.getData(this.state.page, this.state.size, values);
-        this._handleToggleFilterDrawer();
+        this._getData(this.state.page, this.state.size, values);
+        this._handleToggleDataFilter();
         this.setState({
-          filter: values,
+          dataFilter: values,
         });
       }
     });
   }
 
-  _handleCloseFilterTag = (key: string) => {
-    const { filter, page, size } = this.state;
+  // Reset
+  _handleReset = () => {
+    const { page, size } = this.state;
+
+    this._getData(page, size);
+    this.setState({
+      dataFilter: {},
+    });
+  }
+
+  // Close Data Filter Tag
+  _handleCloseDataFilterTag = (key: string) => {
+    const { dataFilter, page, size } = this.state;
 
     const newFilter = {
-      ...filter,
+      ...dataFilter,
       [key]: undefined,
     };
 
     this.setState({
-      filter: newFilter,
+      dataFilter: newFilter,
     });
 
-    this.getData(page, size, newFilter);
-  }
-
-  _renderQueryForm = (queryConfig: QueryFormProps) => {
-    const { form } = this.props;
-    const { getFieldDecorator } = form;
-
-    return chunk(queryConfig.form, queryConfig.row).map((arr, i) => (
-      <Row key={i}>
-        {arr.map((item, j) => (
-          <Col key={j} span={24 / queryConfig.row}>
-            <Form.Item {...queryConfig.layout} label={item.label}>
-              {getFieldDecorator(`${item.props}`, {
-              })(item.component ? item.component : item.render(form))}
-            </Form.Item>
-          </Col>
-        ))}
-      </Row>
-    ));
+    this._getData(page, size, newFilter);
   }
 
   render() {
-    const { loading, list, filterVisible, filter } = this.state;
+    const {
+      loading,
+      list,
+      dataFilterVisible,
+      dataFilter,
+      columnFilterVisible,
+      columnChecked,
+    } = this.state;
     const {
       children,
+      form,
       columns,
       showSearch,
       queryForm,
-      filterTitle,
-      filterWidth,
+      dataFilterTitle,
+      dataFilterWidth,
+      showColumnFilter,
+      columnFilterTitle,
+      columnFilterWidth,
     } = this.props;
 
-    const formItemLayout = {
-      labelCol: {
-        xs: { span: 24 },
-        sm: { span: 6 },
-      },
-      wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 18 },
-      },
-    };
+    const columnOptions: any = columns.map(item => ({
+      label: item.title,
+      value: item.dataIndex || item.key,
+    }));
+
+    const tableColumns = columnChecked.length > 0
+      ? columns.filter(item =>
+         columnChecked.includes(item.dataIndex) || columnChecked.includes(item.key))
+      : columns;
 
     return (
       <>
@@ -168,54 +189,65 @@ class BaseManagePage extends Component<BaseManagePageProps, BaseManagePageState>
           {showSearch && (
             <div className={styles.btns}>
               <Button
-                onClick={this._handleToggleFilterDrawer}
+                onClick={this._handleToggleDataFilter}
               >{formatMessage({ id: 'component.baseManagePage.btns.search' })}</Button>
-              <Button>{formatMessage({ id: 'component.baseManagePage.btns.reset' })}</Button>
+              <Button
+                onClick={this._handleReset}
+              >{formatMessage({ id: 'component.baseManagePage.btns.reset' })}</Button>
             </div>
           )}
+          {showColumnFilter && (
+            <Button
+              className={styles.columnFilter}
+              icon="table"
+              onClick={this._handleToggleColumnFilter}
+            />
+          )}
         </div>
-        {showSearch && Object.keys(filter).length > 0 && (
+        {showSearch && Object.keys(dataFilter).length > 0 && (
           <div className={styles.filter}>
-            {Object.keys(filter).map((key, i) => {
-              if (!filter[key]) return;
+            {Object.keys(dataFilter).map((key, i) => {
+              if (!dataFilter[key]) return;
               const { label } = find(queryForm.form, { props: key });
               return (
                 <Tag
                   key={`${key}${i + 1}`}
                   closable
-                  onClose={() => this._handleCloseFilterTag(key)}>
-                  {`${label} : ${filter[key]}`}
+                  onClose={() => this._handleCloseDataFilterTag(key)}>
+                  {`${label} : ${dataFilter[key]}`}
                 </Tag>
               );
             })}
           </div>
         )}
+        {showSearch && (
+          <DataFilter
+            title={dataFilterTitle}
+            width={dataFilterWidth}
+            visible={dataFilterVisible}
+            queryForm={queryForm}
+            form={form}
+            onToggleVisible={this._handleToggleDataFilter}
+            onSubmit={this._handleSearch}
+          />
+        )}
+        {showColumnFilter && (
+          <ColumnFilter
+            visible={columnFilterVisible}
+            title={columnFilterTitle}
+            width={columnFilterWidth}
+            options={columnOptions}
+            checkedList={columnChecked}
+            onToggleVisible={this._handleToggleColumnFilter}
+            onSubmit={this._handleChangeColumnFilter}
+          />
+        )}
         <Table
           rowKey="_id"
-          columns={columns}
+          columns={tableColumns}
           dataSource={list}
           loading={loading}
         />
-        {showSearch && (
-          <Drawer
-            title={filterTitle}
-            width={filterWidth}
-            visible={filterVisible}
-            onClose={this._handleToggleFilterDrawer}
-          >
-            <Form {...formItemLayout}>{this._renderQueryForm(queryForm)}</Form>
-            <div className={styles.filterPanelBottom}>
-              <Button
-                onClick={this._handleToggleFilterDrawer}
-                style={{ marginRight: 8 }}
-              >{formatMessage({ id: 'component.baseManagePage.filter.btns.cancel' })}</Button>
-              <Button
-                type="primary"
-                onClick={this._handleSearch}
-              >{formatMessage({ id: 'component.baseManagePage.filter.btns.submit' })}</Button>
-            </div>
-          </Drawer>
-        )}
       </>
     );
   }

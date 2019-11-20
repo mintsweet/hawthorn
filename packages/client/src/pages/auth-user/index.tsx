@@ -172,6 +172,7 @@ export default class AuthUser extends Component {
           fetchData={AuthService.getUsers}
           showSearch
           queryForm={queryForm}
+          showColumnFilter
           onRef={table => {
             this.Table = table;
           }}

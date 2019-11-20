@@ -139,6 +139,7 @@ export default class AuthGroup extends Component {
         <BaseManagePage
           columns={columns}
           fetchData={AuthService.getGroups}
+          showColumnFilter
           onRef={table => {
             this.Table = table;
           }}

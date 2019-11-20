@@ -7,9 +7,11 @@ export default {
   // BaseManagePage
   'component.baseManagePage.btns.search': '搜索',
   'component.baseManagePage.btns.reset': '重置',
-  'component.baseManagePage.filter.title': '搜索面板',
-  'component.baseManagePage.filter.btns.cancel': '取消',
-  'component.baseManagePage.filter.btns.submit': '确定',
+  'component.baseManagePage.drawer.btns.cancel': '取消',
+  'component.baseManagePage.drawer.btns.submit': '确定',
+  'component.baseManagePage.dataFilter.defaultTitle': '搜索面板',
+  'component.baseManagePage.columnFilter.defaultTitle': '字段过滤',
+  'component.baseManagePage.columnFilter.checkAll': '全选',
 
   // Breadcrumb
   'component.breadcrumb.home': '主页',
