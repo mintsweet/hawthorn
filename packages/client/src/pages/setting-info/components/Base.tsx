@@ -1,17 +1,46 @@
 import React, { Component } from 'react';
+import { connect } from 'dva';
 import { formatMessage } from 'umi-plugin-locale';
-import { Form, Input, Avatar, Button, Upload } from 'antd';
+import { Form, Input, Avatar, Button, Upload, message } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
+import { ConnectState, ConnectProps } from '@/models/connect';
+import { UserModelState } from '@/models/user';
 import styles from '../index.less';
 
 const { Item: FormItem } = Form;
 
-interface BaseProps extends FormComponentProps {
-  user: any;
+interface BaseProps extends FormComponentProps, ConnectProps {
+  user: UserModelState;
 };
 
 class Base extends Component<BaseProps> {
+  state = {
+    loading: false,
+  };
+
+  handleUpdateUserInfo = () => {
+    this.setState({
+      loading: true,
+    });
+
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        this.props.dispatch({
+          type: 'user/updateUser',
+          payload: values,
+        });
+
+        this.setState({
+          loading: false,
+        });
+
+        message.success(formatMessage({ id: 'page.setting.info.update.message' }));
+      }
+    });
+  }
+
   render() {
+    const { loading } = this.state;
     const { user, form: { getFieldDecorator } } = this.props;
 
     return (
@@ -28,7 +57,11 @@ class Base extends Component<BaseProps> {
                 <Input />
               )}
             </FormItem>
-            <Button type="primary">
+            <Button
+              type="primary"
+              loading={loading}
+              onClick={this.handleUpdateUserInfo}
+            >
               {formatMessage({ id: 'page.setting.info.base.form.submit' })}
             </Button>
           </Form>
@@ -49,4 +82,8 @@ class Base extends Component<BaseProps> {
   }
 }
 
-export default Form.create<BaseProps>()(Base);
+export default connect(
+  ({ user }: ConnectState) => ({
+    user,
+  }),
+)(Form.create<BaseProps>()(Base));

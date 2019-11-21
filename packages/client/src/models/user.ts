@@ -62,8 +62,8 @@ const UserModel: UserModelType = {
         },
       });
     },
-    *updateUser(_, { call, put }) {
-      const { data } = yield call(AuthServices.updateUserInfo);
+    *updateUser({ payload }, { call, put }) {
+      const { data } = yield call(AuthServices.updateUserInfo, payload);
       yield put({
         type: 'update',
         payload: {

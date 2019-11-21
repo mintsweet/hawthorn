@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
-import { connect } from 'dva';
 import { formatMessage } from 'umi-plugin-locale';
 import { Menu } from 'antd';
 import { ClickParam } from 'antd/lib/menu';
-import { ConnectState } from '@/models/connect';
-import { UserModelState } from '@/models/user';
 import PageHeader from '@/components/PageHeader';
 import Base from './components/Base';
 import Security from './components/Security';
@@ -12,24 +9,7 @@ import styles from './index.less';
 
 const { Item: MenuItem } = Menu;
 
-const menuList = [
-  {
-    key: 'base',
-    title: formatMessage({ id: 'page.setting.info.menu.base' }),
-    render: (props: any) => <Base {...props} />,
-  },
-  {
-    key: 'security',
-    title: formatMessage({ id: 'page.setting.info.menu.security' }),
-    render: (props: any) => <Security {...props} />,
-  },
-];
-
-interface SettingInfoProps {
-  user: UserModelState;
-};
-
-class SettingInfo extends Component<SettingInfoProps> {
+export default class SettingInfo extends Component {
   state = {
     selectKey: 'base',
   };
@@ -42,7 +22,19 @@ class SettingInfo extends Component<SettingInfoProps> {
 
   render() {
     const { selectKey } = this.state;
-    const { user } = this.props;
+
+    const menuList = [
+      {
+        key: 'base',
+        title: formatMessage({ id: 'page.setting.info.menu.base' }),
+        render: (props: any) => <Base {...props} />,
+      },
+      {
+        key: 'security',
+        title: formatMessage({ id: 'page.setting.info.menu.security' }),
+        render: (props: any) => <Security {...props} />,
+      },
+    ];
 
     const current: any = menuList.find(item => item.key === selectKey);
 
@@ -62,16 +54,10 @@ class SettingInfo extends Component<SettingInfoProps> {
           </div>
           <div className={styles.content}>
             <div className={styles.title}>{current.title}</div>
-            {current.render({ user })}
+            {current.render()}
           </div>
         </div>
       </PageHeader>
     );
   }
 }
-
-export default connect(
-  ({ user }: ConnectState) => ({
-    user,
-  }),
-)(SettingInfo);

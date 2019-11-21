@@ -4,26 +4,25 @@ import { ModalProps } from 'antd/lib/modal';
 import { FormComponentProps } from 'antd/lib/form';
 import { chunk, isEqual } from 'lodash';
 
-interface FormItem {
-  label: string;
-  props: string;
-  component?: React.ReactNode;
-  render?: any;
-  required?: boolean;
-  rules?: any;
-};
-
 interface FormModalConfigProps {
   row: number;
-  form: FormItem[];
+  form: Array<{
+    label: string;
+    props: string;
+    component?: React.ReactNode;
+    render?: any;
+    required?: boolean;
+    rules?: any;
+  }>;
   layout?: any;
 };
 
 interface FormModalProps extends ModalProps {
   config: FormModalConfigProps;
-  data: any;
+  data?: any;
   onSubmit: (val: any) => void;
   onCancel: () => void;
+  onRef?: (form: any) => void;
 };
 
 interface State {
@@ -34,7 +33,7 @@ interface State {
 
 class FormModal extends Component<FormModalProps & FormComponentProps, State> {
   static getDerivedStateFromProps(nextProps: FormModalProps & FormComponentProps, prevState: any) {
-    if (!isEqual(nextProps.data, prevState.data)) {
+    if (nextProps.data && !isEqual(nextProps.data, prevState.data)) {
       return {
         data: nextProps.data,
       };
@@ -49,6 +48,12 @@ class FormModal extends Component<FormModalProps & FormComponentProps, State> {
     };
   }
 
+  componentDidMount() {
+    if (this.props.onRef) {
+      this.props.onRef(this.props.form);
+    }
+  }
+
   renderForm = (config: FormModalConfigProps) => {
     const { data } = this.state;
     const { form } = this.props;
@@ -58,9 +63,9 @@ class FormModal extends Component<FormModalProps & FormComponentProps, State> {
       <Row key={i}>
         {arr.map((item, j) => {
           let rules = item.rules || [];
-          if (item.required) {
-            rules.push({
-              required: item.required,
+          if (item.required && !rules.find((i: any) => i.required)) {
+            rules.unshift({
+              required: true,
               message: `${item.label}不能为空`,
             });
           }
