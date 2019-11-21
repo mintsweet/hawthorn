@@ -15,3 +15,14 @@ export const updateUserInfoRule = {
     required: false,
   },
 };
+
+export const updateUserPasswordRule = {
+  oldPass: {
+    type: 'string',
+    required: true,
+  },
+  newPass: {
+    type: 'string',
+    required: true,
+  },
+};

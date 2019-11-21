@@ -10,6 +10,7 @@ export default (app: Application) => {
   app.post('/api/v1/logout', 'auth.basic.logout'); // 登出
   app.get('/api/v1/info', 'auth.basic.getUserInfo'); // 获取用户信息
   app.put('/api/v1/info', 'auth.basic.updateUserInfo'); // 更新用户信息
+  app.put('/api/v1/password', 'auth.basic.updateUserPassword'); // 更新用户密码
 
   /**
    * 权限 - 权限组

@@ -2,7 +2,7 @@ import { Controller } from 'egg';
 import * as md5 from 'md5';
 import { cloneDeep, flattenDeep, uniq, pick } from 'lodash';
 import rbac from '@/rbac';
-import { loginRule, updateUserInfoRule } from '@/validate/auth/basic';
+import { loginRule, updateUserInfoRule, updateUserPasswordRule } from '@/validate/auth/basic';
 
 const filterRBAC = (data: any, has: any[]) => {
   const result: any = [];
@@ -142,5 +142,35 @@ export default class AuthBasicController extends Controller {
     return ctx.success({
       data: user,
     });
+  }
+
+  async updateUserPassword(ctx) {
+    if (!ctx.isAuthenticated()) {
+      return ctx.unAuthorized();
+    }
+
+    const { oldPass, newPass } = ctx.request.body;
+
+    try {
+      ctx.validate(updateUserPasswordRule);
+    } catch (err) {
+      return ctx.badRequest({ data: err.errors });
+    }
+
+    const { saltPassword } = ctx.app.config;
+    const { username } = ctx.user;
+
+    const user = await ctx.model.AuthUser.findOne({ username, password: md5(`${saltPassword}${oldPass}`) });
+
+    if (!user || !user._id) {
+      return ctx.badRequest({
+        code: 10004,
+      });
+    }
+
+    user.password = md5(`${saltPassword}${newPass}`);
+    await user.save();
+
+    return ctx.success();
   }
 }
