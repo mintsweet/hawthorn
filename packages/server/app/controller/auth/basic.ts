@@ -1,8 +1,8 @@
 import { Controller } from 'egg';
 import * as md5 from 'md5';
-import { cloneDeep, flattenDeep, uniq } from 'lodash';
+import { cloneDeep, flattenDeep, uniq, pick } from 'lodash';
 import rbac from '@/rbac';
-import { loginRule } from '@/validate/auth/basic';
+import { loginRule, updateUserInfoRule } from '@/validate/auth/basic';
 
 const filterRBAC = (data: any, has: any[]) => {
   const result: any = [];
@@ -62,8 +62,8 @@ export default class AuthBasicController extends Controller {
 
     // Record login audit log
     await this.app.auditLog.log(ctx, {
-      operationType: '消息',
-      operationContent: `用户登录-${username}`,
+      operationType: 'login',
+      operationContent: username,
     });
 
     ctx.login({
@@ -85,7 +85,7 @@ export default class AuthBasicController extends Controller {
     ctx.success();
   }
 
-  async userInfo(ctx) {
+  async getUserInfo(ctx) {
     if (!ctx.isAuthenticated()) {
       return ctx.unAuthorized();
     }
@@ -107,6 +107,40 @@ export default class AuthBasicController extends Controller {
         ...ctx.user,
         siderbar: filterRBAC(cloneDeep(rbac), flatAuth),
       },
+    });
+  }
+
+  async updateUserInfo(ctx) {
+    if (!ctx.isAuthenticated()) {
+      return ctx.unAuthorized();
+    }
+
+    const { body } = ctx.request;
+    const { id, username } = ctx.user;
+
+    try {
+      ctx.validate(updateUserInfoRule);
+    } catch (err) {
+      return ctx.badRequest({ data: err.errors });
+    }
+
+    const user = await ctx.model.AuthUser.findByIdAndUpdate(
+      id,
+      pick(body, Object.keys(updateUserInfoRule)),
+      {
+        new: true,
+        select: '-_id nickname avatar',
+      },
+    );
+
+    // Record update user info audit log
+    await this.app.auditLog.log(ctx, {
+      operationType: 'update-user-info',
+      operationContent: username,
+    });
+
+    return ctx.success({
+      data: user,
     });
   }
 }

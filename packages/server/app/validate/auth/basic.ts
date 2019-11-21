@@ -8,3 +8,10 @@ export const loginRule = {
     required: true,
   },
 };
+
+export const updateUserInfoRule = {
+  nickname: {
+    type: 'string',
+    required: false,
+  },
+};
