@@ -11,5 +11,23 @@
     "40003": "客户端权限不足",
     "40004": "请求资源不存在",
     "50000": "服务器错误"
+  },
+  "rbac": {
+    "/dashboard": "系统概览",
+    "/auth": "权限管理",
+    "/auth/group": "权限组",
+    "/auth/group/query": "查看",
+    "/auth/group/create": "新增",
+    "/auth/group/delete": "删除",
+    "/auth/group/update": "修改",
+    "/auth/user": "用户列表",
+    "/auth/user/query": "查看",
+    "/auth/user/create": "新增",
+    "/auth/user/delete": "删除",
+    "/auth/user/update": "修改",
+    "/setting": "设置",
+    "/setting/info": "账户设置",
+    "/setting/dict": "参数配置",
+    "/audit-logs": "日志管理"
   }
 }

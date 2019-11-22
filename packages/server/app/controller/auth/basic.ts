@@ -4,15 +4,19 @@ import { cloneDeep, flattenDeep, uniq, pick } from 'lodash';
 import rbac from '@/rbac';
 import { loginRule, updateUserInfoRule, updateUserPasswordRule } from '@/validate/auth/basic';
 
-const filterRBAC = (data: any, has: any[]) => {
+// 根据权限列表过滤菜单树
+const filterRBAC = (data: any, has: any[], ctx: any) => {
   const result: any = [];
 
   data.forEach(item => {
     if (has.includes(item.path) && item.menu) {
       if (item.routes) {
-        item.routes = filterRBAC(item.routes, has);
+        item.routes = filterRBAC(item.routes, has, ctx);
       }
-      result.push(item);
+      result.push({
+        name: ctx.__(`rbac.${item.path}`),
+        ...item,
+      });
     }
   });
 
@@ -105,7 +109,7 @@ export default class AuthBasicController extends Controller {
       data: {
         ...user.toObject(),
         ...ctx.user,
-        siderbar: filterRBAC(cloneDeep(rbac), flatAuth),
+        siderbar: filterRBAC(cloneDeep(rbac), flatAuth, ctx),
       },
     });
   }

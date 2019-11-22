@@ -1,12 +1,28 @@
 import { Controller } from 'egg';
-import { pick } from 'lodash';
+import { pick, cloneDeep } from 'lodash';
 import rbac from '@/rbac';
 import { createRule, updateRule } from '@/validate/auth/group';
 
+const spliceRbacName = (data: any, ctx: any) => {
+  const result: any = [];
+
+  data.forEach(item => {
+    if (item.routes) {
+      item.routes = spliceRbacName(item.routes, ctx);
+    }
+    result.push({
+      name: ctx.__(`rbac.${item.path}`),
+      ...item,
+    });
+  });
+
+  return result;
+};
+
 export default class AuthGroupController extends Controller {
   async systemTree(ctx) {
-    ctx.success({
-      data: rbac,
+    return ctx.success({
+      data: spliceRbacName(cloneDeep(rbac), ctx),
     });
   }
 
