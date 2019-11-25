@@ -24,15 +24,11 @@ export default (appInfo: EggAppInfo) => {
     auditLog: {
       model: {
         expansion: {
-          userId: {
-            type: String,
-            default: '',
-          },
-          userName: {
-            type: String,
-            default: '',
-          },
+          userName: String,
         },
+        func: ctx => ({
+          userName: ctx.user.username || '',
+        }),
       },
     },
     redis: {

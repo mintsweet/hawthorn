@@ -66,7 +66,7 @@ export default class AuthBasicController extends Controller {
 
     // Record login audit log
     await this.app.auditLog.log(ctx, {
-      operationType: 'login',
+      operationType: 'Login',
       operationContent: username,
     });
 
@@ -94,7 +94,11 @@ export default class AuthBasicController extends Controller {
       return ctx.unAuthorized();
     }
 
-    const user = await ctx.model.AuthUser.findById(ctx.user.id, '-_id nickname avatar');
+    const user = await ctx.model.AuthUser.findById(ctx.user.id, 'nickname avatar');
+
+    if (!user || !user._id) {
+      return ctx.unAuthorized();
+    }
 
     const flatAuth = uniq(
       flattenDeep(
@@ -128,18 +132,19 @@ export default class AuthBasicController extends Controller {
       return ctx.badRequest({ data: err.errors });
     }
 
-    const user = await ctx.model.AuthUser.findByIdAndUpdate(
-      id,
-      pick(body, Object.keys(updateUserInfoRule)),
-      {
-        new: true,
-        select: '-_id nickname avatar',
-      },
-    );
+    const user = await ctx.model.AuthUser
+      .findByIdAndUpdate(
+        id,
+        pick(body, Object.keys(updateUserInfoRule)),
+        {
+          new: true,
+          select: '-_id nickname avatar',
+        },
+      );
 
     // Record update user info audit log
     await this.app.auditLog.log(ctx, {
-      operationType: 'update-user-info',
+      operationType: 'Update User Info',
       operationContent: username,
     });
 

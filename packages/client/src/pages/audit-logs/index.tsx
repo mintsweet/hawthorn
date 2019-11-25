@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, Select, DatePicker } from 'antd';
+import { Input, Select, DatePicker, Tag } from 'antd';
 import { formatMessage } from 'umi-plugin-react/locale';
 import moment from 'moment';
 import PageHeader from '@/components/PageHeader';
@@ -9,54 +9,65 @@ import * as AuditLogService from '@/services/audit-log';
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 
+const METHOD_MAP: any = {
+  POST: 'green',
+  DELETE: 'red',
+  PUT: 'orange',
+  GET: 'blue',
+};
+
 export default () => {
   const columns: any = [
     {
-      title: formatMessage({ id: 'page.audit.log.columns.ip' }),
-      dataIndex: 'ip',
-      width: 100,
-    },
-    {
-      title: formatMessage({ id: 'page.audit.log.columns.url' }),
-      dataIndex: 'url',
-      width: 100,
-      align: 'center',
-    },
-    {
-      title: formatMessage({ id: 'page.audit.log.columns.method' }),
-      dataIndex: 'method',
-      width: 60,
-      align: 'center',
-    },
-    {
-      title: formatMessage({ id: 'page.audit.log.columns.userId' }),
-      dataIndex: 'userId',
-      width: 100,
-      align: 'center',
-    },
-    {
       title: formatMessage({ id: 'page.audit.log.columns.userName' }),
       dataIndex: 'userName',
-      width: 100,
-      align: 'center',
-    },
-    {
-      title: formatMessage({ id: 'page.audit.log.columns.recordTime' }),
-      dataIndex: 'recordTime',
       width: 120,
       align: 'center',
-      render: (recordTime: string) => <span>{moment(recordTime).format('YYYY-MM-DD HH:mm')}</span>,
+      fixed: 'left',
+    },
+    {
+      title: formatMessage({ id: 'page.audit.log.columns.createdAt' }),
+      dataIndex: 'createdAt',
+      width: 180,
+      align: 'center',
+      render: (val: string) => moment(val).format('YYYY-MM-DD HH:mm'),
     },
     {
       title: formatMessage({ id: 'page.audit.log.columns.operationType' }),
       dataIndex: 'operationType',
-      width: 80,
+      width: 180,
       align: 'center',
     },
     {
       title: formatMessage({ id: 'page.audit.log.columns.operationContent' }),
       dataIndex: 'operationContent',
+      width: 220,
+      align: 'center',
+    },
+    {
+      title: formatMessage({ id: 'page.audit.log.columns.ip' }),
+      dataIndex: 'ip',
       width: 100,
+      align: 'center',
+      render: (val: string) => <Tag>{val}</Tag>,
+    },
+    {
+      title: formatMessage({ id: 'page.audit.log.columns.url' }),
+      dataIndex: 'url',
+      width: 400,
+      align: 'center',
+    render: (val: string) => <Tag color="cyan">{val}</Tag>,
+    },
+    {
+      title: formatMessage({ id: 'page.audit.log.columns.method' }),
+      dataIndex: 'method',
+      width: 120,
+      align: 'center',
+      render: (val: string) => <Tag color={METHOD_MAP[val]}>{val}</Tag>,
+    },
+    {
+      title: formatMessage({ id: 'page.audit.log.columns.ua' }),
+      dataIndex: 'ua',
       align: 'center',
     },
   ];
@@ -64,6 +75,11 @@ export default () => {
   const queryForm: any = {
     row: 1,
     form: [
+      {
+        label: formatMessage({ id: 'page.audit.log.query.form.userName' }),
+        props: 'userName',
+        component: <Input />,
+      },
       {
         label: formatMessage({ id: 'page.audit.log.query.form.ip' }),
         props: 'ip',
@@ -88,18 +104,13 @@ export default () => {
         ),
       },
       {
-        label: formatMessage({ id: 'page.audit.log.query.form.userId' }),
-        props: 'userId',
+        label: formatMessage({ id: 'page.audit.log.query.form.operationType' }),
+        props: 'operationType',
         component: <Input />,
       },
       {
-        label: formatMessage({ id: 'page.audit.log.query.form.userName' }),
-        props: 'userName',
-        component: <Input />,
-      },
-      {
-        label: formatMessage({ id: 'page.audit.log.query.form.recordTime' }),
-        props: 'recordTime',
+        label: formatMessage({ id: 'page.audit.log.query.form.createdAt' }),
+        props: 'createdAt',
         component: <RangePicker />,
       },
     ],
@@ -108,10 +119,12 @@ export default () => {
   return (
     <PageHeader>
       <BaseManagePage
+        scroll={{ x: 2600 }}
         columns={columns}
         fetchData={AuditLogService.getAuditLogs}
         showSearch
         queryForm={queryForm}
+        dataFilterWidth={500}
       />
     </PageHeader>
   );

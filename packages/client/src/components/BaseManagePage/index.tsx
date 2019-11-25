@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Table, Button, Form, Tag } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
+import { TableProps } from 'antd/lib/table';
 import { formatMessage } from 'umi-plugin-react/locale';
-import { find } from 'lodash';
+import { find, pick } from 'lodash';
 import DataFilter from './components/DataFilter';
 import ColumnFilter from './components/ColumnFilter';
 import styles from './index.less';
@@ -18,7 +19,7 @@ interface BaseManagePageState {
   columnChecked: any[],
 };
 
-interface BaseManagePageProps extends FormComponentProps {
+interface BaseManagePageProps extends FormComponentProps, TableProps<any> {
   columns: any[];
   fetchData: (param: object) => any;
 
@@ -70,13 +71,13 @@ class BaseManagePage extends Component<BaseManagePageProps, BaseManagePageState>
   }
 
   componentDidMount() {
-    this._getData();
+    this.getData();
     if (this.props.onRef) {
       this.props.onRef(this);
     }
   }
 
-  async _getData(
+  async getData(
     page: number = this.state.page,
     size: number = this.state.size,
     condition: object = {},
@@ -115,7 +116,7 @@ class BaseManagePage extends Component<BaseManagePageProps, BaseManagePageState>
   _handleSearch = () => {
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        this._getData(this.state.page, this.state.size, values);
+        this.getData(this.state.page, this.state.size, values);
         this._handleToggleDataFilter();
         this.setState({
           dataFilter: values,
@@ -126,9 +127,13 @@ class BaseManagePage extends Component<BaseManagePageProps, BaseManagePageState>
 
   // Reset
   _handleReset = () => {
-    const { page, size } = this.state;
+    const { page, size, dataFilter } = this.state;
 
-    this._getData(page, size);
+    if (Object.keys(dataFilter).length === 0) {
+      return;
+    }
+
+    this.getData(page, size);
     this.setState({
       dataFilter: {},
     });
@@ -138,16 +143,16 @@ class BaseManagePage extends Component<BaseManagePageProps, BaseManagePageState>
   _handleCloseDataFilterTag = (key: string) => {
     const { dataFilter, page, size } = this.state;
 
-    const newFilter = {
+    const newFilter = pick({
       ...dataFilter,
       [key]: undefined,
-    };
+    });
 
     this.setState({
       dataFilter: newFilter,
     });
 
-    this._getData(page, size, newFilter);
+    this.getData(page, size, newFilter);
   }
 
   render() {
@@ -181,6 +186,9 @@ class BaseManagePage extends Component<BaseManagePageProps, BaseManagePageState>
       ? columns.filter(item =>
          columnChecked.includes(item.dataIndex) || columnChecked.includes(item.key))
       : columns;
+
+    console.log(dataFilter);
+    console.log(Object.keys(dataFilter).length);
 
     return (
       <>
@@ -243,6 +251,7 @@ class BaseManagePage extends Component<BaseManagePageProps, BaseManagePageState>
           />
         )}
         <Table
+          {...this.props}
           rowKey="_id"
           columns={tableColumns}
           dataSource={list}
