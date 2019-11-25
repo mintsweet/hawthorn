@@ -14,8 +14,12 @@ export default (appInfo: EggAppInfo) => {
     i18n: {
       defaultLocale: 'zh-CN',
     },
+    supportLang: [
+      'zh-cn',
+      'en-us',
+    ],
     session: {
-      maxAge: 3600 * 1000,
+      maxAge: 3600 * 1000 * 24,
     },
     auditLog: {
       model: {

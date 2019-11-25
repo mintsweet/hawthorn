@@ -11,6 +11,7 @@ export default (app: Application) => {
   app.get('/api/v1/info', 'auth.basic.getUserInfo'); // 获取用户信息
   app.put('/api/v1/info', 'auth.basic.updateUserInfo'); // 更新用户信息
   app.put('/api/v1/password', 'auth.basic.updateUserPassword'); // 更新用户密码
+  app.put('/api/v1/lang', 'auth.basic.updateLang'); // 更新语言
 
   /**
    * 权限 - 权限组

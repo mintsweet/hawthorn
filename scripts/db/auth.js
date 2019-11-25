@@ -1,9 +1,9 @@
-print('............ 开始：初始化用户组 ............');
+print('............ 开始：初始化超级管理员 ............');
 
 db.auth_groups.insert({
   _id: ObjectId('5ae8a7378b225b8f18f5edb0'),
   name: 'ROOT',
-  remark: '超级管理员',
+  remark: '',
   modifiable: false,
   permissions: [
     '/dashboard',
@@ -25,54 +25,11 @@ db.auth_groups.insert({
   ],
 });
 
-db.auth_groups.insert({
-  _id: ObjectId('5ae8a7378b225b8f18f5edb1'),
-  name: 'TEST',
-  remark: '测试',
-  permissions: [
-    '/dashboard',
-    '/auth/group/query',
-    '/auth/user/query',
-    '/setting',
-    '/setting/info',
-    '/setting/dict',
-  ],
-});
-
-db.auth_groups.insert({
-  _id: ObjectId('5ae8a7378b225b8f18f5edb2'),
-  name: 'GUEST',
-  remark: '游客',
-  permissions: [
-    '/dashboard',
-    '/setting',
-    '/setting/info',
-  ],
-});
-
-print('............ 结束：初始化用户组 ............');
-
-print('............ 开始：初始化用户 ............');
-
 db.auth_users.insert({
   username: 'admin',
   password: 'e52b9dadafadee9a3b14067253ff7262',
-  nickname: '管理员',
+  nickname: '',
   role: ObjectId('5ae8a7378b225b8f18f5edb0'),
 });
 
-db.auth_users.insert({
-  username: 'test',
-  password: 'e52b9dadafadee9a3b14067253ff7262',
-  nickname: '测试',
-  role: ObjectId('5ae8a7378b225b8f18f5edb1'),
-});
-
-db.auth_users.insert({
-  username: 'guest',
-  password: 'e52b9dadafadee9a3b14067253ff7262',
-  nickname: '游客',
-  role: ObjectId('5ae8a7378b225b8f18f5edb2'),
-});
-
-print('............ 结束：初始化用户 ............');
+print('............ 结束：初始化超级管理员 ............');
