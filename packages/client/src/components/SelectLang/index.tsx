@@ -1,8 +1,9 @@
 import React from 'react';
 import classNames from 'classnames';
-import { Dropdown, Menu, Icon } from 'antd';
+import { Dropdown, Menu, Icon, message } from 'antd';
 import { ClickParam } from 'antd/es/menu';
 import { formatMessage, getLocale, setLocale } from 'umi-plugin-react/locale';
+import * as CommonService from '@/services/common';
 import styles from './index.less';
 
 interface SelectLangProps {
@@ -12,7 +13,14 @@ interface SelectLangProps {
 const SelectLang = ({ className }: SelectLangProps) => {
   const selectedLang = getLocale();
 
-  const changeLang = ({ key }: ClickParam): void => setLocale(key, false);
+  const changeLang = async ({ key }: ClickParam) => {
+    if (selectedLang === key) {
+      return;
+    }
+    setLocale(key, false);
+    await CommonService.updateLang({ lang: key });
+    message.success(formatMessage({ id: 'component.selectLang.message' }));
+  };
 
   const locales = ['zh-CN', 'en-US'];
 
@@ -46,7 +54,7 @@ const SelectLang = ({ className }: SelectLangProps) => {
   return (
     <Dropdown overlay={langMenu} placement="bottomRight">
       <span className={classNames(styles.dropDown, className)}>
-        <Icon type="global" title={formatMessage({ id: 'lang' })} />
+        <Icon type="global" title={formatMessage({ id: 'component.selectLang.icon' })} />
       </span>
     </Dropdown>
   );

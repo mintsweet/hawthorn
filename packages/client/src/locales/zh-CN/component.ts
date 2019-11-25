@@ -1,4 +1,8 @@
 export default {
+  // SelectLang
+  'component.selectLang.message': '切换语言成功',
+  'component.selectLang.icon': '选择语言',
+
   // GlobalHeader
   'component.globalHeader.help': '帮助',
   'component.globalHeader.dropMenu.accountSetting': '账户设置',

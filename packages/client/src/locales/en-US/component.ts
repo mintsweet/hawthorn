@@ -1,4 +1,8 @@
 export default {
+  // SelectLang
+  'component.selectLang.message': 'Switch language successfully',
+  'component.selectLang.icon': 'Select Lang',
+
   // GlobalHeader
   'component.globalHeader.help': 'help',
   'component.globalHeader.dropMenu.accountSetting': 'account setting',

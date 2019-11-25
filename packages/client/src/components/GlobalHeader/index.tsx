@@ -47,7 +47,7 @@ class GlobalHeader extends Component<GlobalHeaderProps> {
               <Icon type="question-circle-o" />
             </a>
           </Tooltip>
-          {user.nickname ? (
+          {(user.nickname || user.username) ? (
             <Dropdown overlay={menu}>
               <span className={styles.action}>
                 <Avatar
@@ -56,7 +56,7 @@ class GlobalHeader extends Component<GlobalHeaderProps> {
                   icon="user"
                   src={user.avatar}
                 />
-                <span className={styles.name}>{user.nickname}</span>
+                <span className={styles.name}>{user.nickname || user.username}</span>
               </span>
             </Dropdown>
           ) : (
