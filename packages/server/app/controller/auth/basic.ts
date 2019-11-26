@@ -2,7 +2,11 @@ import { Controller } from 'egg';
 import * as md5 from 'md5';
 import { cloneDeep, flattenDeep, uniq, pick } from 'lodash';
 import rbac from '@/rbac';
-import { loginRule, updateUserInfoRule, updateUserPasswordRule } from '@/validate/auth/basic';
+import {
+  loginRule,
+  updateUserInfoRule,
+  updateUserPasswordRule,
+} from '@/validate/auth/basic';
 
 // 根据权限列表过滤菜单树
 const filterRBAC = (data: any, has: any[], ctx: any) => {
@@ -60,7 +64,7 @@ export default class AuthBasicController extends Controller {
 
     if (!user || !user._id) {
       return ctx.badRequest({
-        code: 10000,
+        code: 11000,
       });
     }
 
@@ -71,7 +75,7 @@ export default class AuthBasicController extends Controller {
     });
 
     ctx.login({
-      id: user._id,
+      _id: user._id,
       username: user.username,
       permissions: user.permissions,
     });
@@ -94,7 +98,9 @@ export default class AuthBasicController extends Controller {
       return ctx.unAuthorized();
     }
 
-    const user = await ctx.model.AuthUser.findById(ctx.user.id, 'nickname avatar');
+    const user = await ctx.service.auth.user
+      .getById(ctx.user._id)
+      .select('nickname avatar');
 
     if (!user || !user._id) {
       return ctx.unAuthorized();
@@ -132,15 +138,9 @@ export default class AuthBasicController extends Controller {
       return ctx.badRequest({ data: err.errors });
     }
 
-    const user = await ctx.model.AuthUser
-      .findByIdAndUpdate(
-        id,
-        pick(body, Object.keys(updateUserInfoRule)),
-        {
-          new: true,
-          select: '-_id nickname avatar',
-        },
-      );
+    const user = await ctx.service.auth.user
+      .update(id, pick(body, Object.keys(updateUserInfoRule)))
+      .select('-_id nickname avatar');
 
     // Record update user info audit log
     await this.app.auditLog.log(ctx, {
@@ -167,18 +167,19 @@ export default class AuthBasicController extends Controller {
     }
 
     const { saltPassword } = ctx.app.config;
-    const { username } = ctx.user;
+    const { _id, username } = ctx.user;
 
-    const user = await ctx.model.AuthUser.findOne({ username, password: md5(`${saltPassword}${oldPass}`) });
+    const user = await ctx.service.auth.user
+      .getOne({ username, password: md5(`${saltPassword}${oldPass}`) });
 
     if (!user || !user._id) {
       return ctx.badRequest({
-        code: 10004,
+        code: 11001,
       });
     }
 
-    user.password = md5(`${saltPassword}${newPass}`);
-    await user.save();
+    await ctx.service.auth.user
+      .update(_id, { password: md5(`${saltPassword}${newPass}`) });
 
     return ctx.success();
   }

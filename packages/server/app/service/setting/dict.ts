@@ -21,8 +21,8 @@ export default class SettingDict extends Service {
     },
   });
 
-  async query() {
-    const result = await this.model
+  query() {
+    return this.model
       .aggregate([])
       .group({
         _id: '$tag',
@@ -30,10 +30,9 @@ export default class SettingDict extends Service {
           $push: '$$ROOT',
         },
       });
-    return result;
   }
 
-  async getValue(key) {
+  getValue(key) {
     return this.DictCache(key);
   }
 }

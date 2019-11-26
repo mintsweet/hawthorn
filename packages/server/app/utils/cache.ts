@@ -28,9 +28,8 @@ export default ({ key, expire = 60, computed }: CacheProps) => {
       }
     } else {
       content = await computed.apply(null, args);
-      await rs
-        .setAsync(rsKey, JSON.stringify(content))
-        .expire(rsKey, expire);
+      await rs.setAsync(rsKey, JSON.stringify(content));
+      await rs.expire(rsKey, expire);
       return content;
     }
   };

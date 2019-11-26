@@ -8,7 +8,7 @@ module.exports = app => {
       username: { type: String, required: true },
       password: { type: String, required: true },
 
-      nickname: { type: String, required: true },
+      nickname: { type: String, default: '' },
       avatar: { type: String, default: '' },
 
       role: { type: Schema.Types.ObjectId, ref: 'auth_group', required: true },

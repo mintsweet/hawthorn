@@ -8,32 +8,38 @@ export default class BaseService extends Service {
     this.model = ctx.model.AuthUser;
   }
 
-  async create(data) {
-    const result = this.model.create(data);
-    return result;
+  create(data) {
+    return this.model.create(data);
   }
 
-  async delete(id) {
-    const result = await this.model.findOneAndDelete(id);
-    return result;
+  delete(id) {
+    return this.model.findOneAndDelete(id);
   }
 
-  async update(id, data) {
-    const result = await this.model.findByIdAndUpdate(id, data, { new: true });
-    return result;
+  update(id, data) {
+    return this.model.findByIdAndUpdate(id, data, { new: true });
   }
 
-  async updateOne(query, data) {
-    const result = await this.model.findOneAndUpdate(query, data, { new: true });
-    return result;
+  updateOne(query, data) {
+    return this.model.findOneAndUpdate(query, data, { new: true });
+  }
+
+  getOne(query) {
+    return this.model.findOne(query);
+  }
+
+  getById(id) {
+    return this.model.findById(id);
   }
 
   async getPage(page = 1, size = 10, query = {}) {
-    const total = await this.model.find(query).countDocuments();
+    const total = await this.model
+      .find(query)
+      .countDocuments();
     const list = await this.model
       .find(query)
-      .skip((Number(page) - 1) * size)
-      .limit(Number(size));
+      .skip((+page - 1) * size)
+      .limit(+size);
 
     return {
       list,
@@ -43,26 +49,11 @@ export default class BaseService extends Service {
     };
   }
 
-  async getOne(query) {
-    const result = await this.model.findOne(query);
-    return result;
-  }
-
-  async getById(id) {
-    const result = await this.model.findById(id);
-    return result;
-  }
-
-  async search(name) {
-    const result = await this.model.find(
-      {
-        name: {
-          $regex: name,
-        },
-      },
-      '_id name',
-    );
-
-    return result;
+  search(name) {
+    return this.model
+      .find({
+        name: { $regex: name },
+      })
+      .select('_id name');
   }
 }

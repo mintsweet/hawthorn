@@ -10,7 +10,7 @@ export default class SettingDict extends Controller {
 
   async get(ctx) {
     const { key } = ctx.params;
-    const result = await ctx.service.setting.dict.getOne({ key });
+    const result = await ctx.service.setting.dict.getValue(key);
     return ctx.success({
       data: result,
     });
@@ -18,9 +18,16 @@ export default class SettingDict extends Controller {
 
   async update(ctx) {
     const { key } = ctx.params;
-    const { body } = ctx.request;
 
-    const result = await ctx.service.setting.dict.updateOne({ key }, body);
+    const result = await ctx.service.setting.dict
+      .updateOne({ key }, ctx.request.body);
+
+    if (!result) {
+      return ctx.notFound({
+        data: key,
+      });
+    }
+
     return ctx.success({
       data: result,
     });

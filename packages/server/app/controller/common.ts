@@ -8,7 +8,7 @@ export default class CommonController extends Controller {
 
     if (!ctx.app.config.supportLang.includes(lang)) {
       return ctx.badRequest({
-        code: 10005,
+        code: 10000,
       });
     }
 

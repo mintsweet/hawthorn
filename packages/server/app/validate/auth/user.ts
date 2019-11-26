@@ -7,13 +7,13 @@ export const createRule = {
     type: 'string',
     required: true,
   },
-  nickname: {
-    type: 'string',
-    required: true,
-  },
   role: {
     type: 'string',
     required: true,
+  },
+  nickname: {
+    type: 'string',
+    required: false,
   },
 };
 

@@ -1,16 +1,18 @@
 import { Controller } from 'egg';
 import { pick } from 'lodash';
+import * as md5 from 'md5';
 import { createRule, updateRule } from '@/validate/auth/user';
 
 export default class AuthUserController extends Controller {
   async query(ctx) {
     const { page, size, ...condition } = ctx.query;
 
-    const result = await ctx.service.auth.user.getPage(
-      page,
-      size,
-      condition,
-    );
+    const result = await ctx.service.auth.user
+      .getPage(
+        page,
+        size,
+        condition,
+      );
 
     return ctx.success({
       data: result,
@@ -18,7 +20,7 @@ export default class AuthUserController extends Controller {
   }
 
   async create(ctx) {
-    const { body } = ctx.request;
+    const { username } = ctx.request.body;
 
     try {
       ctx.validate(createRule);
@@ -26,20 +28,22 @@ export default class AuthUserController extends Controller {
       return ctx.badRequest({ data: err.errors });
     }
 
-    const userExist = await ctx.service.auth.user.getOne({
-      username: body.username,
-    });
+    const userExist = await ctx.service.auth.user
+      .getOne({
+        username,
+      });
 
     if (userExist) {
       return ctx.badRequest({
-        code: 10003,
+        code: 11200,
         data: {
-          username: body.username,
+          username,
         },
       });
     }
 
-    const result = await ctx.service.auth.user.create(pick(body, Object.keys(createRule)));
+    const result = await ctx.service.auth.user
+      .create(pick(ctx.request.body, Object.keys(createRule)));
 
     if (result) {
       return ctx.success({
@@ -50,15 +54,20 @@ export default class AuthUserController extends Controller {
 
   async delete(ctx) {
     const { id } = ctx.params;
+    const { _id } = ctx.user;
+
+    if (id === _id) {
+      return ctx.badRequest({
+        code: 11201,
+      });
+    }
 
     const result = await ctx.service.auth.user.delete(id);
 
     if (!result) {
-      ctx.notFound({
+      return ctx.notFound({
         data: id,
       });
-
-      return;
     }
 
     return ctx.success({
@@ -68,7 +77,7 @@ export default class AuthUserController extends Controller {
 
   async update(ctx) {
     const { id } = ctx.params;
-    const { body } = ctx.request;
+    const { password } = ctx.request.body;
 
     try {
       ctx.validate(updateRule);
@@ -76,7 +85,15 @@ export default class AuthUserController extends Controller {
       return ctx.badRequest({ data: err.errors });
     }
 
-    const result = await ctx.service.auth.user.update(id, pick(body, Object.keys(updateRule)));
+    let newPass;
+
+    if (password) {
+      const { saltPassword } = ctx.app.config;
+      newPass = md5(`${saltPassword}${password}`);
+    }
+
+    const result = await ctx.service.auth.user
+      .update(id, pick({ ...ctx.request.body, password: newPass }, Object.keys(updateRule)));
 
     if (!result) {
       return ctx.notFound({
@@ -86,38 +103,6 @@ export default class AuthUserController extends Controller {
 
     return ctx.success({
       data: result._id,
-    });
-  }
-
-  async get(ctx) {
-    const { id } = ctx.params;
-
-    const result = await ctx.service.auth.user.getById(id);
-
-    if (!result) {
-      return ctx.notFound({
-        data: id,
-      });
-    }
-
-    return ctx.success({
-      data: result,
-    });
-  }
-
-  async search(ctx) {
-    const { name } = ctx.query;
-
-    const result = await ctx.service.auth.user.search(name);
-
-    return ctx.success({
-      data: result.map(obj => {
-        const { _id, username } = pick(obj, [ '_id', 'username' ]);
-        return {
-          id: _id,
-          name: username,
-        };
-      }),
     });
   }
 }
