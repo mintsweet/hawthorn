@@ -10,8 +10,8 @@ export default class AuditLog extends Controller {
     const list = await this.app.auditLog
       .find(condition)
       .sort({ createdAt: -1 })
-      .skip((Number(page) - 1) * size)
-      .limit(Number(size));
+      .skip((+page - 1) * size)
+      .limit(+size);
 
     return ctx.success({
       data: {

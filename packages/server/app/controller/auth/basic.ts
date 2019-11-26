@@ -182,19 +182,4 @@ export default class AuthBasicController extends Controller {
 
     return ctx.success();
   }
-
-  updateLang(ctx) {
-    let { lang } = ctx.request.body;
-
-    lang = lang.toLowerCase();
-
-    if (!ctx.app.config.supportLang.includes(lang)) {
-      return ctx.badRequest({
-        code: 10005,
-      });
-    }
-
-    ctx.cookies.set('locale', lang);
-    return ctx.success();
-  }
 }

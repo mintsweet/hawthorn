@@ -5,6 +5,11 @@ export default (app: Application) => {
   const { middleware: log } = app.auditLog;
 
   /**
+   * 公共路由
+   */
+  app.put('/api/v1/lang', 'common.updateLang'); // 更新语言
+
+  /**
    * 基础权限
    */
   app.post('/api/v1/login', 'auth.basic.login'); // 登录
@@ -12,12 +17,11 @@ export default (app: Application) => {
   app.get('/api/v1/info', 'auth.basic.getUserInfo'); // 获取用户信息
   app.put('/api/v1/info', 'auth.basic.updateUserInfo'); // 更新用户信息
   app.put('/api/v1/password', 'auth.basic.updateUserPassword'); // 更新用户密码
-  app.put('/api/v1/lang', 'auth.basic.updateLang'); // 更新语言
 
   /**
    * 权限 - 权限组
    */
-  app.get('/api/v1/auth/groups',auth('auth.group.query'), 'auth.group.query');
+  app.get('/api/v1/auth/groups', auth('auth.group.query'), 'auth.group.query');
   app.post('/api/v1/auth/group', auth('auth.group.create'), log('Auth', 'Create Auth Group'), 'auth.group.create');
   app.delete('/api/v1/auth/group/:id', auth('auth.group.delete'), log('Auth', 'Delete Auth Group'), 'auth.group.delete');
   app.put('/api/v1/auth/group/:id', auth('auth.group.update'), log('Auth', 'Update Auth Group'), 'auth.group.update');
