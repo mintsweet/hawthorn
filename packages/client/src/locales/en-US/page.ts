@@ -54,6 +54,7 @@ export default {
   'page.setting.info.base.form.submit': 'Update Information',
   'page.setting.info.base.form.avatar': 'Avatar',
   'page.setting.info.base.form.avatar.update': 'Change Avatar',
+  'page.setting.info.base.update.message': 'Update user info successfully',
   'page.setting.info.security.password.title': 'Account Password',
   'page.setting.info.security.password.description': 'Current password strength',
   'page.setting.info.security.actions.update': 'Modify',

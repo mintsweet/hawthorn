@@ -1,21 +1,21 @@
 {
   "errorCode": {
-    "0": "success",
+    "0": "Success",
 
-    "10000": "不支持该语言设置",
+    "10000": "The language setting is not supported",
 
-    "11000": "wrong user name or passwor",
-    "11001": "旧密码不正确",
-    "11100": "权限组名称已经存在",
-    "11101": "当前权限组不可变更",
-    "11200": "用户登录名已经存在",
-    "11201": "不能删除自己的用户",
+    "11000": "Wrong user name or passwor",
+    "11001": "Old password is incorrect",
+    "11100": "Auth group name already exists",
+    "11101": "The current auth group cannot be changed",
+    "11200": "The current username already exists",
+    "11201": "Cannot delete current user",
 
-    "40000": "",
-    "40001": "",
-    "40003": "",
-    "40004": "",
-    "50000": ""
+    "40000": "Request parameter error",
+    "40001": "Not logged in or login has expired",
+    "40003": "Insufficient client permissions",
+    "40004": "The requested resource does not exist",
+    "50000": "Server error"
   },
   "rbac": {
     "/dashboard": "Dashboard",

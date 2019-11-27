@@ -22,15 +22,21 @@ const SelectLang = ({ className }: SelectLangProps) => {
     message.success(formatMessage({ id: 'component.selectLang.message' }));
   };
 
-  const locales = ['zh-CN', 'en-US'];
+  const locales = [
+    'zh-CN',
+    'zh-TW',
+    'en-US',
+  ];
 
   const languageLabels: any = {
     'zh-CN': '简体中文',
+    'zh-TW': '繁体中文',
     'en-US': 'English',
   };
 
   const languageIcons: any = {
     'zh-CN': '🇨🇳',
+    'zh-TW': '🇭🇰',
     'en-US': '🇺🇸',
   };
 

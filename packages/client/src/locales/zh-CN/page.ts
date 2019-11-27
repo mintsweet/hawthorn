@@ -54,6 +54,7 @@ export default {
   'page.setting.info.base.form.submit': '更新基本信息',
   'page.setting.info.base.form.avatar': '头像',
   'page.setting.info.base.form.avatar.update': '更换头像',
+  'page.setting.info.base.update.message': '更新信息成功',
   'page.setting.info.security.password.title': '账户密码',
   'page.setting.info.security.password.description': '当前密码强度',
   'page.setting.info.security.actions.update': '修改',
