@@ -130,7 +130,7 @@ export default class AuthBasicController extends Controller {
     }
 
     const { body } = ctx.request;
-    const { id, username } = ctx.user;
+    const { _id, username } = ctx.user;
 
     try {
       ctx.validate(updateUserInfoRule);
@@ -139,7 +139,7 @@ export default class AuthBasicController extends Controller {
     }
 
     const user = await ctx.service.auth.user
-      .update(id, pick(body, Object.keys(updateUserInfoRule)))
+      .update(_id, pick(body, Object.keys(updateUserInfoRule)))
       .select('-_id nickname avatar');
 
     // Record update user info audit log

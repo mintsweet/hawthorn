@@ -28,13 +28,12 @@ class Base extends Component<BaseProps> {
         this.props.dispatch({
           type: 'user/updateUser',
           payload: values,
+        }).then(() => {
+          this.setState({
+            loading: false,
+          });
+          message.success(formatMessage({ id: 'page.setting.info.base.update.message' }));
         });
-
-        this.setState({
-          loading: false,
-        });
-
-        message.success(formatMessage({ id: 'page.setting.info.update.message' }));
       }
     });
   }
