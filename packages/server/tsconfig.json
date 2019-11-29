@@ -1,6 +1,7 @@
 {
   "compileOnSave": true,
   "compilerOptions": {
+    "outDir": "../../build",
     "target": "es2017",
     "module": "commonjs",
     "strict": true,

@@ -11,6 +11,8 @@ const config: IConfig =  {
     '@primary-color': '#f759ab',
   },
 
+  outputPath: '../../build/app/public',
+
   plugins: [
     // ref: https://umijs.org/plugin/umi-plugin-react.html
     ['umi-plugin-react', {
