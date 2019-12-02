@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "umi dev --port=4255",
-    "build": "umi build",
+    "build": "NODE_ENV=production umi build",
     "test": "umi test",
     "lint:es": "eslint --ext .js src mock tests",
     "lint:ts": "tslint \"src/**/*.ts\" \"src/**/*.tsx\""

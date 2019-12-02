@@ -1,7 +1,15 @@
 import { message } from 'antd';
 import { Http } from 'mints-utils';
 
-export default new Http('/server/api', {
+let url = '';
+
+if (process.env.NODE_ENV === 'production') {
+  url = '/api';
+} else {
+  url = '/server/api'
+}
+
+export default new Http(url, {
   responseError(err: any) {
     const { status, data: { msg } } = err.response;
     if (status === 401) {

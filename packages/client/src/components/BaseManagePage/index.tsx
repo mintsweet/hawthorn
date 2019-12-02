@@ -187,9 +187,6 @@ class BaseManagePage extends Component<BaseManagePageProps, BaseManagePageState>
          columnChecked.includes(item.dataIndex) || columnChecked.includes(item.key))
       : columns;
 
-    console.log(dataFilter);
-    console.log(Object.keys(dataFilter).length);
-
     return (
       <>
         <div className={styles.action}>

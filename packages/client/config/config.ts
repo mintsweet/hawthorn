@@ -13,6 +13,10 @@ const config: IConfig =  {
 
   outputPath: '../../build/app/public',
 
+  manifest: {
+    fileName: '../../config/manifest.json',
+  },
+
   plugins: [
     // ref: https://umijs.org/plugin/umi-plugin-react.html
     ['umi-plugin-react', {
