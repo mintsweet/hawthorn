@@ -10,6 +10,8 @@ copyFiles() {
   cp -a ./app/view ../../build/app
   echo "正在拷贝 config/locale 国际化目录"
   cp -a ./config/locale ../../build/config
+  echo "正在拷贝 migrations 数据库初始化目录"
+  cp -a ./migrations ../../build
   echo "正在拷贝 yarn.lock"
   cp ../../yarn.lock ../../build
 }
