@@ -6,6 +6,10 @@ copyFiles() {
   cp ./package.json ../../build
   echo "正在拷贝 tsconfig.json"
   cp ./tsconfig.json ../../build
+  echo "正在拷贝 app/view 模板目录"
+  cp -a ./app/view ../../build/app
+  echo "正在拷贝 config/locale 国际化目录"
+  cp -a ./config/locale ../../build/config
   echo "正在拷贝 yarn.lock"
   cp ../../yarn.lock ../../build
 }
@@ -42,7 +46,7 @@ echo "-----SERVER 依赖安装：结束-----"
 # client 打包
 echo "-----CLIENT 打包静态文件：开始-----"
 cd packages/client
-yarn build
+NODE_ENV=production yarn build
 cd ../../
 echo "-----CLIENT 打包静态文件：结束-----"
 

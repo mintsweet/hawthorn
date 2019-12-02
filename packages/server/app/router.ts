@@ -47,4 +47,9 @@ export default (app: Application) => {
    * 日志
    */
   app.get('/api/v1/audit-logs', auth('audit-logs'), 'auditLog.query');
+
+  /**
+   * 结合前端 build 渲染页面
+   */
+  app.get('*', ctx => ctx.render('index.html'));
 };
