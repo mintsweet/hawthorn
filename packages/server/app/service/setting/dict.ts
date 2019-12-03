@@ -8,6 +8,7 @@ export default class SettingDict extends Service {
   }
 
   DictCache = Cache({
+    rs: this.app.redis,
     key: rowKey => `DICT:${rowKey}`,
     expire: 10,
     computed: async rowKey => {

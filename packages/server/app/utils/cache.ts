@@ -1,14 +1,13 @@
-import rs from './redis';
-
 type Func = (...args: any[]) => any;
 
 interface CacheProps {
+  rs: any;
   key: string | Func;
   expire: number;
   computed: Func;
 }
 
-export default ({ key, expire = 60, computed }: CacheProps) => {
+export default ({ rs, key, expire = 60, computed }: CacheProps) => {
   return async (...args) => {
     let rsKey: string = '';
 
@@ -18,7 +17,7 @@ export default ({ key, expire = 60, computed }: CacheProps) => {
       rsKey = key;
     }
 
-    let content = await rs.getAsync(rsKey);
+    let content = await rs.get(rsKey);
 
     if (content !== null) {
       try {
@@ -28,7 +27,7 @@ export default ({ key, expire = 60, computed }: CacheProps) => {
       }
     } else {
       content = await computed.apply(null, args);
-      await rs.setAsync(rsKey, JSON.stringify(content));
+      await rs.set(rsKey, JSON.stringify(content));
       await rs.expire(rsKey, expire);
       return content;
     }

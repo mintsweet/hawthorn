@@ -10,10 +10,17 @@ export default class SettingDict extends Controller {
 
   async get(ctx) {
     const { key } = ctx.params;
-    const result = await ctx.service.setting.dict.getValue(key);
-    return ctx.success({
-      data: result,
-    });
+
+    try {
+      const result = await ctx.service.setting.dict.getValue(key);
+      return ctx.success({
+        data: result,
+      });
+    } catch (err) {
+      return ctx.badRequest({
+        code: 12000,
+      });
+    }
   }
 
   async update(ctx) {

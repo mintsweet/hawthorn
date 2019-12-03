@@ -10,6 +10,7 @@
     "11101": "The current auth group cannot be changed",
     "11200": "The current username already exists",
     "11201": "Cannot delete current user",
+    "12000": "Dict key not exist",
 
     "40000": "Request parameter error",
     "40001": "Not logged in or login has expired",
