@@ -4,6 +4,7 @@ import { formatMessage } from 'umi-plugin-locale';
 import { Location } from 'history';
 import pathToRegexp from 'path-to-regexp';
 import { Breadcrumb } from 'antd';
+import { isEqual } from 'lodash';
 import { urlToList } from '../utils';
 import styles from './index.less';
 
@@ -25,36 +26,24 @@ export const getBreadcrumb = (breadcrumbNameMap: any, url: string) => {
 };
 
 export default class BreadcrumbView extends PureComponent<BreadcrumbViewProps> {
+  static getDerivedStateFromProps(props: BreadcrumbViewProps, state: any) {
+    if (!isEqual(props.breadcrumbNameMap, state.breadcrumbNameMap)) {
+      return {
+        breadcrumbNameMap: props.breadcrumbNameMap,
+      };
+    }
+    return null;
+  }
+
   state = {
-    breadcrumb: null,
+    breadcrumbNameMap: {},
   };
 
-  componentDidMount() {
-    this.getBreadcrumbDom();
-  }
-
-  componentDidUpdate(preProps: BreadcrumbViewProps) {
-    const { location } = this.props;
-    if (!location || !preProps.location) {
-      return;
-    }
-    const prePathname = preProps.location.pathname;
-    if (prePathname !== location.pathname) {
-      this.getBreadcrumbDom();
-    }
-  }
-
-  getBreadcrumbDom = () => {
-    const breadcrumb = this.conversionBreadcrumbList();
-    this.setState({
-      breadcrumb,
-    });
-  }
-
   conversionBreadcrumbList = () => {
-    const { location, breadcrumbNameMap } = this.props;
-    const pathSnippets = urlToList(location.pathname);
+    const { breadcrumbNameMap } = this.state;
+    const { location } = this.props;
 
+    const pathSnippets = urlToList(location.pathname);
     const extraBreadcrumbItems = pathSnippets.map((url, index) => {
       const currentBreadcrumb = getBreadcrumb(breadcrumbNameMap, url);
       const isLinkable = index !== pathSnippets.length - 1;
@@ -79,11 +68,9 @@ export default class BreadcrumbView extends PureComponent<BreadcrumbViewProps> {
   }
 
   render() {
-    const { breadcrumb } = this.state;
-
     return (
       <Breadcrumb className={styles.breadcrumb}>
-        {breadcrumb}
+        {this.conversionBreadcrumbList()}
       </Breadcrumb>
     );
   }

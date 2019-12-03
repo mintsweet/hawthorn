@@ -1,16 +1,20 @@
 import React from 'react';
+import { connect } from 'dva';
 import classNames from 'classnames';
 import { Dropdown, Menu, Icon, message } from 'antd';
 import { ClickParam } from 'antd/es/menu';
 import { formatMessage, getLocale, setLocale } from 'umi-plugin-react/locale';
+import { ConnectState, ConnectProps } from '@/models/connect';
+import { UserModelState } from '@/models/user';
 import * as CommonService from '@/services/common';
 import styles from './index.less';
 
-interface SelectLangProps {
+interface SelectLangProps extends ConnectProps {
+  user: UserModelState;
   className?: string;
 };
 
-const SelectLang = ({ className }: SelectLangProps) => {
+const SelectLang = ({ className, user, dispatch }: SelectLangProps) => {
   const selectedLang = getLocale();
 
   const changeLang = async ({ key }: ClickParam) => {
@@ -19,6 +23,11 @@ const SelectLang = ({ className }: SelectLangProps) => {
     }
     setLocale(key, false);
     await CommonService.updateLang({ lang: key });
+    if (user && user.username) {
+      dispatch({
+        type: 'user/fetchUser',
+      });
+    }
     message.success(formatMessage({ id: 'component.selectLang.message' }));
   };
 
@@ -66,4 +75,6 @@ const SelectLang = ({ className }: SelectLangProps) => {
   );
 };
 
-export default SelectLang;
+export default connect(
+  ({ user }: ConnectState) => ({ user }),
+)(SelectLang);
