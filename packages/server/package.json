@@ -14,8 +14,7 @@
     "ci": "npm run lint && npm run cov && npm run tsc",
     "autod": "autod",
     "lint": "tslint --project . -c tslint.json",
-    "clean": "ets clean",
-    "init-db": "cd migrations && mongo hawthorn index.js"
+    "clean": "ets clean"
   },
   "dependencies": {
     "egg": "^2.6.1",

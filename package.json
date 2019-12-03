@@ -5,6 +5,7 @@
   "description": "a cute back-end management system",
   "scripts": {
     "start": "cd packages/server && yarn dev",
+    "init-db": "cd scripts/db && mongo hawthorn index.js",
     "x-build": "bash scripts/x-build.sh",
     "x-run": "bash scripts/x-run.sh"
   },
