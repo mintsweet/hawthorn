@@ -5,7 +5,8 @@
   "description": "a cute back-end management system",
   "scripts": {
     "start": "cd packages/server && yarn dev",
-    "build": "bash scripts/x-build.sh"
+    "x-build": "bash scripts/x-build.sh",
+    "x-run": "bash scripts/x-run.sh"
   },
   "repository": "git@github.com:mintsweet/hawthorn.git",
   "author": "mintsweet <0x1304570@gmail.com>",

@@ -41,7 +41,7 @@ echo "-----SERVER 文件拷贝：结束-----"
 # node_modules 安装
 echo "-----SERVER 依赖安装：开始-----"
 cd build
-yarn --production
+yarn
 cd ..
 echo "-----SERVER 依赖安装：结束-----"
 
@@ -51,6 +51,11 @@ cd packages/client
 NODE_ENV=production yarn build
 cd ../../
 echo "-----CLIENT 打包静态文件：结束-----"
+
+# Docker 镜像构建
+echo "-----DOCKER 镜像构建：开始-----"
+docker build -t hawthorn:v1 .
+echo "-----DOCKER 镜像构建：结束-----"
 
 endTime=`date +"%Y-%m-%d %H:%M:%S"`
 echo "-----打包完成($endTime)-----"

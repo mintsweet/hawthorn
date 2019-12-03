@@ -1,0 +1,17 @@
+version: '3.4'
+
+services:
+  hawthorn-mongo:
+    image: mongo:3.6.4
+    container_name: hawthorn-mongo
+  hawthorn-redis:
+    image: redis:4.0.10
+    container_name: hawthorn-redis
+  hawthorn-web:
+    image: hawthorn:v1
+    container_name: hawthorn-web
+    ports:
+      - '4255:7001'
+    links:
+      - hawthorn-mongo
+      - hawthorn-redis
