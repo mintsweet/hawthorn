@@ -8,6 +8,7 @@
     "11001": "Old password is incorrect",
     "11100": "Auth group name already exists",
     "11101": "The current auth group cannot be changed",
+    "11102": "User is already associated with the current permission group",
     "11200": "The current username already exists",
     "11201": "Cannot delete current user",
     "12000": "Dict key not exist",

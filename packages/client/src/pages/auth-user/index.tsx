@@ -148,7 +148,6 @@ export default class AuthUser extends Component {
           label: formatMessage({ id: 'page.auth.user.form.modal.nickname' }),
           props: 'nickname',
           component: <Input />,
-          required: true,
         },
         {
           label: formatMessage({ id: 'page.auth.user.form.modal.role' }),

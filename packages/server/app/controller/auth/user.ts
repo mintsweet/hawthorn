@@ -20,7 +20,7 @@ export default class AuthUserController extends Controller {
   }
 
   async create(ctx) {
-    const { username } = ctx.request.body;
+    const { username, password } = ctx.request.body;
 
     try {
       ctx.validate(createRule);
@@ -43,7 +43,7 @@ export default class AuthUserController extends Controller {
     }
 
     const result = await ctx.service.auth.user
-      .create(pick(ctx.request.body, Object.keys(createRule)));
+      .create(pick({ ...ctx.request.body, password: md5(password) }, Object.keys(createRule)));
 
     if (result) {
       return ctx.success({

@@ -92,6 +92,14 @@ export default class AuthGroupController extends Controller {
       });
     }
 
+    const users = await ctx.service.auth.user.get({ role: group._id });
+
+    if (users && users.length > 0) {
+      return ctx.badRequest({
+        code: 11102,
+      });
+    }
+
     await ctx.service.auth.group.delete(id);
 
     return ctx.success({

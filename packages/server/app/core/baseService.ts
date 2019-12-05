@@ -13,7 +13,7 @@ export default class BaseService extends Service {
   }
 
   delete(id) {
-    return this.model.findOneAndDelete(id);
+    return this.model.findByIdAndDelete(id);
   }
 
   update(id, data) {
@@ -22,6 +22,10 @@ export default class BaseService extends Service {
 
   updateOne(query, data) {
     return this.model.findOneAndUpdate(query, data, { new: true });
+  }
+
+  get(query) {
+    return this.model.find(query);
   }
 
   getOne(query) {

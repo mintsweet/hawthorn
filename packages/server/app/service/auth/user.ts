@@ -24,10 +24,11 @@ export default class UserService extends Service {
         preserveNullAndEmptyArrays: true,
       })
       .addFields({
+        role: '$role._id',
         roleName: '$role.name',
       })
       .project({
-        role: 0,
+        password: 0,
       });
 
     return {
