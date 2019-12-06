@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Tree } from 'antd';
+import { flattenDeep } from 'lodash';
 
 const { TreeNode } = Tree;
 
@@ -7,6 +8,7 @@ interface TreeItem {
   name: string;
   path: string;
   menu?: boolean;
+  parent: any;
   routes?: TreeItem[];
 }
 
@@ -16,7 +18,62 @@ interface TriggerTreeProps {
   onChange?: (val: string[]) => void;
 }
 
-export default class TriggerTree extends Component<TriggerTreeProps> {
+interface TriggerTreeState {
+  checkedKeys: string[];
+}
+
+const addParentPath = (data: TreeItem[], parent?: string) => {
+  const result: any = [];
+  data.forEach(item => {
+    if (item.routes) {
+      item.routes = addParentPath(item.routes, item.path);
+    }
+    result.push({
+      parent,
+      ...item,
+    });
+  });
+
+  return result;
+}
+
+const filterChildrenPath = (data: TreeItem[], parent: string): string[] => {
+  let findCurrent = (data: TreeItem[], key: string): any => {
+    for (let i of data) {
+      if (i.path === key) {
+        return i;
+      }
+
+      if (i.routes) {
+        let ri = findCurrent(i.routes, key);
+
+        if (ri) {
+          return ri;
+        }
+      }
+    }
+  }
+
+  let countChildren = (data: TreeItem[]): any => {
+    let result: any = [];
+
+    data.forEach((item: TreeItem) => {
+      result.push(item.path);
+      if (item.routes) {
+        result = countChildren(item.routes).concat(result);
+      }
+    });
+
+    return result;
+  }
+
+  const current = findCurrent(data, parent);
+  const children = countChildren([current]);
+
+  return children;
+}
+
+export default class TriggerTree extends Component<TriggerTreeProps, TriggerTreeState> {
   static getDerivedStateFromProps(nextProps: any) {
     if ('value' in nextProps) {
       return {
@@ -26,12 +83,17 @@ export default class TriggerTree extends Component<TriggerTreeProps> {
     return null;
   }
 
-  state = {
-    checkedKeys: [],
-  };
+  constructor(props: TriggerTreeProps) {
+    super(props);
+    this.state = {
+      checkedKeys: [],
+    };
+  }
 
-  renderTreeNodes = (data: TreeItem[]) =>
-    data.map(item => {
+  renderTreeNodes = (data: TreeItem[]) => {
+    const { checkedKeys } = this.state;
+    return data.map(item => {
+      const disabled = this.props.disabled || item.parent && !checkedKeys.includes(item.parent)
       if (item.routes) {
         return (
           <TreeNode
@@ -39,20 +101,39 @@ export default class TriggerTree extends Component<TriggerTreeProps> {
             key={item.path}
             dataRef={item}
             className="hawthorn-rbac-tree-parent"
+            disabled={disabled}
           >
             {this.renderTreeNodes(item.routes)}
           </TreeNode>
         );
       }
 
-      return <TreeNode title={item.name} key={item.path} {...item} className={item.menu ? 'hawthorn-rbac-tree-parent' : 'hawthorn-rbac-tree-child'} />;
+      return (
+        <TreeNode
+          title={item.name}
+          key={item.path}
+          className={item.menu ? 'hawthorn-rbac-tree-parent' : 'hawthorn-rbac-tree-child'}
+          disabled={disabled}
+          {...item}
+        />
+      );
     });
+  }
 
-  handleOnCheck = ({ checked }: any) => {
-    if (!('value' in this.props)) {
-      this.setState({ checkedKeys: checked });
+  handleOnCheck = ({ checked }: any, { node: { props } }: any) => {
+    const { data } = this.props;
+    const { checked: check, eventKey, path } = props;
+    let checkedKeys = checked;
+    if (check) {
+      const parent = eventKey || path;
+      const children = filterChildrenPath(data, parent);
+      checkedKeys = checkedKeys.filter((i: string) => !children.includes(i));
     }
-    this.triggerChange(checked);
+
+    if (!('value' in this.props)) {
+      this.setState({ checkedKeys });
+    }
+    this.triggerChange(checkedKeys);
   };
 
   triggerChange = (changeValue: string[]) => {
@@ -76,7 +157,7 @@ export default class TriggerTree extends Component<TriggerTreeProps> {
         checkedKeys={checkedKeys}
         onCheck={this.handleOnCheck}
       >
-        {this.renderTreeNodes(data)}
+        {this.renderTreeNodes(addParentPath(data))}
       </Tree>
     );
   }
