@@ -23,6 +23,7 @@ export default class TriggerTree extends Component<TriggerTreeProps> {
         checkedKeys: nextProps.value || [],
       };
     }
+    return null;
   }
 
   state = {
@@ -47,11 +48,11 @@ export default class TriggerTree extends Component<TriggerTreeProps> {
       return <TreeNode title={item.name} key={item.path} {...item} className={item.menu ? 'hawthorn-rbac-tree-parent' : 'hawthorn-rbac-tree-child'} />;
     });
 
-  handleOnCheck = (checkedKeys: any) => {
+  handleOnCheck = ({ checked }: any) => {
     if (!('value' in this.props)) {
-      this.setState({ checkedKeys });
+      this.setState({ checkedKeys: checked });
     }
-    this.triggerChange(checkedKeys);
+    this.triggerChange(checked);
   };
 
   triggerChange = (changeValue: string[]) => {
@@ -68,6 +69,7 @@ export default class TriggerTree extends Component<TriggerTreeProps> {
     return (
       <Tree
         checkable
+        checkStrictly
         className="hawthorn-rbac-tree"
         autoExpandParent={true}
         disabled={disabled}

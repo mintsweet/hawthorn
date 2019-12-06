@@ -21,17 +21,17 @@ export default (app: Application) => {
   /**
    * 权限 - 权限组
    */
-  app.get('/api/v1/auth/system-tree', auth([ 'auth.group.create', 'auth.group.update' ]), 'auth.group.systemTree'); // 获取权限树
-  app.get('/api/v1/auth/groups', auth('auth.group.query'), 'auth.group.query');
+  app.get('/api/v1/auth/groups', auth('auth.group'), 'auth.group.query');
+  app.get('/api/v1/auth/groups/search', auth('auth.group'), 'auth.group.search');
   app.post('/api/v1/auth/group', auth('auth.group.create'), log('Auth', 'Create Auth Group'), 'auth.group.create');
   app.delete('/api/v1/auth/group/:id', auth('auth.group.delete'), log('Auth', 'Delete Auth Group'), 'auth.group.delete');
   app.put('/api/v1/auth/group/:id', auth('auth.group.update'), log('Auth', 'Update Auth Group'), 'auth.group.update');
-  app.get('/api/v1/auth/groups/search', auth('auth.group.query'), 'auth.group.search');
+  app.get('/api/v1/auth/system-tree', auth([ 'auth.group.create', 'auth.group.update' ]), 'auth.group.systemTree'); // 获取权限树
 
   /**
    * 权限 - 用户
    */
-  app.get('/api/v1/auth/users', auth('auth.user.query'), 'auth.user.query');
+  app.get('/api/v1/auth/users', auth('auth.user'), 'auth.user.query');
   app.post('/api/v1/auth/user', auth('auth.user.create'), log('Auth', 'Create Auth User'), 'auth.user.create');
   app.delete('/api/v1/auth/user/:id', auth('auth.user.delete'), log('Auth', 'Delete Auth User'), 'auth.user.delete');
   app.put('/api/v1/auth/user/:id', auth('auth.user.update'), log('Auth', 'Update Auth User'), 'auth.user.update');

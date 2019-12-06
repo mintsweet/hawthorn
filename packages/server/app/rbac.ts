@@ -13,7 +13,6 @@ export default [
         path: '/auth/group',
         menu: true,
         routes: [
-          { path: '/auth/group/query' },
           { path: '/auth/group/create' },
           { path: '/auth/group/delete' },
           { path: '/auth/group/update' },
@@ -23,7 +22,6 @@ export default [
         path: '/auth/user',
         menu: true,
         routes: [
-          { path: '/auth/user/query' },
           { path: '/auth/user/create' },
           { path: '/auth/user/delete' },
           { path: '/auth/user/update' },
