@@ -3,8 +3,8 @@ import DocumentTitle from 'react-document-title';
 import { Icon } from 'antd';
 import Link from 'umi/link'
 import { formatMessage } from 'umi-plugin-locale';
-import GlobalFooter from '@/components/GlobalFooter';
 import SelectLang from '@/components/SelectLang';
+import GlobalFooter from './components/GlobalFooter';
 import styles from './UserLayout.less';
 
 const UserLayout: React.SFC = props => {

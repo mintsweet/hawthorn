@@ -5,8 +5,8 @@ import { Location } from 'history';
 import pathToRegexp from 'path-to-regexp';
 import { Breadcrumb } from 'antd';
 import { isEqual } from 'lodash';
-import { urlToList } from '../utils';
-import styles from './index.less';
+import { urlToList } from '@/utils/url';
+import styles from '../index.less';
 
 interface BreadcrumbViewProps {
   location: Location;

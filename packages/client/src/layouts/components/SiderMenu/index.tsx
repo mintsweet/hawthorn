@@ -1,8 +1,8 @@
 import React from 'react';
 import { Location } from 'history';
 import { SiderbarItemProps } from '@/models/user';
+import { getFlatPaths } from '@/utils/url';
 import SiderMenu from './SiderMenu';
-import { getFlatPaths } from '../utils';
 
 export interface SiderMenuWrapperProps {
   location: Location;

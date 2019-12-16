@@ -7,10 +7,10 @@ import { Layout } from 'antd';
 import pathToRegexp from 'path-to-regexp';
 import { ConnectState, ConnectProps } from '@/models/connect';
 import { UserModelState, SiderbarItemProps } from '@/models/user';
-import GlobalHeader from '@/components/GlobalHeader';
-import SiderMenu, { SiderMenuWrapperProps } from '@/components/SiderMenu';
-import { getFlatPaths } from '@/components/utils';
+import { getFlatPaths } from '@/utils/url';
 import Exception from '@/components/Exception';
+import GlobalHeader from './components/GlobalHeader';
+import SiderMenu, { SiderMenuWrapperProps } from './components/SiderMenu';
 import routes from '../../config/router';
 
 const { Header, Content } = Layout;

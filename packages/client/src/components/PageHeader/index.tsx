@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import classNames from 'classnames';
 import { Context } from '@/layouts/BasicLayout'
-import Breadcrumb from '../Breadcrumb';
+import Breadcrumb from './components/Breadcrumb';
 import styles from './index.less';
 
 interface PageHeaderProps extends React.HTMLAttributes<HTMLDivElement> {

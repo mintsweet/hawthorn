@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import Link from 'umi/link';
-import { Layout, Menu, Icon } from 'antd';
+import { Layout, Menu, Icon } from 'antd'
+import pathToRegexp from 'path-to-regexp';
 import { SiderbarItemProps } from '@/models/user';
-import { getDefaultCollapsedSubMenus, getMenuMatches } from './utils';
-import { urlToList } from '../utils';
+import { urlToList } from '@/utils/url';
 import { SiderMenuWrapperProps } from './index';
 import styles from './index.less';
 
@@ -18,6 +18,34 @@ interface SiderMenuState {
   pathname: string;
   openKeys: string[];
 };
+
+/**
+ * Get menu select key
+ * @param flatMenuKeys
+ * @param path
+ */
+const getMenuMatches = (flatMenuKeys: string[], path: string) =>
+  flatMenuKeys.filter(item => {
+    if (item) {
+      return pathToRegexp(item).test(path);
+    }
+    return false;
+  });
+
+/**
+ * Get menu children
+ * @param props
+ */
+const getDefaultCollapsedSubMenus = (props: SiderMenuProps) => {
+  const {
+    location: { pathname },
+    flatMenuKeys,
+  } = props;
+
+  return urlToList(pathname)
+    .map(path => getMenuMatches(flatMenuKeys, path)[0])
+    .filter(Boolean);
+}
 
 class SiderMenu extends Component<SiderMenuProps, SiderMenuState> {
   constructor(props: SiderMenuProps) {
