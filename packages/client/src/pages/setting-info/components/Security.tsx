@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { formatMessage } from 'umi-plugin-locale';
-import { List, Button, Input, message } from 'antd';
-import { ConnectProps } from '@/models/connect';
+import { List, Button, Input, Tag, message } from 'antd';
+import { ConnectState, ConnectProps } from '@/models/connect';
+import { UserModelState } from '@/models/user';
 import FormModal from '@/components/FormModal';
-import * as AuthService from '@/services/auth';
 
-interface SecurityProps extends ConnectProps {}
+interface SecurityProps extends ConnectProps {
+  user: UserModelState;
+}
 
 class Security extends Component<SecurityProps> {
   Form: any;
@@ -22,12 +24,18 @@ class Security extends Component<SecurityProps> {
   }
 
   handleUpdatePass = async (val: any) => {
-    await AuthService.updateUserPassword({
-      oldPass: val.oldPass,
-      newPass: val.newPass,
+    this.props.dispatch({
+      type: 'user/updatePass',
+      payload: {
+        oldPass: val.oldPass,
+        newPass: val.newPass,
+      },
+    }).then(() => {
+      this.setState({
+        loading: false,
+      });
+      message.success(formatMessage({ id: 'page.setting.info.security.updatePass.message' }));
     });
-
-    message.success(formatMessage({ id: 'page.setting.info.security.updatePass.message' }));
   }
 
   handleValidatorConfirmPass = (rule: any, value: string, callback: Function) => {
@@ -40,11 +48,23 @@ class Security extends Component<SecurityProps> {
 
   render() {
     const { updatePassVisible } = this.state;
+    const { user } = this.props;
+
+    const passwordStrengthMap: any = {
+      'strong': <Tag color="green">{formatMessage({ id: 'page.setting.info.security.password.description.strong' })}</Tag>,
+      'medium': <Tag color="orange">{formatMessage({ id: 'page.setting.info.security.password.description.medium' })}</Tag>,
+      'weak': <Tag color="red">{formatMessage({ id: 'page.setting.info.security.password.description.weak' })}</Tag>,
+    };
 
     const list = [
       {
         title: formatMessage({ id: 'page.setting.info.security.password.title' }),
-        description: formatMessage({ id: 'page.setting.info.security.password.description' }),
+        description: (
+          <>
+            <span>{formatMessage({ id: 'page.setting.info.security.password.description' })}：</span>
+            {passwordStrengthMap[user.passwordStrength]}
+          </>
+        ),
         actions: [
           <Button type="link" onClick={this.handleToggleUpdatePass}>
             {formatMessage({ id: 'page.setting.info.security.actions.update' })}
@@ -106,4 +126,8 @@ class Security extends Component<SecurityProps> {
   }
 }
 
-export default connect()(Security);
+export default connect(
+  ({ user }: ConnectState) => ({
+    user,
+  }),
+)(Security);

@@ -1,5 +1,5 @@
 import { Reducer } from 'redux';
-import * as AuthServices from '@/services/auth';
+import * as AuthService from '@/services/auth';
 import { Effect } from './connect';
 
 export interface SiderbarItemProps {
@@ -16,6 +16,7 @@ export interface UserModelState {
   username: string;
   nickname: string;
   avatar: string;
+  passwordStrength: string;
   permissions: string[];
   siderbar: Array<SiderbarItemProps>; // Record siderbar
 };
@@ -29,6 +30,7 @@ export interface UserModelType {
   effects: {
     fetchUser: Effect;
     updateUser: Effect;
+    updatePass: Effect;
   },
 };
 
@@ -37,6 +39,7 @@ const StateDefault = {
   username: '',
   nickname: '',
   avatar: '',
+  passwordStrength: 'weak',
   permissions: [],
   siderbar: [],
 };
@@ -54,7 +57,7 @@ const UserModel: UserModelType = {
 
   effects: {
     *fetchUser(_, { call, put }) {
-      const { data } = yield call(AuthServices.getUserInfo);
+      const { data } = yield call(AuthService.getUserInfo);
       yield put({
         type: 'update',
         payload: {
@@ -63,7 +66,16 @@ const UserModel: UserModelType = {
       });
     },
     *updateUser({ payload }, { call, put }) {
-      const { data } = yield call(AuthServices.updateUserInfo, payload);
+      const { data } = yield call(AuthService.updateUserInfo, payload);
+      yield put({
+        type: 'update',
+        payload: {
+          ...data,
+        },
+      });
+    },
+    *updatePass({ payload }, { call, put }) {
+      const { data } = yield call(AuthService.updateUserPassword, payload);
       yield put({
         type: 'update',
         payload: {

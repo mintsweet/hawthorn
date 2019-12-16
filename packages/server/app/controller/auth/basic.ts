@@ -27,6 +27,17 @@ const filterRBAC = (data: any, has: any[], ctx: any) => {
   return result;
 };
 
+// 密码强度
+const getPassStrength = (password: string) => {
+  if (password.length > 12) {
+    return 'strong';
+  } else if (password.length > 8) {
+    return 'medium';
+  } else {
+    return 'weak';
+  }
+};
+
 export default class AuthBasicController extends Controller {
   async login(ctx) {
     const { username, password } = ctx.request.body;
@@ -78,6 +89,7 @@ export default class AuthBasicController extends Controller {
       _id: user._id,
       username: user.username,
       permissions: user.permissions,
+      passwordStrength: getPassStrength(password),
     });
 
     return ctx.success({
@@ -181,6 +193,10 @@ export default class AuthBasicController extends Controller {
     await ctx.service.auth.user
       .update(_id, { password: md5(`${saltPassword}${newPass}`) });
 
-    return ctx.success();
+    return ctx.success({
+      data: {
+        passwordStrength: getPassStrength(newPass),
+      },
+    });
   }
 }
