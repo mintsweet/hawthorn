@@ -10,7 +10,6 @@ export default React.memo((props: ExceptionProps) => {
 
   return (
     <div>
-      <div></div>
       <div>
         <h1>{title || type}</h1>
       </div>

@@ -5,6 +5,9 @@
   "description": "a cute back-end management system",
   "scripts": {
     "start": "cd packages/server && yarn dev",
+    "lint": "yarn lint-client && yarn lint-server",
+    "lint-client": "cd packages/client && yarn lint:ts",
+    "lint-server": "cd packages/server && yarn lint",
     "init-db": "cd scripts/db && mongo hawthorn index.js",
     "x-build": "bash scripts/x-build.sh",
     "x-run": "bash scripts/x-run.sh"
@@ -14,5 +17,13 @@
   "license": "MIT",
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "devDependencies": {
+    "husky": "^3.1.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint"
+    }
+  }
 }

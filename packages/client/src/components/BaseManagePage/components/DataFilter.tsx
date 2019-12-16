@@ -75,11 +75,15 @@ export default class DataFilter extends Component<DataFilterProps> {
           <Button
             onClick={onToggleVisible}
             style={{ marginRight: 8 }}
-          >{formatMessage({ id: 'component.baseManagePage.drawer.btns.cancel' })}</Button>
+          >
+            {formatMessage({ id: 'component.baseManagePage.drawer.btns.cancel' })}
+          </Button>
           <Button
             type="primary"
             onClick={onSubmit}
-          >{formatMessage({ id: 'component.baseManagePage.drawer.btns.submit' })}</Button>
+          >
+            {formatMessage({ id: 'component.baseManagePage.drawer.btns.submit' })}
+          </Button>
         </div>
       </Drawer>
     );

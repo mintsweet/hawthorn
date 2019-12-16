@@ -66,9 +66,11 @@ class Security extends Component<SecurityProps> {
           </>
         ),
         actions: [
-          <Button type="link" onClick={this.handleToggleUpdatePass}>
-            {formatMessage({ id: 'page.setting.info.security.actions.update' })}
-          </Button>,
+          (
+            <Button key="update" type="link" onClick={this.handleToggleUpdatePass}>
+              {formatMessage({ id: 'page.setting.info.security.actions.update' })}
+            </Button>
+          ),
         ],
       },
     ];

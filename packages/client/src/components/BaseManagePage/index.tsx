@@ -195,10 +195,14 @@ class BaseManagePage extends Component<BaseManagePageProps, BaseManagePageState>
             <div className={styles.btns}>
               <Button
                 onClick={this._handleToggleDataFilter}
-              >{formatMessage({ id: 'component.baseManagePage.btns.search' })}</Button>
+              >
+                {formatMessage({ id: 'component.baseManagePage.btns.search' })}
+              </Button>
               <Button
                 onClick={this._handleReset}
-              >{formatMessage({ id: 'component.baseManagePage.btns.reset' })}</Button>
+              >
+                {formatMessage({ id: 'component.baseManagePage.btns.reset' })}
+              </Button>
             </div>
           )}
           {showColumnFilter && (
@@ -218,7 +222,8 @@ class BaseManagePage extends Component<BaseManagePageProps, BaseManagePageState>
                 <Tag
                   key={`${key}${i + 1}`}
                   closable
-                  onClose={() => this._handleCloseDataFilterTag(key)}>
+                  onClose={() => this._handleCloseDataFilterTag(key)}
+                >
                   {`${label} : ${dataFilter[key]}`}
                 </Tag>
               );
