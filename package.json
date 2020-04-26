@@ -1,37 +1,35 @@
 {
-  "name": "hawthorn-manage",
+  "name": "hawthorn-client",
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "umi dev",
+    "dev": "umi dev",
     "build": "umi build",
-    "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
+    "prettier": "prettier --write '**/*.{js,ts,tsx,md,json,jsx,less}'",
     "test": "umi-test",
     "test:coverage": "umi-test --coverage"
   },
-  "gitHooks": {
-    "pre-commit": "lint-staged"
-  },
   "lint-staged": {
-    "*.{js,jsx,less,md,json}": [
+    "**/*.{js,ts,tsx,md,json,jsx,less}": [
       "prettier --write"
-    ],
-    "*.ts?(x)": [
-      "prettier --parser=typescript --write"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "dependencies": {
     "@ant-design/pro-layout": "^5.0.8",
     "@umijs/preset-react": "^1.4.8",
     "@umijs/test": "^3.0.16",
-    "lint-staged": "^10.0.7",
-    "prettier": "^1.19.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "umi": "^3.0.16",
-    "yorkie": "^2.0.0"
+    "umi": "^3.0.16"
   },
   "devDependencies": {
-    "husky": "^4.2.5"
+    "husky": "^4.2.5",
+    "lint-staged": "^10.1.7",
+    "prettier": "^2.0.5"
   }
 }
