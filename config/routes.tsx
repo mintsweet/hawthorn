@@ -9,7 +9,7 @@ export default [
   },
   {
     path: '/',
-    component: '../layouts/basic',
-    routes: [{ path: '/home', component: './home' }],
+    component: '../layouts/BasicLayout',
+    routes: [{ path: '/dashboard', component: './dashboard' }],
   },
 ];
