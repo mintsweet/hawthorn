@@ -1,3 +1,4 @@
+// import { history } from 'umi';
 import { Rekv } from './rekv';
 import * as Service from '@/services/auth';
 
@@ -5,44 +6,44 @@ export interface SidebarItem {
   name: string;
   path: string;
   icon: string;
-  children?: SidebarItem[];
+  routes?: SidebarItem[];
 }
 
-export interface AuthModuleItem {
-  name: string;
-  icon: string;
-  path: string;
-  menu: boolean;
+export interface AuthUser {
+  username: string;
 }
 
 interface AuthStore {
+  status?: 'ok' | 'error';
+  msg?: string;
+  user: AuthUser;
   sidebar: Array<SidebarItem>;
 }
 
 const initState: AuthStore = {
+  user: {},
   sidebar: [],
-};
-
-const convert = (data: AuthModuleItem[]): SidebarItem[] => {
-  let result: SidebarItem[] = [];
-  data.forEach((i) => {
-    result.push({
-      name: i.name,
-      path: i.path,
-      icon: i.icon,
-    });
-  });
-  return result;
 };
 
 export default new Rekv({
   initState,
   effects: {
-    async getSidebar(store) {
-      const { code, data } = await Service.getSiderbar();
-      if (code !== 0) return;
-      const sidebar = convert(data.filter((bar) => bar.menu));
+    async login(store, payload) {
+      const { code, msg } = await Service.login(payload);
       store.setState({
+        status: code === 0 ? 'ok' : 'error',
+        msg,
+      });
+    },
+
+    async getUserInfo(store) {
+      const {
+        code,
+        data: { sidebar, ...user },
+      } = await Service.getUserInfo();
+      if (code !== 0) return;
+      store.setState({
+        user,
         sidebar,
       });
     },

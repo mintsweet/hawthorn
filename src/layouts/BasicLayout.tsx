@@ -1,10 +1,15 @@
 import React, { useEffect } from 'react';
-import { DashboardOutlined } from '@ant-design/icons';
+import { Link } from 'umi';
+import {
+  DashboardOutlined,
+  SafetyCertificateOutlined,
+} from '@ant-design/icons';
 import ProLayout, { MenuDataItem } from '@ant-design/pro-layout';
 import AuthStore, { SidebarItem } from '@/store/auth';
 
 const IconMap: any = {
   dashboard: <DashboardOutlined />,
+  safety: <SafetyCertificateOutlined />,
 };
 
 const menuDataRender = (
@@ -16,6 +21,7 @@ const menuDataRender = (
       path: i.path,
       name: i.name,
       icon: i.icon && IconMap[i.icon],
+      children: i.routes,
     };
   });
 };
@@ -24,7 +30,7 @@ export default function BasicLayout({ children }: any) {
   const sidebar = AuthStore.useState('sidebar');
 
   useEffect(() => {
-    AuthStore.dispatch('getSidebar');
+    AuthStore.dispatch('getUserInfo');
   }, []);
 
   return (
@@ -33,6 +39,9 @@ export default function BasicLayout({ children }: any) {
       menuDataRender={(routes: MenuDataItem[]) =>
         menuDataRender(routes, sidebar)
       }
+      menuItemRender={(itemProps, defaultDom) => (
+        <Link to={itemProps.path || itemProps.itemPath}>{defaultDom}</Link>
+      )}
       style={{ minHeight: '100vh' }}
     >
       {children}

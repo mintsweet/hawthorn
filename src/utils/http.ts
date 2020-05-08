@@ -6,4 +6,12 @@ export interface Response<T> {
   data: T;
 }
 
-export default new Http('/');
+export default new Http('/api', {
+  responseError: (err: any) => {
+    if (err.response.status === 401) {
+      window.location.href = `/user/login?redirect=${
+        window.location.href || ''
+      }`;
+    }
+  },
+});
