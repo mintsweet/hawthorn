@@ -1,4 +1,5 @@
-// import { history } from 'umi';
+import { history } from 'umi';
+import { url } from 'mints-utils';
 import { Rekv } from './rekv';
 import * as Service from '@/services/auth';
 
@@ -16,12 +17,11 @@ export interface AuthUser {
 interface AuthStore {
   status?: 'ok' | 'error';
   msg?: string;
-  user: AuthUser;
+  user?: AuthUser;
   sidebar: Array<SidebarItem>;
 }
 
 const initState: AuthStore = {
-  user: {},
   sidebar: [],
 };
 
@@ -30,10 +30,28 @@ export default new Rekv({
   effects: {
     async login(store, payload) {
       const { code, msg } = await Service.login(payload);
+
+      if (code === 0) {
+        let { redirect }: any = url.get();
+        redirect = redirect.substr(window.location.href.length);
+        if (redirect.match(/^\/.*#/)) {
+          redirect = redirect.substr(redirect.indexOf('#') + 1);
+        }
+        history.replace(redirect || '/');
+      }
+
       store.setState({
         status: code === 0 ? 'ok' : 'error',
         msg,
       });
+    },
+
+    async logout(store) {
+      const { code } = await Service.logout();
+      if (code === 0) {
+        history.replace('/user/login');
+      }
+      store.setState(initState);
     },
 
     async getUserInfo(store) {

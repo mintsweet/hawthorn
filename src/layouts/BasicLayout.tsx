@@ -5,6 +5,7 @@ import {
   SafetyCertificateOutlined,
 } from '@ant-design/icons';
 import ProLayout, { MenuDataItem } from '@ant-design/pro-layout';
+import RightContent from '../components/GlobalHeader/RightContent';
 import AuthStore, { SidebarItem } from '@/store/auth';
 
 const IconMap: any = {
@@ -39,9 +40,18 @@ export default function BasicLayout({ children }: any) {
       menuDataRender={(routes: MenuDataItem[]) =>
         menuDataRender(routes, sidebar)
       }
-      menuItemRender={(itemProps, defaultDom) => (
-        <Link to={itemProps.path || itemProps.itemPath}>{defaultDom}</Link>
-      )}
+      menuItemRender={(menuItemProps, defaultDom) => {
+        if (
+          menuItemProps.isUrl ||
+          menuItemProps.children ||
+          !menuItemProps.path
+        ) {
+          return defaultDom;
+        }
+
+        return <Link to={menuItemProps.path}>{defaultDom}</Link>;
+      }}
+      rightContentRender={() => <RightContent />}
       style={{ minHeight: '100vh' }}
     >
       {children}

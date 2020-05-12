@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormattedMessage, injectIntl, WrappedComponentProps } from 'umi';
-import { Form, Input, Button, Checkbox } from 'antd';
+import { Form, Input, Button, Checkbox, Alert } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import AuthStore from '@/store/auth';
 
@@ -8,12 +8,23 @@ const { Item: FormItem } = Form;
 const { Password } = Input;
 
 function UserLogin({ intl: { formatMessage } }: WrappedComponentProps) {
+  const loginStatus = AuthStore.useState('status');
+  const loginMsg = AuthStore.useState('msg');
+
   const onFinish = (values: any) => {
     AuthStore.dispatch('login', values);
   };
 
   return (
     <Form initialValues={{ remember: true }} onFinish={onFinish}>
+      {loginStatus === 'error' && (
+        <Alert
+          style={{ marginBottom: 10 }}
+          message={loginMsg}
+          type="error"
+          showIcon
+        />
+      )}
       <FormItem
         name="username"
         rules={[
