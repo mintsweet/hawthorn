@@ -10,6 +10,17 @@ export default [
   {
     path: '/',
     component: '../layouts/BasicLayout',
-    routes: [{ path: '/dashboard', component: './dashboard' }],
+    routes: [
+      { path: '/', redirect: '/dashboard' },
+      { path: '/dashboard', component: './dashboard' },
+      {
+        path: '/auth',
+        routes: [
+          { path: '/auth', redirect: '/auth/group' },
+          { path: '/auth/group', component: './auth-group' },
+          { path: '/auth/user', component: './auth-user' },
+        ],
+      },
+    ],
   },
 ];
