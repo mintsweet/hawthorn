@@ -1,20 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, {
+  useState,
+  useEffect,
+  forwardRef,
+  useImperativeHandle,
+} from 'react';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { Card, Table } from 'antd';
 import { ColumnProps } from 'antd/es/table';
 import styles from './index.less';
 
-interface Props {
+interface Props extends React.RefAttributes<HTMLElement> {
   columns: ColumnProps<any>[];
   fetchData: (params?: object) => any;
   children: React.ReactNode;
 }
 
-export default function BaseManagePage({
-  columns,
-  fetchData,
-  children,
-}: Props) {
+export default forwardRef(({ columns, fetchData, children }: Props, ref) => {
   const [loading, setLoading] = useState(false);
   const [dataSource, setDataSource] = useState([]);
   const [page] = useState(1);
@@ -38,6 +39,12 @@ export default function BaseManagePage({
     getData();
   }, []);
 
+  useImperativeHandle(ref, () => ({
+    refreshData() {
+      getData();
+    },
+  }));
+
   return (
     <PageHeaderWrapper>
       <Card>
@@ -51,4 +58,4 @@ export default function BaseManagePage({
       </Card>
     </PageHeaderWrapper>
   );
-}
+});
