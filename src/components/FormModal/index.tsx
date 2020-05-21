@@ -4,7 +4,7 @@ import { ModalProps } from 'antd/es/modal';
 
 interface Props extends ModalProps {
   config: Array<{
-    label: JSX.Element;
+    label: string | JSX.Element;
     name: string;
     component: React.ReactNode;
     required?: JSX.Element;
