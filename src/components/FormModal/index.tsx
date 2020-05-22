@@ -1,19 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Modal, Form } from 'antd';
 import { ModalProps } from 'antd/es/modal';
 
 interface Props extends ModalProps {
+  initData?: any;
   config: Array<{
     label: string | JSX.Element;
     name: string;
     component: React.ReactNode;
-    required?: JSX.Element;
+    required?: string | JSX.Element;
     rules?: any;
   }>;
   onSubmit: (values: any) => void;
 }
 
-export default function FormModal({ config, onSubmit, ...props }: Props) {
+export default function FormModal({
+  initData = {},
+  config,
+  onSubmit,
+  ...props
+}: Props) {
   const [form] = Form.useForm();
 
   const layout = {
@@ -26,6 +32,10 @@ export default function FormModal({ config, onSubmit, ...props }: Props) {
       sm: { span: 14 },
     },
   };
+
+  useEffect(() => {
+    form.setFieldsValue(initData);
+  }, [initData]);
 
   return (
     <Modal

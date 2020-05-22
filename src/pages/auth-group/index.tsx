@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { sortBy } from 'lodash';
-import { FormattedMessage, useIntl } from 'umi';
+import moment from 'moment';
+import { useIntl } from 'umi';
 import { Button, Input, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import BaseManagePage from '@/components/BaseManagePage';
@@ -8,40 +9,64 @@ import FormModal from '@/components/FormModal';
 import TriggerTree from '@/components/TriggerTree';
 import * as Service from './service';
 
+const initUpdObj = {
+  _id: '',
+  name: '',
+  remark: '',
+  permissions: {
+    checked: [],
+    halfChecked: [],
+  },
+};
+
 export default function AuthGroup() {
-  const intl = useIntl();
+  const { formatMessage } = useIntl();
   const table = useRef({ refreshData: () => ({}) });
   const [visible, setVisible] = useState(false);
   const [rbac, setRbac] = useState([]);
+  const [updObj, setUpdObj] = useState(initUpdObj);
+  const [modalType, setModalType] = useState('create');
 
   const columns = [
     {
-      title: <FormattedMessage id="page.auth-group.name" />,
+      title: formatMessage({ id: 'page.auth-group.name' }),
       dataIndex: 'name',
       key: 'name',
     },
     {
-      title: <FormattedMessage id="page.auth-group.remark" />,
+      title: formatMessage({ id: 'page.auth-group.remark' }),
       dataIndex: 'remark',
       key: 'remark',
+    },
+    {
+      title: formatMessage({ id: 'page.auth-group.createdAt' }),
+      dataIndex: 'createdAt',
+      key: 'createdAt',
+      render: (val: any) => moment(val).format('YYYY-MM-DD HH:mm'),
+    },
+    {
+      title: formatMessage({ id: 'page.auth-group.updatedAt' }),
+      dataIndex: 'updatedAt',
+      key: 'updatedAt',
+      render: (val: any) => moment(val).format('YYYY-MM-DD HH:mm'),
     },
   ];
 
   const config = [
     {
-      label: <FormattedMessage id="page.auth-group.name" />,
+      label: formatMessage({ id: 'page.auth-group.name' }),
       name: 'name',
       component: <Input />,
-      required: <FormattedMessage id="page.auth-group.name.required" />,
+      required: formatMessage({ id: 'page.auth-group.name.required' }),
     },
     {
-      label: <FormattedMessage id="page.auth-group.remark" />,
+      label: formatMessage({ id: 'page.auth-group.remark' }),
       name: 'remark',
       component: <Input />,
-      required: <FormattedMessage id="page.auth-group.remark.required" />,
+      required: formatMessage({ id: 'page.auth-group.remark.required' }),
     },
     {
-      label: <FormattedMessage id="page.auth-group.permissions" />,
+      label: formatMessage({ id: 'page.auth-group.permissions' }),
       name: 'permissions',
       component: <TriggerTree data={rbac} />,
     },
@@ -76,37 +101,71 @@ export default function AuthGroup() {
   }, []);
 
   const handleSubmit = async (values: any) => {
-    await Service.createAuthGroup({
-      ...values,
-      permissions: sortBy([
-        ...values.permissions.checked,
-        ...values.permissions.halfChecked,
-      ]),
-    });
-    message.success(
-      intl.formatMessage({ id: 'page.auth-gourp.create.success.tip' }),
-    );
+    if (modalType === 'update') {
+      await Service.updateAuthGroup(updObj._id, values);
+      message.success(
+        formatMessage({ id: 'page.auth-group.update.successTip' }),
+      );
+    } else {
+      await Service.createAuthGroup(values);
+      message.success(
+        formatMessage({ id: 'page.auth-group.create.successTip' }),
+      );
+    }
+    setUpdObj(initUpdObj);
     setVisible(false);
+    table.current.refreshData();
+  };
+
+  const handleUpdate = (record: any) => {
+    setModalType('update');
+    setUpdObj(record);
+    setVisible(true);
+  };
+
+  const handleDelete = async ({ _id }: any) => {
+    await Service.deleteAuthGroup(_id);
+    message.success(formatMessage({ id: 'page.auth-group.delete.successTip' }));
     table.current.refreshData();
   };
 
   return (
     <BaseManagePage
+      ref={table}
       columns={columns}
       fetchData={Service.queryAuthGroup}
-      ref={table}
+      onDelete={handleDelete}
+      onUpdate={handleUpdate}
     >
       <Button
         type="primary"
         icon={<PlusOutlined />}
-        onClick={() => setVisible(true)}
+        onClick={() => {
+          setModalType('create');
+          setUpdObj(initUpdObj);
+          setVisible(true);
+        }}
       >
-        {intl.formatMessage({ id: 'page.auth-group.action.create' })}
+        {formatMessage({ id: 'component.base-manage-page.operate.create' })}
       </Button>
       <FormModal
+        initData={updObj}
         config={config}
         visible={visible}
-        title={intl.formatMessage({ id: 'page.auth-group.action.create' })}
+        title={formatMessage(
+          { id: 'page.auth-group.modal.title' },
+          {
+            type:
+              modalType === 'update'
+                ? formatMessage({
+                    id: 'component.base-manage-page.operate.update',
+                  })
+                : formatMessage({
+                    id: 'component.base-manage-page.operate.create',
+                  }),
+          },
+        )}
+        onCancel={() => setVisible(false)}
         onSubmit={handleSubmit}
       />
     </BaseManagePage>
