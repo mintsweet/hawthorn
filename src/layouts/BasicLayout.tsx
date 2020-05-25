@@ -3,6 +3,7 @@ import { Link } from 'umi';
 import {
   DashboardOutlined,
   SafetyCertificateOutlined,
+  SettingOutlined,
 } from '@ant-design/icons';
 import ProLayout, { MenuDataItem } from '@ant-design/pro-layout';
 import RightContent from '../components/GlobalHeader/RightContent';
@@ -11,6 +12,7 @@ import AuthStore, { SidebarItem } from '@/store/auth';
 const IconMap: any = {
   dashboard: <DashboardOutlined />,
   safety: <SafetyCertificateOutlined />,
+  setting: <SettingOutlined />,
 };
 
 const menuDataRender = (

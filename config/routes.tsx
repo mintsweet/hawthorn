@@ -21,6 +21,7 @@ export default [
           { path: '/auth/user', component: './auth-user' },
         ],
       },
+      { path: '/dict', component: './dict' },
     ],
   },
 ];
