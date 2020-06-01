@@ -22,6 +22,7 @@ export default [
         ],
       },
       { path: '/dict', component: './dict' },
+      { path: '/user-info', component: './user-info' },
     ],
   },
 ];
