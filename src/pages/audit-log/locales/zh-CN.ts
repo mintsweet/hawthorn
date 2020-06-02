@@ -1,0 +1,17 @@
+export default {
+  'page.audit-log.createdAt': '请求时间',
+  'page.audit-log.ip': 'IP',
+  'page.audit-log.username': '用户名',
+  'page.audit-log.url': '请求地址',
+  'page.audit-log.method': '请求方法',
+  'page.audit-log.ua': 'UA',
+  'page.audit-log.operationType': '操作类型',
+  'page.audit-log.operationContent': '操作内容',
+  'page.audit-log.code': '状态',
+  'page.audit-log.code.success': '成功',
+  'page.audit-log.code.failed': '失败',
+  'page.audit-log.msg': '错误信息',
+  'page.audit-log.data': '响应数据',
+  'page.audit-log.operate': '操作',
+  'page.audit-log.operate.detail': '详情',
+};

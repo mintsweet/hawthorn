@@ -1,0 +1,17 @@
+export default {
+  'page.audit-log.createdAt': 'Request Time',
+  'page.audit-log.ip': 'IP',
+  'page.audit-log.username': 'Username',
+  'page.audit-log.url': 'Request Url',
+  'page.audit-log.method': 'Request Method',
+  'page.audit-log.ua': 'UA',
+  'page.audit-log.operationType': 'Operation Type',
+  'page.audit-log.operationContent': 'Operation Content',
+  'page.audit-log.code': 'Status',
+  'page.audit-log.code.success': 'Success',
+  'page.audit-log.code.failed': 'Failed',
+  'page.audit-log.msg': 'Error Msg',
+  'page.audit-log.data': 'Response Data',
+  'page.audit-log.operate': 'Operate',
+  'page.audit-log.operate.detail': 'Detail',
+};

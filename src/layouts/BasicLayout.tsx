@@ -5,6 +5,7 @@ import {
   SafetyCertificateOutlined,
   SettingOutlined,
   UserOutlined,
+  TagOutlined,
 } from '@ant-design/icons';
 import ProLayout, { MenuDataItem } from '@ant-design/pro-layout';
 import RightContent from '../components/GlobalHeader/RightContent';
@@ -15,6 +16,7 @@ const IconMap: any = {
   safety: <SafetyCertificateOutlined />,
   setting: <SettingOutlined />,
   user: <UserOutlined />,
+  tag: <TagOutlined />,
 };
 
 const menuDataRender = (
