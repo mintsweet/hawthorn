@@ -33,11 +33,13 @@ export default new Rekv({
 
       if (code === 0) {
         let { redirect }: any = url.get();
-        redirect = redirect.substr(window.location.href.length);
+        redirect = redirect
+          ? redirect.substr(window.location.href.length)
+          : '/';
         if (redirect.match(/^\/.*#/)) {
           redirect = redirect.substr(redirect.indexOf('#') + 1);
         }
-        history.replace(redirect || '/');
+        history.replace(redirect);
       }
 
       store.setState({
