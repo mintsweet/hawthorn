@@ -165,7 +165,10 @@ export default function AuthGroup() {
                   }),
           },
         )}
-        onCancel={() => setVisible(false)}
+        onCancel={() => {
+          setUpdObj(initUpdObj);
+          setVisible(false);
+        }}
         onSubmit={handleSubmit}
       />
     </BaseManagePage>

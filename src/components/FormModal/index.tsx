@@ -18,6 +18,7 @@ export default function FormModal({
   initData = {},
   config,
   onSubmit,
+  visible,
   ...props
 }: Props) {
   const [form] = Form.useForm();
@@ -35,11 +36,12 @@ export default function FormModal({
 
   useEffect(() => {
     form.setFieldsValue(initData);
-  }, [initData]);
+  }, [visible]);
 
   return (
     <Modal
       {...props}
+      visible={visible}
       forceRender
       onOk={() => {
         form.validateFields().then((values) => onSubmit(values));
