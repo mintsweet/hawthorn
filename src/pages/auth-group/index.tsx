@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { sortBy } from 'lodash';
-import moment from 'moment';
 import { useIntl } from 'umi';
 import { Button, Input, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import BaseManagePage from '@/components/BaseManagePage';
 import FormModal from '@/components/FormModal';
 import TriggerTree from '@/components/TriggerTree';
+import { formatDate } from '@/utils/utils';
 import * as Service from './service';
 
 const initUpdObj = {
@@ -42,13 +42,13 @@ export default function AuthGroup() {
       title: formatMessage({ id: 'page.auth-group.createdAt' }),
       dataIndex: 'createdAt',
       key: 'createdAt',
-      render: (val: any) => moment(val).format('YYYY-MM-DD HH:mm'),
+      render: (val: any) => formatDate(val),
     },
     {
       title: formatMessage({ id: 'page.auth-group.updatedAt' }),
       dataIndex: 'updatedAt',
       key: 'updatedAt',
-      render: (val: any) => moment(val).format('YYYY-MM-DD HH:mm'),
+      render: (val: any) => formatDate(val),
     },
   ];
 

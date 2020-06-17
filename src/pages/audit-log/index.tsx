@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useIntl } from 'umi';
-import moment from 'moment';
 import { Button } from 'antd';
 import BaseManagePage from '@/components/BaseManagePage';
+import { formatDate } from '@/utils/utils';
 import Detail, {
   renderUrl,
   renderMethod,
@@ -22,7 +22,7 @@ export default function AuditLog() {
       key: 'createdAt',
       width: 180,
       align: 'center' as 'center',
-      render: (val: any) => moment(val).format('YYYY-MM-DD HH:mm'),
+      render: (val: any) => formatDate(val),
     },
     {
       title: formatMessage({ id: 'page.audit-log.ip' }),

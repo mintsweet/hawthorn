@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import moment from 'moment';
 import { useIntl } from 'umi';
 import { Button, Input, Select, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import BaseManagePage from '@/components/BaseManagePage';
 import FormModal from '@/components/FormModal';
+import { formatDate } from '@/utils/utils';
 import * as Service from './service';
 import * as GroupService from '../auth-group/service';
 
@@ -49,13 +49,13 @@ export default function AuthUser() {
       title: formatMessage({ id: 'page.auth-user.createdAt' }),
       dataIndex: 'createdAt',
       key: 'createdAt',
-      render: (val: any) => moment(val).format('YYYY-MM-DD HH:mm'),
+      render: (val: any) => formatDate(val),
     },
     {
       title: formatMessage({ id: 'page.auth-user.updatedAt' }),
       dataIndex: 'updatedAt',
       key: 'updatedAt',
-      render: (val: any) => moment(val).format('YYYY-MM-DD HH:mm'),
+      render: (val: any) => formatDate(val),
     },
   ];
 

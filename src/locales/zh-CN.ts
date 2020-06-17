@@ -12,4 +12,9 @@ export default {
   'component.base-manage-page.operate.deleteConfirm': '确定要删除这条数据吗?',
   'component.base-manage-page.operate.confirm': '确定',
   'component.base-manage-page.operate.cancel': '取消',
+
+  'error.401': '无权访问',
+  'error.401.desc': '尚未登录或登录已失效',
+  'error.5xx': '服务器错误',
+  'error.5xx.desc': '服务器发生未知错误，请联系管理员',
 };

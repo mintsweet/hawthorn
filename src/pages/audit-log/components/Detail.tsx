@@ -1,7 +1,7 @@
 import React from 'react';
 import { useIntl, FormattedMessage } from 'umi';
-import moment from 'moment';
 import { Modal, Row, Col, Tag, Badge } from 'antd';
+import { formatDate } from '@/utils/utils';
 
 interface Props {
   visible: boolean;
@@ -56,7 +56,7 @@ export default function Detail({ visible, data, onCancel }: Props) {
         <Col span={6} style={{ textAlign: 'right' }}>
           {formatMessage({ id: 'page.audit-log.createdAt' })}：
         </Col>
-        <Col span={18}>{moment(data.createdAt).format('YYYY-MM-DD')}</Col>
+        <Col span={18}>{formatDate(data.createdAt)}</Col>
       </Row>
       <Row style={{ marginBottom: 16 }}>
         <Col span={6} style={{ textAlign: 'right' }}>
