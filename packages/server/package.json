@@ -27,7 +27,7 @@
     "egg-validate": "^2.0.2",
     "egg-view-assets": "^1.6.0",
     "egg-view-nunjucks": "^2.2.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "md5": "^2.2.1"
   },
   "devDependencies": {
