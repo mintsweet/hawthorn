@@ -32,7 +32,7 @@ export default new Rekv({
       const { code, msg } = await Service.login(payload);
 
       if (code === 0) {
-        let { redirect } = url.get(window.location.href);
+        let { redirect }: any = url.get(window.location.href);
         redirect = redirect
           ? redirect.substr(window.location.href.length)
           : '/';

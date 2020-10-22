@@ -8,6 +8,15 @@ export default [
     ],
   },
   {
+    path: '/client',
+    component: '../layouts/ClientLayout',
+    routes: [
+      { path: '/client', component: './home' },
+      { path: '/client/signup', component: './signup' },
+      { path: '/client/signin', component: './signin' },
+    ],
+  },
+  {
     path: '/',
     component: '../layouts/BasicLayout',
     routes: [

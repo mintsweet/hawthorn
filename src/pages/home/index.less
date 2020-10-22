@@ -1,0 +1,28 @@
+@import '~antd/es/style/themes/default.less';
+
+.tabs {
+  padding: 0;
+  height: 36px;
+  line-height: 36px;
+  border-bottom: 1px dashed @normal-color;
+
+  li {
+    display: inline-block;
+    list-style: none;
+    padding: 0 20px;
+    margin-right: 10px;
+    vertical-align: top;
+    cursor: pointer;
+
+    &.active {
+      color: @white;
+      background: @primary-color;
+    }
+  }
+}
+
+.statistics {
+  display: flex;
+  align-items: center;
+  font-size: @font-size-sm;
+}
